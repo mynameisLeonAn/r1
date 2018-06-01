@@ -42,10 +42,15 @@ def handle_message(event):
     #print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     content = "你肚子的回聲蟲: {}".format(event.message.text)
+    contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
 
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
+
+    line_bot_api.push_message(
+        'Ud0d8235b4696d1cab3da6b1e46f39598', 
+        TextSendMessage(text=contentrd))
  
 import os
 if __name__ == "__main__":
