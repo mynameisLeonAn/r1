@@ -41,14 +41,12 @@ def callback():
 def handle_message(event):
     #print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
-    content = "{}: {}".format(event.source.user_id, event.message.text)
-    # line_bot_api.reply_message(
-    #     event.reply_token,
-    #     TextSendMessage(text=content))
-    line_bot_api.reply_message(
-        "你肚子的回聲蟲:"+
-        TextSendMessage(text=content))
+    content = "你肚子的回聲蟲: {}".format(event.message.text)
 
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=content))
+ 
 import os
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
