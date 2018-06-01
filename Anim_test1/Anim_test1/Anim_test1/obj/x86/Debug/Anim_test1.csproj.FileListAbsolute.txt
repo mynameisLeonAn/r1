@@ -1,7 +1,0 @@
-C:\Users\fmshiau\Desktop\Anim_test1\Anim_test1\Anim_test1\obj\x86\Debug\Anim_test1.Form1.resources
-C:\Users\fmshiau\Desktop\Anim_test1\Anim_test1\Anim_test1\obj\x86\Debug\Anim_test1.Properties.Resources.resources
-C:\Users\fmshiau\Desktop\Anim_test1\Anim_test1\Anim_test1\obj\x86\Debug\Anim_test1.csproj.GenerateResource.Cache
-C:\Users\fmshiau\Desktop\Anim_test1\Anim_test1\Anim_test1\bin\Debug\Anim_test1.exe
-C:\Users\fmshiau\Desktop\Anim_test1\Anim_test1\Anim_test1\bin\Debug\Anim_test1.pdb
-C:\Users\fmshiau\Desktop\Anim_test1\Anim_test1\Anim_test1\obj\x86\Debug\Anim_test1.exe
-C:\Users\fmshiau\Desktop\Anim_test1\Anim_test1\Anim_test1\obj\x86\Debug\Anim_test1.pdb
