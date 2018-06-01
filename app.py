@@ -49,8 +49,8 @@ def handle_message(event):
         TextSendMessage(text=content))
 
     #push message to one user
-    line_bot_api.push_message(
-        'cfcf46bc9b3649089a44937675882c2a', 
+    line_bot_api.reply_message(
+        'Ud0d8235b4696d1cab3da6b1e46f39598', 
         TextSendMessage(text=contentrd))
  
 import os
