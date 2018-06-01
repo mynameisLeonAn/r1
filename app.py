@@ -50,7 +50,7 @@ def handle_message(event):
 
     #push message to one user
     line_bot_api.reply_message(
-        'ddd647ec459747b8b6dad1c8de9918ce', 
+        'Ud0d8235b4696d1cab3da6b1e46f39598', 
         TextSendMessage(text=contentrd))
  
 import os
