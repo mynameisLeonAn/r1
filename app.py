@@ -18,7 +18,7 @@ line_bot_api = LineBotApi('mTwL/HAGwWalJsXrpKZpbCFNWJBDOm6pt1ib7v/rXqdT/8dfw3J9f
 # Channel secret
 handler = WebhookHandler('393db2f764c38a5f9d4634af4f671c48')
 
-# 設定你接收訊息的網址，如 https://YOURAPP.herokuapp.com/callback
+# 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -42,8 +42,11 @@ def handle_message(event):
     #print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     content = "{}: {}".format(event.source.user_id, event.message.text)
+    # line_bot_api.reply_message(
+    #     event.reply_token,
+    #     TextSendMessage(text=content))
     line_bot_api.reply_message(
-        event.reply_token,
+        "你肚子的回聲蟲:"+
         TextSendMessage(text=content))
 
 import os
