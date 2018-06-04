@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, testConfirm,
+    MessageEvent, TextMessage, TextSendMessage, TextSendMessageLogs,
 )
 
 app = Flask(__name__)
@@ -55,7 +55,8 @@ def handle_message(event):
         TextSendMessage(text=content))
 
     print("handle_message22")
- 
+
+@handler.add(MessageEvent, message=TextMessage)
 def testConfirm(event):
     print("testConfirm11")
     contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
@@ -63,7 +64,7 @@ def testConfirm(event):
     #push message to one user
     line_bot_api.push_message(
         to_myuserid,
-        TextSendMessage(text=contentrd))
+        TextSendMessageLogs(text=contentrd))
 
     print("testConfirm22")
 
