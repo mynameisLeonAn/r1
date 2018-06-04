@@ -48,7 +48,9 @@ def handle_message(event):
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     msg = event.message.text
     msg = msg.encode('utf-8')
-    content = "你肚子的回聲蟲: {}".format(event.message.text)
+    userName = event.message.text
+
+    content = userName+"，你肚子有回聲蟲: {}".format(event.message.text)
   
     line_bot_api.reply_message(
         event.reply_token,
@@ -60,7 +62,7 @@ def handle_message(event):
     print("testConfirm1111")
     #push message to one user
     line_bot_api.push_message(
-        to_myuserid,
+        event.source.user_id,
         TextSendMessage(text=contentrd))
 
     print("testConfirm22")
