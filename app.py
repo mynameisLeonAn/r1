@@ -49,12 +49,12 @@ def handle_message(event):
     content = "你肚子的回聲蟲: {}".format(event.message.text)
 
     print("testConfirm11")
-    contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
+    # contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
 
     #push message to one user
     line_bot_api.push_message(
         to_myuserid,
-        TextSendMessage(text=contentrd))
+        TextSendMessage(text=content))
 
     print("testConfirm22")
 
