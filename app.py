@@ -51,12 +51,11 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
-
-    print("handle_message22")
-
+   
     print("testConfirm11")
-    contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
-
+    contentrd = "ID: {}傳給LINE Bot: {}".format(event.reply_token, event.message.text)
+    
+    print("testConfirm1111")
     #push message to one user
     line_bot_api.reply_message(
         event.reply_token,
