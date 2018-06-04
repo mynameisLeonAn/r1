@@ -47,12 +47,6 @@ def handle_message(event):
     print("handle_message11")
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     content = "你肚子的回聲蟲: {}".format(event.message.text)
-  
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=content))
-
-    print("handle_message22")
 
     print("testConfirm11")
     contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
@@ -63,6 +57,14 @@ def handle_message(event):
         TextSendMessage(text=contentrd))
 
     print("testConfirm22")
+
+  
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=content))
+
+    print("handle_message22")
+
 
 
 import os
