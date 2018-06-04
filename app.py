@@ -35,8 +35,6 @@ def callback():
     try:
         print("123")
         handler.handle(body, signature)
-        print("456")
-        handler.testConfirm(body, signature)
         print("END")
     except InvalidSignatureError:
         abort(400)
@@ -56,8 +54,6 @@ def handle_message(event):
 
     print("handle_message22")
 
-@handler.add(MessageEvent, message=TextMessage)
-def testConfirm(event):
     print("testConfirm11")
     contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
 
@@ -67,6 +63,7 @@ def testConfirm(event):
         TextSendMessage(text=contentrd))
 
     print("testConfirm22")
+
 
 import os
 if __name__ == "__main__":
