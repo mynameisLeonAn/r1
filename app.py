@@ -33,7 +33,11 @@ def callback():
 
     # handle webhook body
     try:
+        print("123")
         handler.handle(body, signature)
+        print("456")
+        handler.testConfirm(body, signature)
+        print("END")
     except InvalidSignatureError:
         abort(400)
 
@@ -42,18 +46,27 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    #print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
+    print("handle_message11")
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     content = "你肚子的回聲蟲: {}".format(event.message.text)
-    contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
-
+  
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
 
-    #push message to one user
-    line_bot_api.push_message(to_myuserid,TextSendMessage(text=contentrd))
+    print("handle_message22")
  
+def testConfirm(event):
+    print("testConfirm11")
+    contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
+    
+    #push message to one user
+    line_bot_api.push_message(
+        to_myuserid,
+        TextSendMessage(text=contentrd))
+
+    print("testConfirm22")
+
 import os
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
