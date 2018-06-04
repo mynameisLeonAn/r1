@@ -47,23 +47,22 @@ def handle_message(event):
     print("handle_message11")
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     content = "你肚子的回聲蟲: {}".format(event.message.text)
-
-    print("testConfirm11")
-    # contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
-
-    #push message to one user
-    line_bot_api.reply_message(
-        to_myuserid,
-        TextSendMessage(text=content))
-
-    print("testConfirm22")
-
   
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
 
     print("handle_message22")
+
+    print("testConfirm11")
+    contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
+
+    #push message to one user
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=contentrd))
+
+    print("testConfirm22")
 
 
 
