@@ -30,6 +30,9 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     print("Request body: " + body, "Signature: " + signature)
+    profile = line_bot_api.get_profile('')
+    print(">>>>>>"+profile.display_name)
+    print(">>>>>>"+profile.user_id)
 
     # handle webhook body
     try:
@@ -46,6 +49,8 @@ def callback():
 def handle_message(event):
     print("handle_message11")
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
+    msg = event.message.text
+    msg = msg.encode('utf-8')
     content = "你肚子的回聲蟲: {}".format(event.message.text)
   
     line_bot_api.reply_message(
@@ -54,10 +59,10 @@ def handle_message(event):
    
     print("testConfirm11")
     contentrd = "ID: {}傳給LINE Bot: {}".format(event.reply_token, event.message.text)
-    
+
     print("testConfirm1111")
     #push message to one user
-    line_bot_api.reply_message(
+    line_bot_api.push_message(
         event.reply_token,
         TextSendMessage(text=contentrd))
 
