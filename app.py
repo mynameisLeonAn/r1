@@ -19,7 +19,7 @@ line_bot_api = LineBotApi('mTwL/HAGwWalJsXrpKZpbCFNWJBDOm6pt1ib7v/rXqdT/8dfw3J9f
 handler = WebhookHandler('393db2f764c38a5f9d4634af4f671c48')
 
 #User ID
-my_userid='b4c358d6453b4d7c9131b9486a9da70b'
+to_myuserid='b4c358d6453b4d7c9131b9486a9da70b'
 
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
@@ -52,7 +52,7 @@ def handle_message(event):
         TextSendMessage(text=content))
 
     #push message to one user
-    line_bot_api.reply_message(my_userid,TextSendMessage(text=contentrd))
+    line_bot_api.push_message(to_myuserid,TextSendMessage(text=contentrd))
  
 import os
 if __name__ == "__main__":
