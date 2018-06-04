@@ -45,27 +45,29 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     print("handle_message11")
+   
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     msg = event.message.text
     msg = msg.encode('utf-8')
-    userName = event.message.text
 
-    content = userName+"，你肚子有回聲蟲: {}".format(event.message.text)
+    content = "你肚子有回聲蟲: {}".format(event.message.text)
   
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
    
     print("testConfirm11")
+    userId = event.source.user_id
+    print("userId="+userId)
     contentrd = "ID: {}傳給LINE Bot: {}".format(event.reply_token, event.message.text)
 
-    print("testConfirm1111")
+    print("push_message="+contentrd)
     #push message to one user
     line_bot_api.push_message(
-        event.source.user_id,
+        userId,
         TextSendMessage(text=contentrd))
 
-    print("testConfirm22")
+    print("push_message_END")
 
 
 
