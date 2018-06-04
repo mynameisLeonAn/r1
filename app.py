@@ -19,7 +19,7 @@ line_bot_api = LineBotApi('mTwL/HAGwWalJsXrpKZpbCFNWJBDOm6pt1ib7v/rXqdT/8dfw3J9f
 handler = WebhookHandler('393db2f764c38a5f9d4634af4f671c48')
 
 #User ID
-to_myuserid='8063992622224'
+to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
 
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
@@ -52,7 +52,7 @@ def handle_message(event):
 
     content = "你肚子有回聲蟲: {}".format(event.message.text)
   
-    line_bot_api.reply_message(
+    line_bot_api.push_message(
         event.reply_token,
         TextSendMessage(text=content))
    
