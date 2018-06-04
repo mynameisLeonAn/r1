@@ -52,7 +52,7 @@ def handle_message(event):
     # contentrd = "ID:{}傳給LINE Bot:{}".format(event.reply_token,event.message.text)
 
     #push message to one user
-    line_bot_api.push_message(
+    line_bot_api.reply_message(
         to_myuserid,
         TextSendMessage(text=content))
 
