@@ -68,7 +68,7 @@ def handle_message(event):
     print("push_message="+contentrd)
     #push message to one user
     line_bot_api.push_message(
-        to_myuserid,
+        userId,
         TextSendMessage(text=contentrd))
 
     print("push_message_END")
