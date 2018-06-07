@@ -22,9 +22,6 @@ handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 #User ID
 to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
 
-def index():
-    return "<p>Wenli_tset:</p>"+datetime.datetime.now().time()
-
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -77,5 +74,4 @@ def handle_message(event):
 
 import os
 if __name__ == "__main__":
-    app.run(debug=True)
     app.run(host='0.0.0.0',port=os.environ['PORT'])
