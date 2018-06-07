@@ -68,7 +68,7 @@ def confirmMessage(event):
     sConfirmText = event.message.text
     import random
     iRandom = random.sample(range(5), 1)
-    print("iRandom="+iRandom)
+    print("iRandom={}".format(iRandom))
 
     if sConfirmText.find("想吃"):
         sReturn = switch(iRandom)
@@ -80,7 +80,7 @@ def confirmMessage(event):
     return sReturn
 
 def switch(x):
-    print("x="+x)
+    print("x={}".format(x))
     return {
         ">>>>今天吃麥當當"  :'1',
         ">>>>今天吃KFC"     :'2',
