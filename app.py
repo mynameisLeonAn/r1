@@ -69,6 +69,10 @@ def confirmMessage(event):
     import random
     iRandom = random.sample(range(5), 1)
 
+    print(">>>>>想吃="+sConfirmText.find("想吃"))
+    print(">>>>>要吃="+sConfirmText.find("要吃"))
+    print(">>>>>iRandom="+iRandom)
+
     if sConfirmText.find("想吃")>0:
         sReturn = switch(iRandom)
     elif  sConfirmText.find("要吃")>0:
