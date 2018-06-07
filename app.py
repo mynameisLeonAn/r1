@@ -9,6 +9,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -20,6 +21,9 @@ handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 
 #User ID
 to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
+
+def index():
+    return "<p>Wenli_tset:</p>"+datetime.datetime.now().time()
 
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
@@ -59,7 +63,7 @@ def handle_message(event):
     print("testConfirm11")
     userId = event.source.user_id
     print("userId="+userId)
-    contentrd = "ID: {}傳給LINE Bot: {}".format(event.reply_token, event.message.text)
+    contentrd = "ID: {}傳給LINE Bot: {}".format(userId, event.message.text)
 
     print("push_message="+contentrd)
     #push message to one user
