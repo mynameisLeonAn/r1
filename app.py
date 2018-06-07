@@ -70,7 +70,7 @@ def confirmMessage(event):
     sReturn = ""
     sConfirmText = event.message.text
    
-    iRandom = random.sample(c, 1)
+    iRandom = random.sample(c, 1)[0]
     
     print("iRandom={}".format(iRandom))
 
