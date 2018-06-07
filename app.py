@@ -34,9 +34,7 @@ def callback():
 
     # handle webhook body
     try:
-        print("123")
         handler.handle(body, signature)
-        print("END")
     except InvalidSignatureError:
         abort(400)
 
@@ -45,22 +43,19 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print("handle_message11")
-   
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
     msg = event.message.text
     msg = msg.encode('utf-8')
 
-    content = "你肚子有回聲蟲: {}".format(event.message.text)
-  
+    # content = "你肚子有回聲蟲: {}".format(event.message.text)
+    content = confirmMessage(event)
+    
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
    
-    print("testConfirm11")
     userId = event.source.user_id
-    print("userId="+userId)
-    contentrd = "ID: {}傳給LINE Bot: {}".format(userId, event.message.text)
+    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:{}".format(userId, event.message.text,content)
 
     print("push_message="+contentrd)
     #push message to one user
@@ -68,9 +63,29 @@ def handle_message(event):
         userId,
         TextSendMessage(text=contentrd))
 
-    print("push_message_END")
+def confirmMessage(event):
+    sReturn = ""
+    sConfirmText = event.message.text
+    import random
+    iRandom = random.sample(range(5), 1)
 
+    if sConfirmText.find("想吃")>0:
+        sReturn = switch(iRandom)
+    elif  sConfirmText.find("要吃")>0:
+        sReturn = switch(iRandom)
+    else:
+        sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
+    return sReturn
+
+def switch(x):
+    return {
+        '1': ">>>>今天吃 麥當當",
+        '2': ">>>>今天吃KFC",
+        '3': ">>>>今天吃頂呱呱",
+        '4': ">>>>今天吃拿坡里",
+        '5': ">>>>今天吃八方",
+    }[x]
 
 import os
 if __name__ == "__main__":
