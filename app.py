@@ -22,6 +22,9 @@ handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 #User ID
 to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
 
+import random
+c = list(range(0, 4))
+
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -66,8 +69,8 @@ def handle_message(event):
 def confirmMessage(event):
     sReturn = ""
     sConfirmText = event.message.text
-    import random
-    iRandom = random.sample(range(5), 1)[0]
+   
+    iRandom = random.sample(c, 1)
     
     print("iRandom={}".format(iRandom))
 
