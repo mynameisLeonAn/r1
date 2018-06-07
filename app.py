@@ -74,9 +74,9 @@ def confirmMessage(event):
     
     print("iRandom={}".format(iRandom))
 
-    if sConfirmText.find("想吃") > 1 and sConfirmText.find("不想吃") < 0:
+    if sConfirmText.find("想吃") >= 1 and sConfirmText.find("不想吃") == -1:
         sReturn = switch(iRandom)
-    elif  sConfirmText.find("要吃") > 1 and sConfirmText.find("不要吃") < 0:
+    elif  sConfirmText.find("要吃") >= 1 and sConfirmText.find("不要吃") == -1:
         sReturn = switch(iRandom)
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
