@@ -12,10 +12,14 @@ from linebot.models import (
 from datetime import datetime
 import re
 import json
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
 
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--disable-gpu')
+driver = webdriver.Chrome(chrome_options='bin')
 
 
 app = Flask(__name__)
@@ -111,10 +115,7 @@ def notification(title, link):
     line_bot_api.multicast(notify_list, TextSendMessage(text=content))
     return True
 
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(chrome_options=chrome_options)
+
 driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
 soup = BeautifulSoup(driver.page_source, "html.parser")
 re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
