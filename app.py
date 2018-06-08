@@ -23,7 +23,7 @@ handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
 
 import random
-c = list(range(0, 4))
+list4 = list(range(0, 4))
 
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
@@ -53,6 +53,7 @@ def handle_message(event):
     # content = "你肚子有回聲蟲: {}".format(event.message.text)
     content = confirmMessage(event)
     
+    #reply_token message to one user
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=content))
@@ -70,7 +71,7 @@ def confirmMessage(event):
     sReturn = ""
     sConfirmText = event.message.text
    
-    iRandom = random.sample(c, 1)[0]
+    iRandom = random.sample(list4, 1)[0]
     
     print("iRandom={}".format(iRandom))
 
@@ -87,10 +88,10 @@ def switch(x):
     print("x={}".format(x))
     return {
         0 :">>>>今天吃麥當當",
-        1 :">>>>今天吃KFC"     ,
-        2 :">>>>今天吃頂呱呱"  ,
-        3 :">>>>今天吃拿坡里"  ,
-        4 :">>>>今天吃八方"    ,
+        1 :">>>>今天吃KFC",
+        2 :">>>>今天吃頂呱呱",
+        3 :">>>>今天吃拿坡里",
+        4 :">>>>今天吃八方",
     }.get(x,">>>>今天吃XXX")
 
 import os
