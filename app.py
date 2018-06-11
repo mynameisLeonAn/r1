@@ -13,20 +13,14 @@ from datetime import datetime
 import re
 import json
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
-chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(
-     app,
-     browser: :chrome,
-     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
-  )
-end
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+chrome_bin = os.environ.get('GOOGLE_CHROME_SHIM', None)
+opts = ChromeOptions()
+opts.binary_location = chrome_bin
+self.selenium = webdriver.Chrome(executable_path="chromedriver", chrome_options=opts)
 
-driver = webdriver.Chrome(chrome_options=chrome_options)
+
 
 app = Flask(__name__)
 
