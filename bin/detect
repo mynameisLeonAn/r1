@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-echo "Xvfb Google Chrome"
+echo "chromedriver"
 exit 0
