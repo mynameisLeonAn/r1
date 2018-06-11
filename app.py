@@ -9,10 +9,12 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-from datetime import datetime
+import os
 import re
 import json
+from datetime import datetime
 from bs4 import BeautifulSoup
+from selenium import webdriver
 
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 chrome_bin = os.environ.get('GOOGLE_CHROME_SHIM', None)
