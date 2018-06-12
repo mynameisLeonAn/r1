@@ -16,10 +16,10 @@ import json
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-from apscheduler.schedulers.blocking import BlockingScheduler
+# from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-sched = BlockingScheduler()
+# sched = BlockingScheduler()
 
 app = Flask(__name__)
 
