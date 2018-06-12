@@ -12,7 +12,7 @@ from linebot.models import (
 import os
 import re
 import json
-import twitter
+# import twitter
 from datetime import datetime
 from bs4 import BeautifulSoup
 
