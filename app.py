@@ -12,15 +12,14 @@ from linebot.models import (
 import os
 import re
 import json
+import twitter
 from datetime import datetime
 from bs4 import BeautifulSoup
-from selenium import webdriver
 
-from selenium.webdriver.chrome.options import Options as ChromeOptions
-chrome_bin = os.environ.get('GOOGLE_CHROME_SHIM', None)
-opts = ChromeOptions()
-opts.binary_location = chrome_bin
-driver = webdriver.Chrome('bin\chromedriver.exe') 
+from apscheduler.schedulers.blocking import BlockingScheduler
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+sched = BlockingScheduler()
 
 app = Flask(__name__)
 
@@ -115,6 +114,12 @@ def notification(title, link):
     line_bot_api.multicast(notify_list, TextSendMessage(text=content))
     return True
 
+# Ubuntu
+options = Options()
+options.binary_location = '/app/.apt/usr/bin/google-chrome'
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+driver = webdriver.Chrome(chrome_options=options)
 
 driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
 soup = BeautifulSoup(driver.page_source, "html.parser")
