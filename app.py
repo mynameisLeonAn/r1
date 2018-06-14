@@ -72,7 +72,7 @@ def confirmMessage(event):
     sConfirmText = event.message.text
    
     iRandom = random.sample(list4, 1)[0]
-    
+    print("123=")
     print("iRandom={}".format(iRandom))
 
     if sConfirmText.find("想吃") >= 1 and sConfirmText.find("不想吃") == -1:
