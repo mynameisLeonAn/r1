@@ -124,7 +124,7 @@ def notification(title, link):
 
 
 @sched.scheduled_job('cron', hour=7)
-def scheduled_job(self):
+def scheduled_job():
     driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
