@@ -20,7 +20,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-sched = BlockingScheduler()
+
 
 # Chrome
 options = Options()
@@ -123,7 +123,6 @@ def notification(title, link):
     return True
 
 
-@sched.scheduled_job('cron', hour=7)
 def scheduled_job():
     driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -170,4 +169,8 @@ import os
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
 
+
+# Job
+sched = BlockingScheduler()
+sched.add_job(func=scheduled_job, trigger='cron', second='*/3000')
 sched.start()
