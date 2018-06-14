@@ -21,6 +21,13 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 # sched = BlockingScheduler()
 
+# Chrome
+options = Options()
+options.binary_location = '/app/.apt/usr/bin/google-chrome'
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+driver = webdriver.Chrome(chrome_options=options)
+
 app = Flask(__name__)
 
 # 填入你的 message api 資訊
@@ -114,49 +121,48 @@ def notification(title, link):
     line_bot_api.multicast(notify_list, TextSendMessage(text=content))
     return True
 
-# Ubuntu
-options = Options()
-options.binary_location = '/app/.apt/usr/bin/google-chrome'
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(chrome_options=options)
 
-driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
-soup = BeautifulSoup(driver.page_source, "html.parser")
-re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
-re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
+class Demotest:
+    def build(self):
+        driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
+        re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
 
-match = []
-for article in soup.select('.r-list-container .r-ent .title a'):
-    title = article.string
-    if re_gs_title.match(title) != None:
-        link = 'https://www.ptt.cc' + article.get('href')
-        article_id = re_gs_id.match(link).group(1)
-        match.append({'title':title, 'link':link, 'id':article_id})
+        match = []
+        for article in soup.select('.r-list-container .r-ent .title a'):
+            title = article.string
+            if re_gs_title.match(title) != None:
+                link = 'https://www.ptt.cc' + article.get('href')
+                article_id = re_gs_id.match(link).group(1)
+                match.append({'title':title, 'link':link, 'id':article_id})
 
-if len(match) > 0:
-    with open('data/history/gamesale.json', 'r+') as file:
-        history = json.load(file)
+        if len(match) > 0:
+            with open('data/history/gamesale.json', 'r+') as file:
+                history = json.load(file)
 
-        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
-        new_flag = False
-        for article in match:
-            if article['id'] in history:
-                continue
-            new_flag = True
-            history.append(article['id'])
-            notification(article['title'], article['link'])
-            print("{}: New Article: {} {}".format(now, article['title'], article['link']))
+                now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
+                new_flag = False
+                for article in match:
+                    if article['id'] in history:
+                        continue
+                    new_flag = True
+                    history.append(article['id'])
+                    notification(article['title'], article['link'])
+                    print("{}: New Article: {} {}".format(now, article['title'], article['link']))
 
-        if new_flag == True:
-            file.seek(0)
-            file.truncate()
-            file.write(json.dumps(history))
-        else:
-            print("{}: Nothing".format(now))
+                if new_flag == True:
+                    file.seek(0)
+                    file.truncate()
+                    file.write(json.dumps(history))
+                else:
+                    print("{}: Nothing".format(now))
 
 
 
 import os
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
+
+    d = Demotest()
+    d.build()
