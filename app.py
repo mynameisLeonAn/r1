@@ -126,6 +126,7 @@ def scheduled_job():
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(chrome_options=options)
+    driver.implicitly_wait(10)
     driver.set_page_load_timeout(60)
 
 
