@@ -16,7 +16,7 @@ import json
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-from apscheduler.schedulers.blocking import BlockingScheduler
+# from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -144,8 +144,6 @@ def scheduled_job():
 
     if len(match) > 0:
         print("match="+match)
-        
-
         with open('data/history/gamesale.json', 'r+') as file:
             history = json.load(file)
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
