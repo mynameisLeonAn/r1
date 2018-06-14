@@ -22,12 +22,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 
-# Chrome
-options = Options()
-options.binary_location = '/app/.apt/usr/bin/google-chrome'
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(chrome_options=options)
+
 
 app = Flask(__name__)
 
@@ -126,6 +121,17 @@ def notification(title, link):
 
 
 def scheduled_job():
+    print("Action scheduled_job")
+    # Chrome
+    options = Options()
+    options.binary_location = '/app/.apt/usr/bin/google-chrome'
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(chrome_options=options)
+    driver.set_page_load_timeout(60)
+
+
     driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
