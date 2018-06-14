@@ -97,6 +97,8 @@ def confirmMessage(event):
         sReturn = switch(iRandom)
     elif  sConfirmText.find("要吃") >= 1 and sConfirmText.find("不要吃") == -1:
         sReturn = switch(iRandom)
+    elif  sConfirmText.find("find") >= 1 :
+        scheduled_job()
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
@@ -171,6 +173,6 @@ if __name__ == "__main__":
 
 
 # Job
-sched = BlockingScheduler()
-sched.add_job(func=scheduled_job, trigger='cron', second='*/3000')
-sched.start()
+# sched = BlockingScheduler()
+# sched.add_job(func=scheduled_job, trigger='cron', second='*/3000')
+# sched.start()
