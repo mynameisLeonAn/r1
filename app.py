@@ -20,6 +20,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+sched = BlockingScheduler()
 
 # Chrome
 options = Options()
@@ -121,7 +122,7 @@ def notification(title, link):
     line_bot_api.multicast(notify_list, TextSendMessage(text=content))
     return True
 
-sched = BlockingScheduler()
+
 @sched.scheduled_job('cron', hour=7)
 def scheduled_job(self):
     driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
