@@ -136,13 +136,13 @@ def scheduled_job():
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(chrome_options=options)
-    driver.implicitly_wait(10)
-    driver.set_page_load_timeout(60)
+    # driver.implicitly_wait(10)
+    # driver.set_page_load_timeout(60)
 
 
     driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*PS*', re.I)
+    re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*8*', re.I)
     re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
 
     match = []
