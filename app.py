@@ -95,7 +95,12 @@ def confirmMessage(event):
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
+    print("找456")
+    scheduled_job()
+
     return sReturn
+
+    
 
 def switch(x):
     print("x={}".format(x))
