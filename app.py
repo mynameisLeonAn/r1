@@ -141,9 +141,6 @@ def scheduled_job():
     re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
     re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
 
-    print("re_gs_title="+re_gs_title)
-    print("re_gs_id="+re_gs_id)
-
     match = []
     for article in soup.select('.r-list-container .r-ent .title a'):
         title = article.string
@@ -153,7 +150,6 @@ def scheduled_job():
             match.append({'title':title, 'link':link, 'id':article_id})
 
     if len(match) > 0:
-        print("match="+match)
         with open('data/history/gamesale.json', 'r+') as file:
             history = json.load(file)
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
@@ -172,6 +168,8 @@ def scheduled_job():
                 file.write(json.dumps(history))
             else:
                 print("{}: Nothing".format(now))
+                
+    print("Action scheduled_job_END")
 
 
 
