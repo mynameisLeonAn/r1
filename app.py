@@ -100,8 +100,9 @@ def confirmMessage(event):
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
     print("找789")
-    scheduled_job()
+    sReturn = scheduled_job(sReturn)
 
+    print("sReturn")
     return sReturn
 
     
@@ -132,7 +133,7 @@ def notification(title, link):
     return True
 
 
-def scheduled_job():
+def scheduled_job(sReturn):
     print("Action scheduled_job")
     # Chrome
     options = Options()
@@ -183,7 +184,8 @@ def scheduled_job():
                 print("{}: Nothing".format(now))
 
     print("Action scheduled_job_END")
-    return True
+    
+    return sReturn
 
 
 
