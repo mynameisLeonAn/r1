@@ -95,12 +95,12 @@ def confirmMessage(event):
         sReturn = switch(iRandom)
     elif  sConfirmText.find("找") >= 1 and sConfirmText.find("不找") == -1:
         print("找456")
-        # scheduled_job()
+        scheduled_job(event)
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
-    print("找789")
-    sReturn = scheduled_job(sReturn)
+    # print("找789")
+    # sReturn = scheduled_job(sReturn)
 
     print("sReturn")
     return sReturn
@@ -133,7 +133,7 @@ def notification(title, link):
     return True
 
 
-def scheduled_job(sReturn):
+def scheduled_job(event):
     print("Action scheduled_job")
     # Chrome
     options = Options()
@@ -146,10 +146,14 @@ def scheduled_job(sReturn):
     # driver.set_page_load_timeout(60)
 
 
-    driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
+    # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
+    # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
+    # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
+
+    driver.get('https://www.ptt.cc/bbs/TypeMoon/index.html')
     soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\[PS4\s*\]\s*售', re.I)
-    re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
+    re_gs_title = re.compile(r'\[F/GO\s*\]\s*閒聊', re.I)
+    re_gs_id = re.compile(r'.*\/TypeMoon\/M\.(\S+)\.html')
 
     match = []
     for article in soup.select('.r-list-container .r-ent .title a'):
@@ -184,8 +188,8 @@ def scheduled_job(sReturn):
                 print("{}: Nothing".format(now))
 
     print("Action scheduled_job_END")
-    
-    return sReturn
+
+    return True
 
 
 
