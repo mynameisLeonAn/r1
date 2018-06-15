@@ -90,13 +90,13 @@ def confirmMessage(event):
     print("找123")
     print("iRandom={}".format(iRandom))
 
-    if sConfirmText.find("想吃") >= 1 and sConfirmText.find("不想吃") == -1:
+    if sConfirmText.count("想吃") >= 1 and sConfirmText.count("不想吃") == -1:
         sReturn = switch(iRandom)
-    elif  sConfirmText.find("要吃") >= 1 and sConfirmText.find("不要吃") == -1:
+    elif  sConfirmText.count("要吃") >= 1 and sConfirmText.count("不要吃") == -1:
         sReturn = switch(iRandom)
-    elif  sConfirmText.find("找") >= 1 and sConfirmText.find("不找") == -1:
+    elif  sConfirmText.count("找") >= 1 and sConfirmText.count("不找") == -1:
         print("找456")
-        scheduled_job()
+        # scheduled_job()
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
