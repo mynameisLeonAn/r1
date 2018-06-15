@@ -13,7 +13,7 @@ import os
 import re
 import json
 # import twitter
-from datetime import datetime
+import datetime
 from bs4 import BeautifulSoup
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -37,7 +37,8 @@ list4 = list(range(0, 4))
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
+    return "Hello !:"+now
 
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
@@ -156,7 +157,7 @@ def scheduled_job():
     if len(match) > 0:
         with open('data/history/gamesale.json', 'r+') as file:
             print (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'open')
-            
+
             history = json.load(file)
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
             new_flag = False
