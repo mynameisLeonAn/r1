@@ -124,7 +124,12 @@ def notification(title, link):
     #     return False
     
     content = "{}\n{}".format(title, link)
-    line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
+        #push message to one user
+    line_bot_api.push_message(
+        to_myuserid,
+        TextSendMessage(text=content))
+
+    # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
     return True
 
 
@@ -166,8 +171,10 @@ def scheduled_job():
                     continue
                 new_flag = True
                 history.append(article['id'])
-                notification(article['title'], article['link'])
+
                 print("{}: New Article: {} {}".format(now, article['title'], article['link']))
+                notification(article['title'], article['link'])
+                
 
             if new_flag == True:
                 file.seek(0)
