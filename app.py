@@ -118,13 +118,13 @@ def switch(x):
     }.get(x,">>>>今天吃XXX")
 
 def notification(title, link):
-    with open('data/notify_list.json', 'r') as file:
-        notify_list = json.load(file)
-    if len(notify_list) == 0:
-        return False
+    # with open('data/notify_list.json', 'r') as file:
+    #     notify_list = json.load(file)
+    # if len(notify_list) == 0:
+    #     return False
     
     content = "{}\n{}".format(title, link)
-    line_bot_api.multicast(notify_list, TextSendMessage(text=content))
+    line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
     return True
 
 
