@@ -155,6 +155,8 @@ def scheduled_job():
 
     if len(match) > 0:
         with open('data/history/gamesale.json', 'r+') as file:
+            print (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'open')
+            
             history = json.load(file)
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
             new_flag = False
