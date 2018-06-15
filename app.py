@@ -35,6 +35,10 @@ to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
 import random
 list4 = list(range(0, 4))
 
+@app.route("/")
+def hello():
+    return "Hello World!"
+
 # 設定你接收訊息的網址，如 https://wlinebot7test.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -138,7 +142,7 @@ def scheduled_job():
 
     driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
+    re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*PS*', re.I)
     re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
 
     match = []
@@ -168,7 +172,7 @@ def scheduled_job():
                 file.write(json.dumps(history))
             else:
                 print("{}: Nothing".format(now))
-                
+
     print("Action scheduled_job_END")
 
 
