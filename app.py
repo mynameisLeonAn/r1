@@ -183,6 +183,7 @@ def scheduled_job():
                 print("{}: Nothing".format(now))
 
     print("Action scheduled_job_END")
+    return True
 
 
 
