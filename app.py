@@ -193,7 +193,7 @@ def scheduled_job(event):
                 print("{}: Nothing".format(now))
 
         sMessgge = "{},查成功:{}".format(sfind,now)
-    elif
+    else:
         sMessgge = "{},查無結果:{}".format(sfind,now)
 
     print("Action scheduled_job_END")
