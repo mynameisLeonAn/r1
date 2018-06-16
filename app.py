@@ -118,7 +118,7 @@ def switch(x):
         4 :">>>>今天吃八方",
     }.get(x,">>>>今天吃XXX")
 
-def notification(title, link):
+def notification(event, title, link):
     # with open('data/notify_list.json', 'r') as file:
     #     notify_list = json.load(file)
     # if len(notify_list) == 0:
@@ -146,6 +146,9 @@ def scheduled_job(event):
     # driver.implicitly_wait(10)
     # driver.set_page_load_timeout(60)
 
+    sfind = event.message.text
+    sfind = sfind.replace("找PTT","")
+    sfind = sfind.replace(":","").replace(" ","")
 
     # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
@@ -153,7 +156,7 @@ def scheduled_job(event):
 
     driver.get('https://www.ptt.cc/bbs/TypeMoon/index.html')
     soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\[F/GO\s*\]\s*閒聊', re.I)
+    re_gs_title = re.compile(r'\['+sfind+'\s*\]\s*', re.I)
     re_gs_id = re.compile(r'.*\/TypeMoon\/M\.(\S+)\.html')
 
     match = []
@@ -178,7 +181,7 @@ def scheduled_job(event):
                 history.append(article['id'])
 
                 print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-                notification(article['title'], article['link'])
+                notification(event,article['title'], article['link'])
                 
 
             if new_flag == True:
