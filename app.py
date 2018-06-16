@@ -96,7 +96,7 @@ def confirmMessage(event):
         sReturn = switch(iRandom)
     elif  sConfirmText.find("找PTT") >= 0 and sConfirmText.find("不找PTT") == -1:
         print("找PTT")
-        scheduled_job(event)
+        sReturn = scheduled_job(event)
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
@@ -146,6 +146,7 @@ def scheduled_job(event):
     # driver.implicitly_wait(10)
     # driver.set_page_load_timeout(60)
 
+    sMessgge = ""
     sfind = event.message.text
     sfind = sfind.replace("找PTT","")
     sfind = sfind.replace(":","").replace(" ","")
@@ -191,9 +192,13 @@ def scheduled_job(event):
             else:
                 print("{}: Nothing".format(now))
 
+        sMessgge = "{},查成功:{}".format(sfind,now)
+    elif
+        sMessgge = "{},查無結果:{}".format(sfind,now)
+
     print("Action scheduled_job_END")
 
-    return True
+    return sMessgge
 
 
 
