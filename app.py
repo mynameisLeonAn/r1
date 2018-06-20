@@ -156,50 +156,52 @@ def scheduled_job(event):
     # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
     print("slfindList[0]="+slfindList[0])
     print("slfindList[1]="+slfindList[1])
-
-    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
-    re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
-
-    match = []
-    for article in soup.select('.r-list-container .r-ent .title a'):
-        title = article.string
-        if re_gs_title.match(title) != None:
-            link = 'https://www.ptt.cc' + article.get('href')
-            article_id = re_gs_id.match(link).group(1)
-            match.append({'title':title, 'link':link, 'id':article_id})
-
-    if len(match) > 0:
-        with open('data/history/gamesale.json', 'r+') as file:
-            print (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'open')
-
-            history = json.load(file)
-            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
-            new_flag = False
-            for article in match:
-                if article['id'] in history:
-                    continue
-                new_flag = True
-                history.append(article['id'])
-
-                print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-                # notification(event,article['title'], article['link'])
-                sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
-
-            if new_flag == True:
-                file.seek(0)
-                file.truncate()
-                file.write(json.dumps(history))
-            else:
-                print("{}: Nothing".format(now))
-
-        sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    if slfindList[0]==None or slfindList[1]== None:
+        sMessgge = "{},查詢格式有誤，請參閱Help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     else:
-        sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
+        re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
 
-    if len(match) > 0:
-        sMessgge = sNotificationMulticast
+        match = []
+        for article in soup.select('.r-list-container .r-ent .title a'):
+            title = article.string
+            if re_gs_title.match(title) != None:
+                link = 'https://www.ptt.cc' + article.get('href')
+                article_id = re_gs_id.match(link).group(1)
+                match.append({'title':title, 'link':link, 'id':article_id})
+
+        if len(match) > 0:
+            with open('data/history/gamesale.json', 'r+') as file:
+                print (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'open')
+
+                history = json.load(file)
+                now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
+                new_flag = False
+                for article in match:
+                    if article['id'] in history:
+                        continue
+                    new_flag = True
+                    history.append(article['id'])
+
+                    print("{}: New Article: {} {}".format(now, article['title'], article['link']))
+                    # notification(event,article['title'], article['link'])
+                    sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
+
+                if new_flag == True:
+                    file.seek(0)
+                    file.truncate()
+                    file.write(json.dumps(history))
+                else:
+                    print("{}: Nothing".format(now))
+
+            sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        else:
+            sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+        if len(match) > 0:
+            sMessgge = sNotificationMulticast
 
     print("Action scheduled_job_END")
 
