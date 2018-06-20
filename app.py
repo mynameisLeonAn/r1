@@ -157,7 +157,7 @@ def scheduled_job(event):
     print("slfindList[0]="+slfindList[0])
     print("slfindList[1]="+slfindList[1])
     if slfindList[0]==None or slfindList[1]== None:
-        sMessgge = "{},查詢格式有誤，請參閱Help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        sMessgge = "{},查詢格式有誤，請參閱help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     else:
         driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
         soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -190,9 +190,10 @@ def scheduled_job(event):
                     sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
 
                 if new_flag == True:
-                    file.seek(0)
-                    file.truncate()
-                    file.write(json.dumps(history))
+                    # file.seek(0)
+                    # file.truncate()
+                    # file.write(json.dumps(history))
+                    pass
                 else:
                     print("{}: Nothing".format(now))
 
