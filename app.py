@@ -149,16 +149,18 @@ def scheduled_job(event):
     sNotificationMulticast = ""
     sfind = event.message.text
     sfind = sfind.replace("找PTT","")
-    sfind = sfind.replace(":","").replace(" ","")
+    sfind = sfind.replace(":","").replace(" ","").replace("[","").replace("]","")
     slfindList = sfind.split(">")
     # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
     # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
-    print("slfindList[0]="+slfindList[0])
-    print("slfindList[1]="+slfindList[1])
+
     if slfindList[0]==None or slfindList[1]== None:
         sMessgge = "{},查詢格式有誤，請參閱help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     else:
+        print("slfindList[0]="+slfindList[0])
+        print("slfindList[1]="+slfindList[1])
+
         driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
         soup = BeautifulSoup(driver.page_source, "html.parser")
         re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
