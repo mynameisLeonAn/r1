@@ -85,10 +85,7 @@ def handle_message(event):
 def confirmMessage(event):
     sReturn = ""
     sConfirmText = event.message.text
-   
     iRandom = random.sample(list4, 1)[0]
-    print("iRandom={}".format(iRandom))
-    print("sConfirmText={}".format(sConfirmText.find("找PTT")))
 
     if sConfirmText.find("想吃") >= 0 and sConfirmText.find("不想吃") == -1:
         sReturn = switch(iRandom)
@@ -97,16 +94,22 @@ def confirmMessage(event):
     elif  sConfirmText.find("找PTT") >= 0 and sConfirmText.find("不找PTT") == -1:
         print("找PTT")
         sReturn = scheduled_job(event)
+    elif  sConfirmText.find("help") >= 0:
+        print("help")
+        sReturn = helpMessage()
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
-    # print("找789")
-    # sReturn = scheduled_job(sReturn)
 
     print("sReturn")
     return sReturn
 
-    
+def helpMessage():
+    shelpMessage = "LIN_BOT功能:%0D%0A*{}%0D%0A*{}"
+    sToolName1 = "想吃or要吃 :隨機垃圾食物"
+    sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :TypeMoon>日GO"
+
+    return shelpMessage.format(sToolName1,sToolName2)
 
 def switch(x):
     print("x={}".format(x))
@@ -127,7 +130,7 @@ def notification(event, title, link):
     content = "{}\n{}".format(title, link)
         #push message to one user
     line_bot_api.push_message(
-        to_myuserid,
+        event.reply_token,
         TextSendMessage(text=content))
 
     # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
@@ -143,22 +146,21 @@ def scheduled_job(event):
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(chrome_options=options)
-    # driver.implicitly_wait(10)
-    # driver.set_page_load_timeout(60)
 
     sMessgge = ""
     sfind = event.message.text
     sfind = sfind.replace("找PTT","")
     sfind = sfind.replace(":","").replace(" ","")
-
+    slfindList = sfind.split(">")
     # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
     # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
 
-    driver.get('https://www.ptt.cc/bbs/TypeMoon/index.html')
+    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
     soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\['+sfind+'\s*\]\s*', re.I)
-    re_gs_id = re.compile(r'.*\/TypeMoon\/M\.(\S+)\.html')
+    re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
+    sCompile ="r'.*\/{}\/M\.(\S+)\.html'".format(slfindList[0])
+    re_gs_id = re.compile(sCompile)
 
     match = []
     for article in soup.select('.r-list-container .r-ent .title a'):
