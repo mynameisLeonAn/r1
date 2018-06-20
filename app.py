@@ -135,13 +135,6 @@ def notification(event, title, link):
     # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
     return True
 
-def notificationMulticast(event, content):
-    #push message to one user
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=content))
-    return True
-
 def scheduled_job(event):
     print("Action scheduled_job")
     # Chrome
@@ -206,7 +199,7 @@ def scheduled_job(event):
         sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     if len(match) > 0:
-        notificationMulticast(evret,sNotificationMulticast[2:])
+        sMessgge = sNotificationMulticast[2:]
 
     print("Action scheduled_job_END")
 
