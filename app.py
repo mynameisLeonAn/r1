@@ -185,7 +185,7 @@ def scheduled_job(event):
 
                 print("{}: New Article: {} {}".format(now, article['title'], article['link']))
                 # notification(event,article['title'], article['link'])
-                sNotificationMulticast +="{}\n{}".format(article['title'], article['link'])
+                sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
 
             if new_flag == True:
                 file.seek(0)
