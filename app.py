@@ -66,11 +66,11 @@ def handle_message(event):
     msg = msg.encode('utf-8')
 
     content = confirmMessage(event)
-    
-    #reply_token message to one user
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=content))
+    if content != None:
+        #reply_token message to one user
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
    
     userId = event.source.user_id
     contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:{}".format(userId, event.message.text,content)
@@ -97,7 +97,8 @@ def confirmMessage(event):
         print("help")
         sReturn = helpMessage()
     else:
-        sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
+        pass
+        # sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
 
     print("sReturn")
