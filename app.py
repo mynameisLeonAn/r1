@@ -87,10 +87,6 @@ def confirmMessage(event):
     sConfirmText = event.message.text
    
     iRandom = random.sample(list4, 1)[0]
-<<<<<<< HEAD
-    print("123=")
-=======
->>>>>>> ce8c5c1b15fdec9313ce46fa68562b6aee95ca9c
     print("iRandom={}".format(iRandom))
     print("sConfirmText={}".format(sConfirmText.find("找PTT")))
 
@@ -98,15 +94,10 @@ def confirmMessage(event):
         sReturn = switch(iRandom)
     elif  sConfirmText.find("要吃") >= 0 and sConfirmText.find("不要吃") == -1:
         sReturn = switch(iRandom)
-<<<<<<< HEAD
     elif  sConfirmText.find("find") >= 1 :
         print("find={}".format(sConfirmText))
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
-=======
-    elif  sConfirmText.find("找PTT") >= 0 and sConfirmText.find("不找PTT") == -1:
-        print("找PTT")
-        sReturn = scheduled_job(event)
->>>>>>> ce8c5c1b15fdec9313ce46fa68562b6aee95ca9c
+
     else:
         sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
 
