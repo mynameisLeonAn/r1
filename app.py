@@ -105,7 +105,7 @@ def confirmMessage(event):
     return sReturn
 
 def helpMessage():
-    shelpMessage = "LIN_BOT功能:%0D%0A*{}%0D%0A*{}"
+    shelpMessage = "LIN_BOT功能: %0D%0A *{} %0D%0A *{}"
     sToolName1 = "想吃or要吃 :隨機垃圾食物"
     sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :TypeMoon>日GO"
 
