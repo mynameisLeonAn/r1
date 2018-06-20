@@ -199,7 +199,7 @@ def scheduled_job(event):
         sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     if len(match) > 0:
-        sMessgge = sNotificationMulticast[2:]
+        sMessgge = sNotificationMulticast
 
     print("Action scheduled_job_END")
 
