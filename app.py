@@ -155,12 +155,13 @@ def scheduled_job(event):
     # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
     # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
     # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
+    print("slfindList[0]="+slfindList[0])
+    print("slfindList[1]="+slfindList[1])
 
     driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
     soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
-    sCompile ="r'.*\/{}\/M\.(\S+)\.html'".format(slfindList[0])
-    re_gs_id = re.compile(sCompile)
+    re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
 
     match = []
     for article in soup.select('.r-list-container .r-ent .title a'):
