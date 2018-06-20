@@ -65,7 +65,6 @@ def handle_message(event):
     msg = event.message.text
     msg = msg.encode('utf-8')
 
-    # content = "你肚子有回聲蟲: {}".format(event.message.text)
     content = confirmMessage(event)
     
     #reply_token message to one user
@@ -105,7 +104,7 @@ def confirmMessage(event):
     return sReturn
 
 def helpMessage():
-    shelpMessage = "LIN_BOT功能: %0D%0A *{} %0D%0A *{}"
+    shelpMessage = "LIN_BOT功能: \n *{} \n *{}"
     sToolName1 = "想吃or要吃 :隨機垃圾食物"
     sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :TypeMoon>日GO"
 
@@ -128,14 +127,20 @@ def notification(event, title, link):
     #     return False
     
     content = "{}\n{}".format(title, link)
-        #push message to one user
+    #push message to one user
     line_bot_api.push_message(
-        event.reply_token,
+        event.to_myuserid,
         TextSendMessage(text=content))
 
     # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
     return True
 
+def notificationMulticast(event, content):
+    #push message to one user
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=content))
+    return True
 
 def scheduled_job(event):
     print("Action scheduled_job")
@@ -148,6 +153,7 @@ def scheduled_job(event):
     driver = webdriver.Chrome(chrome_options=options)
 
     sMessgge = ""
+    sNotificationMulticast = ""
     sfind = event.message.text
     sfind = sfind.replace("找PTT","")
     sfind = sfind.replace(":","").replace(" ","")
@@ -185,8 +191,8 @@ def scheduled_job(event):
                 history.append(article['id'])
 
                 print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-                notification(event,article['title'], article['link'])
-                
+                # notification(event,article['title'], article['link'])
+                sNotificationMulticast +="{}\n{}".format(article['title'], article['link'])
 
             if new_flag == True:
                 file.seek(0)
@@ -198,6 +204,9 @@ def scheduled_job(event):
         sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     else:
         sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    if len(match) > 0:
+        notificationMulticast(evret,sNotificationMulticast[2:])
 
     print("Action scheduled_job_END")
 
