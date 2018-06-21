@@ -91,10 +91,9 @@ def confirmMessage(event):
         sReturn = switch()
     elif  sConfirmText.find("找PTT") >= 0 and sConfirmText.find("不找PTT") == -1:
         print("找PTT")
-        sReturn = scheduled(event)
+        sReturn = findPTT(event)
     elif  sConfirmText.find("找推圖") >= 0 and sConfirmText.find("不找推圖") == -1:
         print("找推圖")
-        sReturn = "尚未開啟"
         
     elif  sConfirmText.find("help") >= 0:
         print("help")
@@ -110,7 +109,7 @@ def confirmMessage(event):
 def helpMessage():
     shelpMessage = "LIN_BOT功能: \n *{} \n *{} \n *{}"
     sToolName1 = "想吃or要吃 :隨機垃圾食物"
-    sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、TypeMoon>日GO"
+    sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
     sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
 
     return shelpMessage.format(sToolName1,sToolName2,sToolName3)
@@ -141,8 +140,8 @@ def notification(title, link):
     # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
     return True
 
-def scheduled(event):
-    print("Action scheduled_job")
+def findPTT(event):
+    print("Action findPTT")
     # Chrome
     options = Options()
     options.binary_location = '/app/.apt/usr/bin/google-chrome'
@@ -157,9 +156,6 @@ def scheduled(event):
     sfind = sfind.replace("找PTT","")
     sfind = sfind.replace(":","").replace(" ","").replace("[","").replace("]","")
     slfindList = sfind.split(">")
-    # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
-    # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
-    # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
 
     if len(slfindList) < 2 :
         sMessgge = "{},查詢格式有誤，請參閱help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
@@ -194,7 +190,7 @@ def scheduled(event):
         if len(match) > 0:
             sMessgge = sNotificationMulticast
 
-    print("Action scheduled_job_END")
+    print("Action findPTT_END")
 
     return sMessgge
 
