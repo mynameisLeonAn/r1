@@ -84,15 +84,18 @@ def handle_message(event):
 def confirmMessage(event):
     sReturn = ""
     sConfirmText = event.message.text
-    iRandom = random.sample(list4, 1)[0]
 
     if sConfirmText.find("想吃") >= 0 and sConfirmText.find("不想吃") == -1:
-        sReturn = switch(iRandom)
+        sReturn = switch()
     elif  sConfirmText.find("要吃") >= 0 and sConfirmText.find("不要吃") == -1:
-        sReturn = switch(iRandom)
+        sReturn = switch()
     elif  sConfirmText.find("找PTT") >= 0 and sConfirmText.find("不找PTT") == -1:
         print("找PTT")
-        sReturn = scheduled_job(event)
+        sReturn = scheduled(event)
+    elif  sConfirmText.find("找推圖") >= 0 and sConfirmText.find("不找推圖") == -1:
+        print("找推圖")
+        sReturn = "尚未開啟"
+        
     elif  sConfirmText.find("help") >= 0:
         print("help")
         sReturn = helpMessage()
@@ -105,23 +108,25 @@ def confirmMessage(event):
     return sReturn
 
 def helpMessage():
-    shelpMessage = "LIN_BOT功能: \n *{} \n *{}"
+    shelpMessage = "LIN_BOT功能: \n *{} \n *{} \n *{}"
     sToolName1 = "想吃or要吃 :隨機垃圾食物"
-    sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :TypeMoon>日GO"
+    sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、TypeMoon>日GO"
+    sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
 
-    return shelpMessage.format(sToolName1,sToolName2)
+    return shelpMessage.format(sToolName1,sToolName2,sToolName3)
 
-def switch(x):
-    print("x={}".format(x))
+def switch():
+    iRandom = random.sample(list4, 1)[0]
+    print("x={}".format(iRandom))
     return {
         0 :">>>>今天吃麥當當",
         1 :">>>>今天吃KFC",
         2 :">>>>今天吃頂呱呱",
         3 :">>>>今天吃拿坡里",
         4 :">>>>今天吃八方",
-    }.get(x,">>>>今天吃XXX")
+    }.get(iRandom,">>>>今天吃XXX")
 
-def notification(event, title, link):
+def notification(title, link):
     # with open('data/notify_list.json', 'r') as file:
     #     notify_list = json.load(file)
     # if len(notify_list) == 0:
@@ -130,13 +135,13 @@ def notification(event, title, link):
     content = "{}\n{}".format(title, link)
     #push message to one user
     line_bot_api.push_message(
-        event.to_myuserid,
+        to_myuserid,
         TextSendMessage(text=content))
 
     # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
     return True
 
-def scheduled_job(event):
+def scheduled(event):
     print("Action scheduled_job")
     # Chrome
     options = Options()
@@ -176,29 +181,11 @@ def scheduled_job(event):
                 match.append({'title':title, 'link':link, 'id':article_id})
 
         if len(match) > 0:
-            with open('data/history/gamesale.json', 'r+') as file:
-                print (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'open')
-
-                history = json.load(file)
-                now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
-                new_flag = False
-                for article in match:
-                    if article['id'] in history:
-                        continue
-                    new_flag = True
-                    history.append(article['id'])
-
-                    print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-                    # notification(event,article['title'], article['link'])
-                    sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
-
-                if new_flag == True:
-                    # file.seek(0)
-                    # file.truncate()
-                    # file.write(json.dumps(history))
-                    pass
-                else:
-                    print("{}: Nothing".format(now))
+            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
+                
+            for article in match:
+                print("{}: New Article: {} {}".format(now, article['title'], article['link']))
+                sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
 
             sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         else:
@@ -211,7 +198,59 @@ def scheduled_job(event):
 
     return sMessgge
 
+def scheduled_job():
+    print("Action scheduled_job")
+    # Chrome
+    options = Options()
+    options.binary_location = '/app/.apt/usr/bin/google-chrome'
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    driver = webdriver.Chrome(chrome_options=options)
 
+    # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
+    # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
+    # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
+
+    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format("TypeMoon"))
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+    re_gs_title = re.compile(r'\[日GO\s*\]\s*', re.I)
+    re_gs_id = re.compile(r'.*\/TypeMoon\/M\.(\S+)\.html')
+
+    match = []
+    for article in soup.select('.r-list-container .r-ent .title a'):
+        title = article.string
+        if re_gs_title.match(title) != None:
+            link = 'https://www.ptt.cc' + article.get('href')
+            article_id = re_gs_id.match(link).group(1)
+            match.append({'title':title, 'link':link, 'id':article_id})
+
+    if len(match) > 0:
+        with open('data/history/gamesale.json', 'r+') as file:
+            print (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'open')
+
+            history = json.load(file)
+            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
+            new_flag = False
+            for article in match:
+                if article['id'] in history:
+                    continue
+                new_flag = True
+                history.append(article['id'])
+
+                print("{}: New Article: {} {}".format(now, article['title'], article['link']))
+                notification(article['title'], article['link'])
+                
+            if new_flag == True:
+                file.seek(0)
+                file.truncate()
+                file.write(json.dumps(history))
+            else:
+                print("{}: Nothing".format(now))
+
+    print("Action scheduled_job_END")
+
+    return True
 
 import os
 if __name__ == "__main__":
