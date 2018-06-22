@@ -93,7 +93,7 @@ def confirmMessage(event):
         print("找PTT")
         sReturn = findPTT(event)
     elif  sConfirmText.find("找推圖") >= 0 and sConfirmText.find("不找推圖") == -1:
-        sReturn = line_bot_api.ImageSendMessage(
+        sReturn = linebot.models.send_messages.ImageSendMessage(
             original_content_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
             preview_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif'
         )
