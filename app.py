@@ -96,7 +96,7 @@ def confirmMessage(event):
     elif  sConfirmText.find("找推圖") >= 0 and sConfirmText.find("不找推圖") == -1:
         buttons_template = ImageSendMessage(
             original_content_url="https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif"
-            preview_image_url="https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif"
+            ,preview_image_url="https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif"
         )
         line_bot_api.reply_message(event.reply_token, buttons_template)
         print("找推圖")
