@@ -73,7 +73,7 @@ def handle_message(event):
             TextSendMessage(text=content))
    
     userId = event.source.user_id
-    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:{}".format(userId, event.message.text,content)
+    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.message.text,content)
 
     print("push_message="+contentrd)
     #push message to one user
@@ -93,6 +93,10 @@ def confirmMessage(event):
         print("找PTT")
         sReturn = findPTT(event)
     elif  sConfirmText.find("找推圖") >= 0 and sConfirmText.find("不找推圖") == -1:
+        sReturn = line_bot_api.ImageSendMessage(
+            original_content_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+            preview_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif'
+        )
         print("找推圖")
         
     elif  sConfirmText.find("help") >= 0:
