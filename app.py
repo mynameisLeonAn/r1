@@ -7,8 +7,9 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
 )
+from linebot.models import *
 import os
 import re
 import json
@@ -93,11 +94,29 @@ def confirmMessage(event):
         print("找PTT")
         sReturn = findPTT(event)
     elif  sConfirmText.find("找推圖") >= 0 and sConfirmText.find("不找推圖") == -1:
-        sReturn = {
-            "type": "image",
-            "originalContentUrl": "https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif",
-            "previewImageUrl": "https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif"
-        }
+        buttons_template = TemplateSendMessage(
+            alt_text='找推圖 template',
+            template=ButtonsTemplate(
+                title='選擇服務',
+                text='請選擇',
+                thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+                actions=[
+                    MessageTemplateAction(
+                        label='PTT 表特版 近期大於 10 推的文章',
+                        text='PTT 表特版 近期大於 10 推的文章'
+                    ),
+                    MessageTemplateAction(
+                        label='來張 imgur 正妹圖片',
+                        text='來張 imgur 正妹圖片'
+                    ),
+                    MessageTemplateAction(
+                        label='隨便來張正妹圖片',
+                        text='隨便來張正妹圖片'
+                    )
+                ]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token, buttons_template)
         print("找推圖")
         
     elif  sConfirmText.find("help") >= 0:
