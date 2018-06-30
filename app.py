@@ -177,7 +177,8 @@ def helpMessage(event):
                 data='action=buy&itemid=1'
             ),
             MessageTemplateAction(
-                label='查詢個人檔案-Message', text='查詢個人檔案'
+                label='找推特圖 FGO',
+                text='找推圖 :#FGO'
             ),
         ]
     )
