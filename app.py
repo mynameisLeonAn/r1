@@ -121,8 +121,8 @@ def helpMessage(event):
     
     print("Buttons Template")       
     
-    buttons_template = TemplateSendMessage(
-        alt_text='LIN_BOT功能',
+    message  = TemplateSendMessage(
+        alt_text='Template Example',
         template=ButtonsTemplate(
             title='LIN_BOT功能',
             text=shelpMessage.format(sToolName1, sToolName2, sToolName3),
@@ -149,7 +149,13 @@ def helpMessage(event):
     )
     print("Buttons Template_END:")  
     
-    line_bot_api.reply_message(event.reply_token, buttons_template)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TemplateSendMessage(
+            alt_text="Template Example",
+            template=button_template_message
+        )
+    )
     print("123") 
 
     # userId = event.source.user_id
