@@ -121,39 +121,72 @@ def helpMessage(event):
     
     print("Buttons Template")       
     
-    message  = TemplateSendMessage(
-        alt_text='Template Example',
-        template=ButtonsTemplate(
-            title='LIN_BOT功能',
-            text=shelpMessage.format(sToolName1, sToolName2, sToolName3),
-            # thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
-            actions=[
-                MessageTemplateAction(
-                    label='想吃or要吃 :隨機垃圾食物',
-                    text='今天要吃什麼?'
-                ),
-                MessageTemplateAction(
-                    label='找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦',
-                    text='找PTT :Gossiping>問卦'
-                ),
-                MessageTemplateAction(
-                    label='找PTT :TypeMoon>日GO',
-                    text='找PTT :TypeMoon>日GO'
-                ),
-                MessageTemplateAction(
-                    label='找推特圖 :#XX標籤，ex: 找推圖 :#FGO',
-                    text='找推圖 :#FGO'
-                )
-            ]
-        )
-    )
-    print("Buttons Template_END:")  
+    # message  = TemplateSendMessage(
+    #     alt_text='Template Example',
+    #     template=ButtonsTemplate(
+    #         title='LIN_BOT功能',
+    #         text=shelpMessage.format(sToolName1, sToolName2, sToolName3),
+    #         # thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+    #         actions=[
+    #             MessageTemplateAction(
+    #                 label='想吃or要吃 :隨機垃圾食物',
+    #                 text='今天要吃什麼?'
+    #             ),
+    #             MessageTemplateAction(
+    #                 label='找PTT :Gossiping>問卦',
+    #                 text='找PTT :Gossiping>問卦'
+    #             ),
+    #             MessageTemplateAction(
+    #                 label='找PTT :TypeMoon>日GO',
+    #                 text='找PTT :TypeMoon>日GO'
+    #             ),
+    #             MessageTemplateAction(
+    #                 label='找推特圖 FGO',
+    #                 text='找推圖 :#FGO'
+    #             )
+    #         ]
+    #     )
+    # )
+    # print("Buttons Template_END:")  
     
+    # line_bot_api.reply_message(
+    #     event.reply_token,
+    #     TemplateSendMessage(
+    #         alt_text="Template Example",
+    #         template=ButtonsTemplate
+    #     )
+    # )
+    button_template_message =ButtonsTemplate(
+        thumbnail_image_url="https://i.imgur.com/eTldj2E.png?1",
+        title='Menu', 
+        text='Please select',
+        image_size="cover",
+        actions=[
+            #   PostbackTemplateAction 點擊選項後，
+            #   除了文字會顯示在聊天室中，
+            #   還回傳data中的資料，可
+            #   此類透過 Postback event 處理。
+            PostbackTemplateAction(
+                label='查詢個人檔案顯示文字-Postback', 
+                text='查詢個人檔案',
+                data='action=buy&itemid=1'
+            ),
+            PostbackTemplateAction(
+                label='不顯示文字-Postback', 
+                text = None,
+                data='action=buy&itemid=1'
+            ),
+            MessageTemplateAction(
+                label='查詢個人檔案-Message', text='查詢個人檔案'
+            ),
+        ]
+    )
+                        
     line_bot_api.reply_message(
         event.reply_token,
         TemplateSendMessage(
             alt_text="Template Example",
-            template=ButtonsTemplate
+            template=button_template_message
         )
     )
     print("123") 
