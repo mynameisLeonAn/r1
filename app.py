@@ -167,10 +167,6 @@ def helpMessage(event):
                     text='今天要吃什麼'
             ),
             MessageTemplateAction(
-                label='找PTT :Gossiping>問卦',
-                text='找PTT :Gossiping>問卦'
-            ),
-            MessageTemplateAction(
                 label='找PTT :TypeMoon>日GO',
                 text='找PTT :TypeMoon>日GO'
             ),
