@@ -118,9 +118,10 @@ def helpMessage(event):
     # sToolName1 = "想吃or要吃 :隨機垃圾食物"
     # sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
     # sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
+    shelpMessage = "Buttons Template"
     print("Buttons Template")       
-    elif event.message.text == "Buttons Template":
-        buttons_template = TemplateSendMessage(
+    
+    buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
         template=ButtonsTemplate(
             title='這是ButtonsTemplate',
@@ -173,7 +174,7 @@ def helpMessage(event):
     # )
 
     # line_bot_api.reply_message(event.reply_token, buttons_template)
-    # return buttons_template
+    return shelpMessage
 
 def switch():
     iRandom = random.sample(list4, 1)[0]
