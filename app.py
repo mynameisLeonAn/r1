@@ -72,7 +72,7 @@ def handle_message(event):
         #reply_token message to one user
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=content))#TextSendMessage(text=content)
+            TextSendMessage(text=content))
    
     userId = event.source.user_id
     contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.message.text,content)
@@ -81,7 +81,7 @@ def handle_message(event):
     #push message to one user
     line_bot_api.push_message(
         to_myuserid,
-        TextSendMessage(text=contentrd))#TextSendMessage(text=content)
+        TextSendMessage(text=contentrd))
 
 def confirmMessage(event):
     sReturn = ""
@@ -114,67 +114,50 @@ def confirmMessage(event):
     return sReturn
 
 def helpMessage(event):
-    # shelpMessage = "LIN_BOT功能: \n *{} \n *{} \n *{}"
-    # sToolName1 = "想吃or要吃 :隨機垃圾食物"
-    # sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
-    # sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
-    shelpMessage = "Buttons Template"
+    shelpMessage = "LIN_BOT功能: \n *{} \n *{} \n *{}"
+    sToolName1 = "想吃or要吃 :隨機垃圾食物"
+    sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
+    sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
+    
     print("Buttons Template")       
     
     buttons_template = TemplateSendMessage(
-        alt_text='Buttons Template',
+        alt_text='LIN_BOT功能',
         template=ButtonsTemplate(
-            title='這是ButtonsTemplate',
-            text='ButtonsTemplate可以傳送text,uri',
-            thumbnail_image_url='顯示在開頭的大圖片網址',
+            title='LIN_BOT功能',
+            text=shelpMessage.format(sToolName1, sToolName2, sToolName3),
+            thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
             actions=[
                 MessageTemplateAction(
-                    label='ButtonsTemplate',
-                    text='ButtonsTemplate'
+                    label='想吃or要吃 :隨機垃圾食物',
+                    text='今天要吃什麼?'
                 ),
-                URITemplateAction(
-                    label='VIDEO1',
-                    uri='影片網址'
+                MessageTemplateAction(
+                    label='找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦',
+                    text='找PTT :Gossiping>問卦'
                 ),
-                PostbackTemplateAction(
-                    label='postback',
-                    text='postback text',
-                    data='postback1'
+                MessageTemplateAction(
+                    label='找PTT :TypeMoon>日GO',
+                    text='找PTT :TypeMoon>日GO'
+                ),
+                MessageTemplateAction(
+                    label='找推特圖 :#XX標籤，ex: 找推圖 :#FGO',
+                    text='找推圖 :#FGO'
                 )
             ]
         )
     )
-    line_bot_api.reply_message(event.reply_token, buttons_template)
+    print("Buttons Template_END:")  
     
-    # buttons_template = TemplateSendMessage(
-    #     alt_text='LIN_BOT功能:',
-    #     template=ButtonsTemplate(
-    #         title='選擇功能',
-    #         text='請選擇',
-    #         thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
-    #         actions=[
-    #             MessageTemplateAction(
-    #                 label='想吃or要吃 :隨機垃圾食物',
-    #                 text='今天要吃什麼?'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦',
-    #                 text='找PTT :Gossiping>問卦'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找PTT :TypeMoon>日GO',
-    #                 text='找PTT :TypeMoon>日GO'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找推特圖 :#XX標籤，ex: 找推圖 :#FGO',
-    #                 text='找推圖 :#FGO'
-    #             )
-    #         ]
-    #     )
-    # )
+    line_bot_api.reply_message(event.reply_token, buttons_template)
+    print("123") 
 
-    # line_bot_api.reply_message(event.reply_token, buttons_template)
-    return shelpMessage
+    # userId = event.source.user_id
+    # contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, shelpMessage)
+    # line_bot_api.push_message(
+    # to_myuserid,
+    # TextSendMessage(text=contentrd))
+    
 
 def switch():
     iRandom = random.sample(list4, 1)[0]
