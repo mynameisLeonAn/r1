@@ -167,8 +167,8 @@ def helpMessage(event):
             #   還回傳data中的資料，可
             #   此類透過 Postback event 處理。
             PostbackTemplateAction(
-                label='想吃or要吃 :隨機垃圾食物', 
-                text = '今天要吃什麼',
+                label='想吃or要吃-隨機垃圾食物', 
+                text='今天要吃什麼',
                 data='action=buy&itemid=1'
             ),
             PostbackTemplateAction(
