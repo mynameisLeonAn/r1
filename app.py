@@ -118,26 +118,32 @@ def helpMessage(event):
     # sToolName1 = "想吃or要吃 :隨機垃圾食物"
     # sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
     # sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
-    print("Confirm template")       
-    Confirm_template = TemplateSendMessage(
-        alt_text='目錄 template',
-        template=ConfirmTemplate(
-            title='這是ConfirmTemplate',
-            text='這就是ConfirmTemplate,用於兩種按鈕選擇',
-            actions=[                              
-                PostbackTemplateAction(
-                    label='Y',
-                    text='Y',
-                    data='action=buy&itemid=1'
-                ),
+    print("Buttons Template")       
+    elif event.message.text == "Buttons Template":
+        buttons_template = TemplateSendMessage(
+        alt_text='Buttons Template',
+        template=ButtonsTemplate(
+            title='這是ButtonsTemplate',
+            text='ButtonsTemplate可以傳送text,uri',
+            thumbnail_image_url='顯示在開頭的大圖片網址',
+            actions=[
                 MessageTemplateAction(
-                    label='N',
-                    text='N'
+                    label='ButtonsTemplate',
+                    text='ButtonsTemplate'
+                ),
+                URITemplateAction(
+                    label='VIDEO1',
+                    uri='影片網址'
+                ),
+                PostbackTemplateAction(
+                    label='postback',
+                    text='postback text',
+                    data='postback1'
                 )
             ]
         )
     )
-    line_bot_api.reply_message(event.reply_token, Confirm_template)
+    line_bot_api.reply_message(event.reply_token, buttons_template)
     
     # buttons_template = TemplateSendMessage(
     #     alt_text='LIN_BOT功能:',
