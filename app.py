@@ -119,7 +119,35 @@ def helpMessage():
     sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
     sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
 
-    return shelpMessage.format(sToolName1,sToolName2,sToolName3)
+    buttons_template = TemplateSendMessage(
+        alt_text='LIN_BOT功能:',
+        template=ButtonsTemplate(
+            title='選擇功能',
+            text='請選擇',
+            thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+            actions=[
+                MessageTemplateAction(
+                    label='想吃or要吃 :隨機垃圾食物',
+                    text='今天要吃什麼?'
+                ),
+                MessageTemplateAction(
+                    label='找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦',
+                    text='找PTT :Gossiping>問卦'
+                ),
+                MessageTemplateAction(
+                    label='找PTT :TypeMoon>日GO',
+                    text='找PTT :TypeMoon>日GO'
+                ),
+                MessageTemplateAction(
+                    label='找推特圖 :#XX標籤，ex: 找推圖 :#FGO',
+                    text='找推圖 :#FGO'
+                )
+            ]
+        )
+    )
+    
+
+    return buttons_template
 
 def switch():
     iRandom = random.sample(list4, 1)[0]
