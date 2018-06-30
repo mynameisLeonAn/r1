@@ -104,7 +104,7 @@ def confirmMessage(event):
         
     elif  sConfirmText.find("help") >= 0:
         print("help")
-        sReturn = helpMessage()
+        sReturn = helpMessage(event)
     else:
         pass
         # sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
@@ -113,61 +113,39 @@ def confirmMessage(event):
     print("sReturn")
     return sReturn
 
-def helpMessage():
+def helpMessage(event):
     shelpMessage = "LIN_BOT功能: \n *{} \n *{} \n *{}"
     sToolName1 = "想吃or要吃 :隨機垃圾食物"
     sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
     sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
 
-    # buttons_template = TemplateSendMessage(
-    #     alt_text='LIN_BOT功能:',
-    #     template=ButtonsTemplate(
-    #         title='選擇功能',
-    #         text='請選擇',
-    #         thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
-    #         actions=[
-    #             MessageTemplateAction(
-    #                 label='想吃or要吃 :隨機垃圾食物',
-    #                 text='今天要吃什麼?'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦',
-    #                 text='找PTT :Gossiping>問卦'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找PTT :TypeMoon>日GO',
-    #                 text='找PTT :TypeMoon>日GO'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找推特圖 :#XX標籤，ex: 找推圖 :#FGO',
-    #                 text='找推圖 :#FGO'
-    #             )
-    #         ]
-    #     )
-    # )
     buttons_template = TemplateSendMessage(
-        alt_text='找推圖 template',
+        alt_text='LIN_BOT功能:',
         template=ButtonsTemplate(
-            title='選擇服務',
+            title='選擇功能',
             text='請選擇',
             thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
             actions=[
                 MessageTemplateAction(
-                    label='PTT 表特版 近期大於 10 推的文章',
-                    text='PTT 表特版 近期大於 10 推的文章'
+                    label='想吃or要吃 :隨機垃圾食物',
+                    text='今天要吃什麼?'
                 ),
                 MessageTemplateAction(
-                    label='來張 imgur 正妹圖片',
-                    text='來張 imgur 正妹圖片'
+                    label='找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦',
+                    text='找PTT :Gossiping>問卦'
                 ),
                 MessageTemplateAction(
-                    label='隨便來張正妹圖片',
-                    text='隨便來張正妹圖片'
+                    label='找PTT :TypeMoon>日GO',
+                    text='找PTT :TypeMoon>日GO'
+                ),
+                MessageTemplateAction(
+                    label='找推特圖 :#XX標籤，ex: 找推圖 :#FGO',
+                    text='找推圖 :#FGO'
                 )
             ]
         )
     )
-    line_bot_api.reply_message(event.reply_token, buttons_template)
+
 
     return buttons_template
 
