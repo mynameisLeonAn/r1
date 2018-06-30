@@ -166,13 +166,13 @@ def helpMessage(event):
             #   除了文字會顯示在聊天室中，
             #   還回傳data中的資料，可
             #   此類透過 Postback event 處理。
-            PostbackTemplateAction(
+            MessageTemplateAction(
                 label='想吃or要吃隨機垃圾食物',
                 text='今天要吃什麼?'
             ),
-            PostbackTemplateAction(
+            MessageTemplateAction(
                 label='找PTT TypeMoon 日GO',
-                text='找PTT TypeMoon 日GO'
+                text='找PTT TypeMoon日GO'
             ),
             MessageTemplateAction(
                 label='找推特圖 FGO',
