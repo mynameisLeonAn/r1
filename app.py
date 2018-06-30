@@ -126,7 +126,7 @@ def helpMessage(event):
         template=ButtonsTemplate(
             title='LIN_BOT功能',
             text=shelpMessage.format(sToolName1, sToolName2, sToolName3),
-            thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+            # thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
             actions=[
                 MessageTemplateAction(
                     label='想吃or要吃 :隨機垃圾食物',
