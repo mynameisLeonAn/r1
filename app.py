@@ -153,7 +153,7 @@ def helpMessage(event):
         event.reply_token,
         TemplateSendMessage(
             alt_text="Template Example",
-            template=button_template_message
+            template=ButtonsTemplate
         )
     )
     print("123") 
