@@ -159,7 +159,7 @@ def helpMessage(event):
     button_template_message =ButtonsTemplate(
         thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
         title='Menu', 
-        text=shelpMessage.format(sToolName1, sToolName2, sToolName3),
+        text="LIN_BOT功能",
         image_size="cover",
         actions=[
             #   PostbackTemplateAction 點擊選項後，
@@ -167,13 +167,15 @@ def helpMessage(event):
             #   還回傳data中的資料，可
             #   此類透過 Postback event 處理。
             PostbackTemplateAction(
-                label='查詢個人檔案顯示文字-Postback', 
-                text='查詢個人檔案',
+                label='想吃or要吃 :隨機垃圾食物', 
+                text = '今天要吃什麼',
+                label='找PTT TypeMoon 日GO', 
+                text='找PTT :TypeMoon>日GO',
                 data='action=buy&itemid=1'
             ),
             PostbackTemplateAction(
-                label='不顯示文字-Postback', 
-                text = None,
+                label='找PTT TypeMoon 日GO', 
+                text='找PTT :TypeMoon>日GO',
                 data='action=buy&itemid=1'
             ),
             MessageTemplateAction(
