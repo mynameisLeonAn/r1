@@ -143,7 +143,7 @@ def helpMessage(event):
                 MessageTemplateAction(
                     label='找推特圖 :#XX標籤，ex: 找推圖 :#FGO',
                     text='找推圖 :#FGO'
-                ),
+                )
             ]
         )
     )
