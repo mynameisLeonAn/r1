@@ -167,12 +167,12 @@ def helpMessage(event):
             #   還回傳data中的資料，可
             #   此類透過 Postback event 處理。
             PostbackTemplateAction(
-                label='想吃or要吃 隨機垃圾食物',
+                label='想吃or要吃隨機垃圾食物',
                 text='今天要吃什麼?'
             ),
             PostbackTemplateAction(
-                label='找PTT TypeMoon>日GO',
-                text='找PTT :TypeMoon>日GO'
+                label='找PTT TypeMoon 日GO',
+                text='找PTT TypeMoon 日GO'
             ),
             MessageTemplateAction(
                 label='找推特圖 FGO',
