@@ -169,8 +169,6 @@ def helpMessage(event):
             PostbackTemplateAction(
                 label='想吃or要吃 :隨機垃圾食物', 
                 text = '今天要吃什麼',
-                label='找PTT TypeMoon 日GO', 
-                text='找PTT :TypeMoon>日GO',
                 data='action=buy&itemid=1'
             ),
             PostbackTemplateAction(
