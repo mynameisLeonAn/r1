@@ -72,7 +72,7 @@ def handle_message(event):
         #reply_token message to one user
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=content))
+            TextSendMessage)#TextSendMessage(text=content)
    
     userId = event.source.user_id
     contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.message.text,content)
@@ -81,7 +81,7 @@ def handle_message(event):
     #push message to one user
     line_bot_api.push_message(
         to_myuserid,
-        TextSendMessage(text=contentrd))
+        TextSendMessage)#TextSendMessage(text=content)
 
 def confirmMessage(event):
     sReturn = ""
