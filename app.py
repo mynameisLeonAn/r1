@@ -22,9 +22,11 @@ import datetime
 # python 會先去這裡找你企圖要 import 的.py 檔案
 # 如果再裡面沒有找到相關檔案的話就會 raise 錯誤訊息
 # ================================
-import sys
-sys.path.append("../util")
-import lineUtil
+# import sys
+# sys.path.append("../util")
+# import lineUtil
+from util.lineUtil import movie
+
 # ================================
 
 import random
