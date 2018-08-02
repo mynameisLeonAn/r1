@@ -67,9 +67,9 @@ def findPTT(event):
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
                 
             for article in match:
-                ilen = len(sNotificationMulticast)+len(article['title'])+len(article['link'])
+                ilen = len(sNotificationMulticast)+len(article['title'])*3+len(article['link'])
                 # Line only 0~2000
-                if ilen < 1800:
+                if ilen < 2000:
                     print("{}: New Article: {} {}".format(now, article['title'], article['link']))
                     sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
 
