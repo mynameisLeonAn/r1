@@ -25,8 +25,8 @@ import datetime
 # import sys
 # sys.path.append("../util")
 # import lineUtil
-from util.lineUtil import movie
-from util.lineUtil import ptt_beauty
+from util.flindUtil import movie
+from util.flindUtil import findPTT
 # ================================
 
 import random
@@ -118,10 +118,6 @@ def confirmMessage(event):
     elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
         sReturn = movie(event)   
 
-    elif  sConfirmText.find("PTT 表特版 近期大於 10 推的文章") >= 0 and sConfirmText.find("PTT 表特版 近期大於 10 推的文章") == -1:
-        sReturn = ptt_beauty(event)
-        print("表特版>>>>>sReturn="+sReturn)  
-        
     elif  sConfirmText.find("help") >= 0:
         print("help")
         helpMessage(event)
@@ -157,8 +153,8 @@ def helpMessage(event):
                 data='action=buy&itemid=1'
             ),
             MessageTemplateAction(
-                label='找推特圖 FGO',
-                text='找推圖 :#FGO'
+                label='近期上映電影',
+                text='近期上映電影'
             ),
         ]
     )
@@ -199,59 +195,7 @@ def notification(title, link):
     # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
     return True
 
-def findPTT(event):
-    print("Action findPTT")
-    # Chrome
-    options = Options()
-    options.binary_location = '/app/.apt/usr/bin/google-chrome'
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(chrome_options=options)
 
-    sMessgge = ""
-    sNotificationMulticast = ""
-    sfind = event.message.text
-    sfind = sfind.replace("找PTT","")
-    sfind = sfind.replace(":","").replace(" ","").replace("[","").replace("]","")
-    slfindList = sfind.split(">")
-
-    if len(slfindList) < 2 :
-        sMessgge = "{},查詢格式有誤，請參閱help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-    else:
-        print("slfindList[0]="+slfindList[0])
-        print("slfindList[1]="+slfindList[1])
-
-        driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
-        re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
-
-        match = []
-        for article in soup.select('.r-list-container .r-ent .title a'):
-            title = article.string
-            if re_gs_title.match(title) != None:
-                link = 'https://www.ptt.cc' + article.get('href')
-                article_id = re_gs_id.match(link).group(1)
-                match.append({'title':title, 'link':link, 'id':article_id})
-
-        if len(match) > 0:
-            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
-                
-            for article in match:
-                print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-                sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
-
-            sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-        else:
-            sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-        if len(match) > 0:
-            sMessgge = sNotificationMulticast
-
-    print("Action findPTT_END")
-
-    return sMessgge
 
 def scheduled_job():
     print("Action scheduled_job")
