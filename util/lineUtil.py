@@ -39,6 +39,7 @@ def movie(event):
     return content
 
 def ptt_beauty(event):
+    print("ptt_beauty Start")
     rs = requests.session()
     res = rs.get('https://www.ptt.cc/bbs/Beauty/index.html', verify=False)
     soup = BeautifulSoup(res.text, 'html.parser')
@@ -70,6 +71,8 @@ def ptt_beauty(event):
         data = '[{} push] {}\n{}\n\n'.format(article.get('rate', None), article.get('title', None),
                                              article.get('url', None))
         content += data
+        
+    print("ptt_beauty Start_END")
     return content
 
 def get_page_number(content):
