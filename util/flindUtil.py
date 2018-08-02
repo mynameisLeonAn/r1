@@ -1,15 +1,3 @@
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, VideoSendMessage,
-    TemplateSendMessage,ButtonsTemplate,MessageTemplateAction,ImageSendMessage,
-    PostbackTemplateAction
-)
-from linebot.models import *
 import os
 import re
 import json
@@ -20,7 +8,6 @@ from bs4 import BeautifulSoup
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
 
 def movie(event):
     target_url = 'http://www.atmovies.com.tw/movie/next/0/'
@@ -102,8 +89,11 @@ def findPTT2Page(driver,slfindList,sfind):
 
     # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
     re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
+    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
+    soup = BeautifulSoup(driver.page_source, "html.parser")
 
-    start_page = get_page_number('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
+    all_page_url = soup.select('.btn.wide')[1]['href']
+    start_page = get_page_number(all_page_url)
     page_term = 2  # crawler count
     
     index_list = []
@@ -114,9 +104,9 @@ def findPTT2Page(driver,slfindList,sfind):
     while index_list:
         index = index_list.pop(0)
         driver.get(index)
-        soup = BeautifulSoup(driver.page_source, "html.parser")
+        soup2 = BeautifulSoup(driver.page_source, "html.parser")
 
-        for article in soup.select('.r-list-container .r-ent .title a'):
+        for article in soup2.select('.r-list-container .r-ent .title a'):
             title = article.string
             # if re_gs_title.match(title) != None:
             link = 'https://www.ptt.cc' + article.get('href')
