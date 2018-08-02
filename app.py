@@ -17,6 +17,19 @@ import re
 import json
 # import twitter
 import datetime
+
+# ================================
+# python 會先去這裡找你企圖要 import 的.py 檔案
+# 如果再裡面沒有找到相關檔案的話就會 raise 錯誤訊息
+# ================================
+import sys
+sys.path.append("../util")
+import lineUtil
+# ================================
+
+import random
+list4 = list(range(0, 4))
+
 from bs4 import BeautifulSoup
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -34,9 +47,7 @@ handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 #User ID
 to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
 
-import random
-import lineUtil #util/lineUtil
-list4 = list(range(0, 4))
+
 
 @app.route("/")
 def hello():
