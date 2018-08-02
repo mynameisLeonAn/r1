@@ -67,8 +67,11 @@ def findPTT(event):
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
                 
             for article in match:
-                print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-                sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
+                ilen = len(sNotificationMulticast)+len(article['title'])+len(article['link'])
+                # Line only 0~2000
+                if ilen < 2000:
+                    print("{}: New Article: {} {}".format(now, article['title'], article['link']))
+                    sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
 
             sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         else:
