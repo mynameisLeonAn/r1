@@ -118,7 +118,12 @@ def confirmMessage(event):
     elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
         sReturn = movie(event)   
     elif  sConfirmText.find("PTT 表特版 近期大於 10 推的文章") >= 0 and sConfirmText.find("PTT 表特版 近期大於 10 推的文章") == -1:
-        sReturn = ptt_beauty(event)   
+        content = ptt_beauty(event)  
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content)
+        )
+        sReturn ="PTT 表特版 近期大於 10 推的文章"
     elif  sConfirmText.find("help") >= 0:
         print("help")
         helpMessage(event)
