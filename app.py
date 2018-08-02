@@ -26,7 +26,7 @@ import datetime
 # sys.path.append("../util")
 # import lineUtil
 from util.lineUtil import movie
-
+from util.lineUtil import ptt_beauty
 # ================================
 
 import random
@@ -117,6 +117,8 @@ def confirmMessage(event):
         print("找推圖")
     elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
         sReturn = movie(event)   
+    elif  sConfirmText.find("PTT 表特版 近期大於 10 推的文章") >= 0 and sConfirmText.find("PTT 表特版 近期大於 10 推的文章") == -1:
+        sReturn = ptt_beauty(event)   
     elif  sConfirmText.find("help") >= 0:
         print("help")
         helpMessage(event)
