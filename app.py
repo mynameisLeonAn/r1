@@ -8,7 +8,8 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, VideoSendMessage,
-    TemplateSendMessage,ButtonsTemplate,MessageTemplateAction,ImageSendMessage
+    TemplateSendMessage,ButtonsTemplate,MessageTemplateAction,ImageSendMessage,
+    PostbackTemplateAction
 )
 from linebot.models import *
 import os
@@ -22,7 +23,6 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-
 app = Flask(__name__)
 
 # 填入你的 message api 資訊
@@ -35,6 +35,7 @@ handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
 
 import random
+import lineUtil #util/lineUtil
 list4 = list(range(0, 4))
 
 @app.route("/")
@@ -101,10 +102,11 @@ def confirmMessage(event):
         )
         line_bot_api.reply_message(event.reply_token, buttons_template)
         print("找推圖")
-        
+    elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
+        sReturn = lineUtil.movie(event)   
     elif  sConfirmText.find("help") >= 0:
         print("help")
-        sReturn = helpMessage(event)
+        helpMessage(event)
     else:
         pass
         # sReturn = "你肚子有回聲蟲: {}".format(event.message.text)
@@ -113,49 +115,9 @@ def confirmMessage(event):
     print("sReturn")
     return sReturn
 
-def helpMessage(event):
-    shelpMessage = "LIN_BOT功能: \n *{} \n *{} \n *{}"
-    sToolName1 = "想吃or要吃 :隨機垃圾食物"
-    sToolName2 = "找PTT :XX版>[XX]標籤，ex: 找PTT :Gossiping>問卦、找PTT :TypeMoon>日GO"
-    sToolName3 = "找推特圖 :#XX標籤，ex: 找推圖 :#FGO"
-    
+def helpMessage(event):    
     print("Buttons Template")       
-    
-    # message  = TemplateSendMessage(
-    #     alt_text='Template Example',
-    #     template=ButtonsTemplate(
-    #         title='LIN_BOT功能',
-    #         text=shelpMessage.format(sToolName1, sToolName2, sToolName3),
-    #         # thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
-    #         actions=[
-    #             MessageTemplateAction(
-    #                 label='想吃or要吃 :隨機垃圾食物',
-    #                 text='今天要吃什麼?'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找PTT :Gossiping>問卦',
-    #                 text='找PTT :Gossiping>問卦'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找PTT :TypeMoon>日GO',
-    #                 text='找PTT :TypeMoon>日GO'
-    #             ),
-    #             MessageTemplateAction(
-    #                 label='找推特圖 FGO',
-    #                 text='找推圖 :#FGO'
-    #             )
-    #         ]
-    #     )
-    # )
-    # print("Buttons Template_END:")  
-    
-    # line_bot_api.reply_message(
-    #     event.reply_token,
-    #     TemplateSendMessage(
-    #         alt_text="Template Example",
-    #         template=ButtonsTemplate
-    #     )
-    # )
+
     button_template_message =ButtonsTemplate(
         thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
         title='Menu', 
@@ -190,13 +152,7 @@ def helpMessage(event):
             template=button_template_message
         )
     )
-    print("123") 
 
-    # userId = event.source.user_id
-    # contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, shelpMessage)
-    # line_bot_api.push_message(
-    # to_myuserid,
-    # TextSendMessage(text=contentrd))
     
 
 def switch():
