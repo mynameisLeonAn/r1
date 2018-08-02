@@ -38,7 +38,7 @@ def movie(event):
         content += '{}\n{}\n'.format(title, link)
     return content
 
-def ptt_beauty():
+def ptt_beauty(event):
     rs = requests.session()
     res = rs.get('https://www.ptt.cc/bbs/Beauty/index.html', verify=False)
     soup = BeautifulSoup(res.text, 'html.parser')
