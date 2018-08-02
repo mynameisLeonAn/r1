@@ -116,7 +116,7 @@ def confirmMessage(event):
         line_bot_api.reply_message(event.reply_token, buttons_template)
         print("找推圖")
     elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
-        sReturn = lineUtil.movie(event)   
+        sReturn = movie(event)   
     elif  sConfirmText.find("help") >= 0:
         print("help")
         helpMessage(event)
