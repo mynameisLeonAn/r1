@@ -90,9 +90,14 @@ def findPTT2Page(driver,slfindList,sfind):
     sNotificationMulticast = ""
     match = []
 
+
+    load = {
+        'from': '/bbs/Gossiping/index.html',
+        'yes': 'yes'
+    }
     # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
     re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
-    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
+    driver.post('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]), verify=False, data=load)
     soup = BeautifulSoup(driver.page_source, "html.parser")
 
     all_page_url = soup.select('.btn.wide')[1]['href']
