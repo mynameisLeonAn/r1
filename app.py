@@ -120,10 +120,11 @@ def confirmMessage(event):
     elif  sConfirmText.find("Taiwan radar") >= 0 :
         url = finRadarUrl(event)
         if len(url) > 0:
-            sReturn = ImageSendMessage(
+            ImageSend = ImageSendMessage(
                 original_content_url=url,
                 preview_image_url=url
             )
+            line_bot_api.reply_message(event.reply_token, ImageSend)
         else:
             sReturn = "查無結果"
 
