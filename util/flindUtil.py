@@ -172,7 +172,7 @@ def finRadarUrl(event):
 
     slfindList = "/V7/observe/radar/Data/HD_Radar"
     driver.get('http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js')
-    soup = BeautifulSoup(driver.page_source, "js.parser")
+    soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\,'+slfindList+'\s*\.png\s*', re.I)
     
     match = []
