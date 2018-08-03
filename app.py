@@ -118,8 +118,9 @@ def confirmMessage(event):
     elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
         sReturn = movie(event)   
     elif  sConfirmText.find("Taiwan radar") >= 0 :
-        url = finRadarUrl(event)
-        if len(url) > 0:
+        # url = finRadarUrl(event)
+        # if len(url) > 0:
+        url="https://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV2_1000_201808020250.png"
             ImageSend = ImageSendMessage(
                 original_content_url=url,
                 preview_image_url=url
