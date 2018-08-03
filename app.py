@@ -25,8 +25,8 @@ import datetime
 # import sys
 # sys.path.append("../util")
 # import lineUtil
-from util.flindUtil import movie
-from util.flindUtil import findPTT
+from util.flindUtil import (movie,findPTT)
+from util.flindUtil import finRadarUrl
 # ================================
 
 import random
@@ -117,6 +117,16 @@ def confirmMessage(event):
         print("找推圖")
     elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
         sReturn = movie(event)   
+    elif  sConfirmText.find("Taiwan radar") >= 0 :
+        url = finRadarUrl(event)
+        if len(url) > 0:
+            sReturn = ImageSendMessage(
+                original_content_url=url,
+                preview_image_url=url
+            )
+        else:
+            sReturn = "查無結果"
+
 
     elif  sConfirmText.find("help") >= 0:
         print("help")
