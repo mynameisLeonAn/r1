@@ -180,7 +180,7 @@ def finRadarUrl(event):
     match = []
     for article in soup:
         title = article.string
-        print(">>"re_gs_title+">>>>>>title="+title)
+        print(">>"+re_gs_title+">>>>>>title="+title)
 
         if re_gs_title.match(title) != None:
             link = 'https://www.cwb.gov.tw' + article.get('src')
