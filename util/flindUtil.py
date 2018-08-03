@@ -90,14 +90,9 @@ def findPTT2Page(driver,slfindList,sfind):
     sNotificationMulticast = ""
     match = []
 
-
-    load = {
-        'from': '/bbs/Gossiping/index.html',
-        'yes': 'yes'
-    }
     # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
     re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
-    driver.post('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]), verify=False, data=load)
+    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
     soup = BeautifulSoup(driver.page_source, "html.parser")
 
     all_page_url = soup.select('.btn.wide')[1]['href']
@@ -125,8 +120,11 @@ def findPTT2Page(driver,slfindList,sfind):
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
             
         for article in match:
-            print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-            sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
+            ilen = len(sNotificationMulticast)+len(article['title'])*3+len(article['link'])
+            # Line only 0~2000
+            if ilen < 2000:
+                print(">>>>>>{}: New Article: {} {}".format(ilen, article['title'], article['link']))
+                sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
 
             sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         else:
