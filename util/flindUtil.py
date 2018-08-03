@@ -56,9 +56,23 @@ def findPTT(event):
         re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
 
         match = []
-        for article in soup.select('.r-list-container .r-ent .title a'):
-            title = article.string
-            if re_gs_title.match(title) != None:
+
+        page_term = 2  # crawler count
+        all_page_url = soup.select('.btn.wide')[1]['href']
+        start_page = get_page_number(all_page_url)
+        index_list = []
+        for page in range(start_page, start_page - page_term, -1):
+            page_url = 'https://www.ptt.cc/bbs/{}/index{}.html'.format(slfindList[0], page)
+            index_list.append(page_url)
+
+        while index_list:
+            index = index_list.pop(0)
+            driver.get(index)
+            soup2 = BeautifulSoup(driver.page_source, "html.parser")
+
+            for article in soup2.select('.r-list-container .r-ent .title a'):
+                title = article.string
+                # if re_gs_title.match(title) != None:
                 link = 'https://www.ptt.cc' + article.get('href')
                 article_id = re_gs_id.match(link).group(1)
                 match.append({'title':title, 'link':link, 'id':article_id})

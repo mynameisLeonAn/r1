@@ -152,6 +152,11 @@ def helpMessage(event):
                 text='找PTT :TypeMoon>日GO',
                 data='action=buy&itemid=1'
             ),
+            PostbackTemplateAction(
+                label='找PTT TypeMoon 兩頁', 
+                text='找PTT :TypeMoon',
+                data='action=buy&itemid=1'
+            ),
             MessageTemplateAction(
                 label='近期上映電影',
                 text='近期上映電影'
