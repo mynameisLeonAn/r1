@@ -175,8 +175,10 @@ def finRadarUrl(event):
     soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\,'+slfindList+'\s*\.png\s*', re.I)
     
+    print(">>>>>>soup="+soup)
+
     match = []
-    for article in soup.select('.r-list-container .r-ent .png'):
+    for article in soup:
         title = article.string
         if re_gs_title.match(title) != None:
             link = 'https://www.cwb.gov.tw' + article.get('src')
