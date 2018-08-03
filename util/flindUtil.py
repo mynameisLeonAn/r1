@@ -170,13 +170,13 @@ def finRadarUrl(event):
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(chrome_options=options)
 
-    slfindList = "/V7/observe/radar/Data/HD_Radar/"
-    driver.get('https://www.cwb.gov.tw/V7e/observe/radar/index2.htm')
-    soup = BeautifulSoup(driver.page_source, "htm.parser")
-    re_gs_title = re.compile(r'\['+slfindList+'\s*\]\s*', re.I)
+    slfindList = "/V7/observe/radar/Data/HD_Radar"
+    driver.get('http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js')
+    soup = BeautifulSoup(driver.page_source, "js.parser")
+    re_gs_title = re.compile(r'\,'+slfindList+'\s*\.png\s*', re.I)
     
     match = []
-    for article in soup.select('.r-list-container .r-ent .title src'):
+    for article in soup.select('.r-list-container .r-ent .png'):
         title = article.string
         if re_gs_title.match(title) != None:
             link = 'https://www.cwb.gov.tw' + article.get('src')
