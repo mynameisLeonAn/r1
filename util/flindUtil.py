@@ -174,12 +174,14 @@ def finRadarUrl(event):
     driver.get('http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js')
     soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\,'+slfindList+'\s*\.png\s*', re.I)
+
     
-    print(">>>>>>soup="+soup)
 
     match = []
     for article in soup:
         title = article.string
+        print(">>"re_gs_title+">>>>>>title="+title)
+
         if re_gs_title.match(title) != None:
             link = 'https://www.cwb.gov.tw' + article.get('src')
             match.append({'title':title, 'link':link })
