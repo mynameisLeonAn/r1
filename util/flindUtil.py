@@ -70,9 +70,9 @@ def findPTT(event):
             driver.get(index)
             soup2 = BeautifulSoup(driver.page_source, "html.parser")
 
-            for article in soup2.select('.r-list-container .r-ent .title a'):
-                title = article.string
-                # if re_gs_title.match(title) != None:
+        for article in soup2.select('.r-list-container .r-ent .title a'):
+            title = article.string
+            if re_gs_title.match(title) != None:
                 link = 'https://www.ptt.cc' + article.get('href')
                 article_id = re_gs_id.match(link).group(1)
                 match.append({'title':title, 'link':link, 'id':article_id})
