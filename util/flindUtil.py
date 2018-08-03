@@ -170,14 +170,12 @@ def finRadarUrl(event):
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(chrome_options=options)
 
-    sNotificationMulticast = ""
     slfindList = "/V7/observe/radar/Data/HD_Radar/"
     driver.get('https://www.cwb.gov.tw/V7e/observe/radar/index2.htm')
-    soup = BeautifulSoup(driver.page_source, "html.parser")
+    soup = BeautifulSoup(driver.page_source, "htm.parser")
     re_gs_title = re.compile(r'\['+slfindList+'\s*\]\s*', re.I)
     
     match = []
-
     for article in soup.select('.r-list-container .r-ent .title src'):
         title = article.string
         if re_gs_title.match(title) != None:
@@ -186,11 +184,8 @@ def finRadarUrl(event):
 
     if len(match) > 0:            
         for article in match:
-            ilen = len(sNotificationMulticast)+len(article['title'])*3+len(article['link'])
-            # Line only 0~2000
-            if ilen < 2000:
-                print(">>>>>>{}: New Article: {} {}".format(ilen, article['title'], article['link']))
-                url +="{}\n".format(article['link'])
+            print(">>>>>>New Article: {} {}".format(article['title'], article['link']))
+            url +="{}\n".format(article['link'])
 
 
     print("Action finRadarUrl_END")
