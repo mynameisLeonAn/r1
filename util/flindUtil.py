@@ -183,7 +183,7 @@ def finRadarUrl(event):
         print(">>>>>>title="+title)
 
         if re_gs_title.match(title) != None:
-            link = 'https://www.cwb.gov.tw' + article.get('src')
+            link = 'https://www.cwb.gov.tw' + title
             match.append({'title':title, 'link':link })
 
     if len(match) > 0:            
