@@ -120,15 +120,17 @@ def confirmMessage(event):
     elif  sConfirmText.find("Taiwan radar") >= 0 :
         # url = finRadarUrl(event)
         # if len(url) > 0:
-        
-        buttons_template = ImageSendMessage(
-            original_content_url="https://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV2_1000_201808020250.png",
-            preview_image_url="https://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV2_1000_201808020250.png"
-        )
-        line_bot_api.reply_message(event.reply_token, buttons_template)
+        #     buttons_template = ImageSendMessage(
+        #         original_content_url=url,
+        #         preview_image_url=url
+        #     )
+        #     line_bot_api.reply_message(event.reply_token, buttons_template)
         # else:
         #     sReturn = "查無結果"
-
+        page = get_web_page("https://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js")
+        img_urls = parse(page)
+        print ("img_urls '"+img_urls+"' here!")
+        sReturn = img_urls
 
     elif  sConfirmText.find("help") >= 0:
         print("help")

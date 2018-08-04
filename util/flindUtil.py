@@ -195,3 +195,24 @@ def finRadarUrl(event):
     print("Action finRadarUrl_END")
 
     return url
+
+def parse(dom):
+    soup = BeautifulSoup(dom, 'html.parser')
+    links = soup.find(id='main-content').find_all('a')
+    img_urls = []
+    for link in links:
+        if re.match(r'^/V7/observe/radar/Data/HD_Radar/?.png', link['href']):
+            img_urls.append(link['href'])
+    return img_urls
+
+def get_web_page(url):
+    time.sleep(0.5)  # 每次爬取前暫停 0.5 秒以免被 PTT 網站判定為大量惡意爬取
+    resp = requests.get(
+        url=url,
+        cookies={'over18': '1'}
+    )
+    if resp.status_code != 200:
+        print('Invalid url:', resp.url)
+        return None
+    else:
+        return resp.text
