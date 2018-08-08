@@ -110,9 +110,9 @@ def findPTT2Page(driver,slfindList,sfind):
     driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
     soup = over18(slfindList[0])
 
+    page_term = 2  # crawler count
     all_page_url = soup.select('.btn.wide')[1]['href']
     start_page = get_page_number(all_page_url)
-    page_term = 2  # crawler count
     
     index_list = []
     for page in range(start_page, start_page - page_term, -1):
