@@ -51,7 +51,8 @@ def findPTT(event):
         print("slfindList[1]="+slfindList[1])
 
         driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
-        soup = BeautifulSoup(driver.page_source, "html.parser")
+        # soup = BeautifulSoup(driver.page_source, "html.parser")
+        soup = over18(slfindList[0])
         re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
         re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
 
@@ -107,7 +108,7 @@ def findPTT2Page(driver,slfindList,sfind):
     # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
     re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
     driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
-    soup = BeautifulSoup(driver.page_source, "html.parser")
+    soup = over18(slfindList[0])
 
     all_page_url = soup.select('.btn.wide')[1]['href']
     start_page = get_page_number(all_page_url)
@@ -175,7 +176,8 @@ def finRadarUrl(event):
     soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\,'+slfindList+'\s*\.png\s*', re.I)
 
-    
+    # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
+    # re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
 
     match = []
     for article in soup:
@@ -205,14 +207,15 @@ def parse(dom):
             img_urls.append(link['href'])
     return img_urls
 
-def get_web_page(url):
-    time.sleep(0.5)  # 每次爬取前暫停 0.5 秒以免被 PTT 網站判定為大量惡意爬取
-    resp = requests.get(
-        url=url,
-        cookies={'over18': '1'}
-    )
-    if resp.status_code != 200:
-        print('Invalid url:', resp.url)
-        return None
-    else:
-        return resp.text
+def over18(board):
+    rs = requests.session()
+    res = rs.get('https://www.ptt.cc/bbs/{}/index.html'.format(board), verify=False)
+    # 先檢查網址是否包含'over18'字串 ,如有則為18禁網站
+    if 'over18' in res.url:
+        print("18禁網頁")
+        load = {
+            'from': '/bbs/{}/index.html'.format(board),
+            'yes': 'yes'
+        }
+        res = rs.post('https://www.ptt.cc/ask/over18', verify=False, data=load)
+    return BeautifulSoup(res.text, 'html.parser')
