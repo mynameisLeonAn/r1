@@ -52,7 +52,7 @@ def findPTT(event):
         print("slfindList[0]="+slfindList[0])
         print("slfindList[1]="+slfindList[1])
         try:
-            driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
+            driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]), verify=False)
             # soup = BeautifulSoup(driver.page_source, "html.parser")
             soup = over18(slfindList[0])
             re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
@@ -70,7 +70,7 @@ def findPTT(event):
 
             while index_list:
                 index = index_list.pop(0)
-                driver.get(index)
+                driver.get(index, verify=False)
                 soup2 = BeautifulSoup(driver.page_source, "html.parser")
                 
                 # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
@@ -118,7 +118,7 @@ def findPTT2Page(driver,slfindList,sfind):
 
     # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
     re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
-    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
+    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]), verify=False)
     soup = over18(slfindList[0])
 
     page_term = 2  # crawler count
@@ -134,7 +134,7 @@ def findPTT2Page(driver,slfindList,sfind):
 
         while index_list:
             index = index_list.pop(0)
-            driver.get(index)
+            driver.get(index, verify=False)
             soup2 = BeautifulSoup(driver.page_source, "html.parser")
              # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
             if driver.status_code != 200:
@@ -193,7 +193,7 @@ def finRadarUrl(event):
     driver = webdriver.Chrome(chrome_options=options)
 
     slfindList = "/V7/observe/radar/Data/HD_Radar"
-    driver.get('http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js')
+    driver.get('http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js', verify=False)
     soup = BeautifulSoup(driver.page_source, "html.parser")
     re_gs_title = re.compile(r'\,'+slfindList+'\s*\.png\s*', re.I)
 
