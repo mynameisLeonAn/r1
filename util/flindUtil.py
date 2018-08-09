@@ -95,7 +95,7 @@ def findPTT(event):
             if len(match) > 0:
                 sMessgge = sNotificationMulticast
                 
-        except ValueError:
+        except :
             sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     print("Action findPTT_END")
@@ -153,7 +153,7 @@ def findPTT2Page(driver,slfindList,sfind):
         if len(match) > 0:
             sMessgge = sNotificationMulticast
 
-    except ValueError:
+    except :
         sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     print("Action findPTT2Page_END")
