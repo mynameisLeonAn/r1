@@ -219,15 +219,6 @@ def finRadarUrl(event):
 
     return url
 
-def parse(dom):
-    soup = BeautifulSoup(dom, 'html.parser')
-    links = soup.find(id='main-content').find_all('a')
-    img_urls = []
-    for link in links:
-        if re.match(r'^/V7/observe/radar/Data/HD_Radar/?.png', link['href']):
-            img_urls.append(link['href'])
-    return img_urls
-
 def over18(sboard):
     print(">>>>>>>>>board="+sboard)
     rs = requests.session()
@@ -241,8 +232,6 @@ def over18(sboard):
         }
         res = rs.post('https://www.ptt.cc/ask/over18', verify=False, data=load)
     return BeautifulSoup(res.text, 'html.parser')
-
-
 
 def ptt_beauty():
     rs = requests.session()
@@ -273,7 +262,7 @@ def ptt_beauty():
             # time.sleep(0.05)
     content = ''
     for article in article_list:
-        data = '[{} push] {}\n{}\n\n'.format(article.get('rate', None), article.get('title', None),
+        data = '[{} push] {}\n{}\n'.format(article.get('rate', None), article.get('title', None),
                                              article.get('url', None))
         content += data
     return content
@@ -306,7 +295,6 @@ def craw_page(res, push_rate):
             # print('crawPage function error:',r_ent.find(class_="title").text.strip())
             print('本文已被刪除', e)
     return article_seq
-
 
 def ptt_gossiping():
     rs = requests.session()
@@ -341,7 +329,44 @@ def ptt_gossiping():
     for index, article in enumerate(article_gossiping, 0):
         if index == 15:
             return content
-        data = '{}\n{}\n\n'.format(article.get('title', None), article.get('url_link', None))
+        data = '{}\n{}\n'.format(article.get('title', None), article.get('url_link', None))
+        content += data
+    return content
+
+def ptt_AC_In():
+    rs = requests.session()
+    load = {
+        'from': '/bbs/AC_In/index.html',
+        'yes': 'yes'
+    }
+    res = rs.post('https://www.ptt.cc/ask/over18', verify=False, data=load)
+    soup = BeautifulSoup(res.text, 'html.parser')
+    all_page_url = soup.select('.btn.wide')[1]['href']
+    start_page = get_page_number(all_page_url)
+    index_list = []
+    article_gossiping = []
+    for page in range(start_page, start_page - 2, -1):
+        page_url = 'https://www.ptt.cc/bbs/AC_In/index{}.html'.format(page)
+        index_list.append(page_url)
+
+    # 抓取 文章標題 網址 推文數
+    while index_list:
+        index = index_list.pop(0)
+        res = rs.get(index, verify=False)
+        # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
+        if res.status_code != 200:
+            index_list.append(index)
+            # print u'error_URL:',index
+            # time.sleep(1)
+        else:
+            article_gossiping = crawl_page_gossiping(res)
+            # print u'OK_URL:', index
+            # time.sleep(0.05)
+    content = ''
+    for index, article in enumerate(article_gossiping, 0):
+        if index == 15:
+            return content
+        data = '{}\n{}\n'.format(article.get('title', None), article.get('url_link', None))
         content += data
     return content
 

@@ -27,7 +27,7 @@ import datetime
 # import lineUtil
 from util.flindUtil import (movie,findPTT)
 from util.flindUtil import finRadarUrl
-from util.flindUtil import ptt_beauty,ptt_gossiping
+from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In
 # ================================
 
 import random
@@ -142,6 +142,14 @@ def confirmMessage(event):
             pass
         else:
             sReturn = "查無結果"
+    elif  sConfirmText.find("ptt_AC_In") >= 0 :
+        sReturn = ptt_AC_In()
+        if len(sReturn) > 0:
+            pass
+        else:
+            sReturn = "查無結果"
+
+            
     elif  sConfirmText.find("help") >= 0:
         print("help")
         helpMessage(event)
