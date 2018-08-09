@@ -215,14 +215,15 @@ def parse(dom):
             img_urls.append(link['href'])
     return img_urls
 
-def over18(board):
+def over18(sboard):
+    print(">>>>>>>>>board="+sboard)
     rs = requests.session()
-    res = rs.get('https://www.ptt.cc/bbs/{}/index.html'.format(board), verify=False)
+    res = rs.get('https://www.ptt.cc/bbs/{}/index.html'.format(sboard), verify=False)
     # 先檢查網址是否包含'over18'字串 ,如有則為18禁網站
     if 'over18' in res.url:
         print("18禁網頁")
         load = {
-            'from': '/bbs/{}/index.html'.format(board),
+            'from': '/bbs/{}/index.html'.format(sboard),
             'yes': 'yes'
         }
         res = rs.post('https://www.ptt.cc/ask/over18', verify=False, data=load)
