@@ -5,6 +5,7 @@ import requests
 import datetime
 from bs4 import BeautifulSoup
 import time
+import urllib3
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
