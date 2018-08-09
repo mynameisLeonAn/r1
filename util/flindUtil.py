@@ -4,6 +4,7 @@ import json
 import requests
 import datetime
 from bs4 import BeautifulSoup
+import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
@@ -70,13 +71,19 @@ def findPTT(event):
                 index = index_list.pop(0)
                 driver.get(index)
                 soup2 = BeautifulSoup(driver.page_source, "html.parser")
-
-            for article in soup2.select('.r-list-container .r-ent .title a'):
-                title = article.string
-                if re_gs_title.match(title) != None:
-                    link = 'https://www.ptt.cc' + article.get('href')
-                    article_id = re_gs_id.match(link).group(1)
-                    match.append({'title':title, 'link':link, 'id':article_id})
+                
+                # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
+                if driver.status_code != 200:
+                    time.sleep(1)
+                else:
+                    time.sleep(0.05)
+                
+                for article in soup2.select('.r-list-container .r-ent .title a'):
+                    title = article.string
+                    if re_gs_title.match(title) != None:
+                        link = 'https://www.ptt.cc' + article.get('href')
+                        article_id = re_gs_id.match(link).group(1)
+                        match.append({'title':title, 'link':link, 'id':article_id})
 
             if len(match) > 0:
                 now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
@@ -128,6 +135,11 @@ def findPTT2Page(driver,slfindList,sfind):
             index = index_list.pop(0)
             driver.get(index)
             soup2 = BeautifulSoup(driver.page_source, "html.parser")
+             # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
+            if driver.status_code != 200:
+                time.sleep(1)
+            else:
+                time.sleep(0.05)
 
             for article in soup2.select('.r-list-container .r-ent .title a'):
                 title = article.string
