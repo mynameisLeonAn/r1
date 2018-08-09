@@ -27,6 +27,7 @@ import datetime
 # import lineUtil
 from util.flindUtil import (movie,findPTT)
 from util.flindUtil import finRadarUrl
+from util.flindUtil import ptt_beauty
 # ================================
 
 import random
@@ -118,19 +119,22 @@ def confirmMessage(event):
     elif  sConfirmText.find("近期上映電影") >= 0 and sConfirmText.find("不找近期上映電影") == -1:
         sReturn = movie(event)   
     elif  sConfirmText.find("Taiwan radar") >= 0 :
-        # url = finRadarUrl(event)
-        # if len(url) > 0:
-        #     buttons_template = ImageSendMessage(
-        #         original_content_url=url,
-        #         preview_image_url=url
-        #     )
-        #     line_bot_api.reply_message(event.reply_token, buttons_template)
-        # else:
-        #     sReturn = "查無結果"
-        page = get_web_page("https://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js")
-        img_urls = parse(page)
-        print ("img_urls '"+img_urls+"' here!")
-        sReturn = img_urls
+        url = finRadarUrl(event)
+        if len(url) > 0:
+            buttons_template = ImageSendMessage(
+                original_content_url=url,
+                preview_image_url=url
+            )
+            line_bot_api.reply_message(event.reply_token, buttons_template)
+        else:
+            sReturn = "查無結果"
+        
+    elif  sConfirmText.find("ptt_beauty") >= 0 :
+        sReturn = ptt_beauty()
+        if len(sReturn) > 0:
+            pass
+        else:
+            sReturn = "查無結果"
 
     elif  sConfirmText.find("help") >= 0:
         print("help")
