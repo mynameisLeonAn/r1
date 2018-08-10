@@ -185,7 +185,7 @@ def finRadarUrl(event):
     url = ""
     print("Action finRadarUrl")
 
-    quote_page = 'http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js'
+    quote_page = 'https://www.cwb.gov.tw/V7/js/HDRadar_TW_3600_n_val.js'
     res = requests.get(quote_page)
     soup = BeautifulSoup(res.text, 'html.parser')
 
