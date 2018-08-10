@@ -193,9 +193,9 @@ def finRadarUrl(event):
     # driver = webdriver.Chrome(chrome_options=options)
 
     tag = r'/V7/observe/radar/Data/HD_Radar/CV1_1000_\d{12}.png'
-    quote_page = 'https://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js'
+    quote_page = 'http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js'
     res = requests.get(quote_page)
-    soup = BeautifulSoup(res.text, "lxml")
+    soup = BeautifulSoup(res.text, 'html.parser')
 
     match = []
     for drink in soup.select('{}'.format(tag)):
