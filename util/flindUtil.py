@@ -184,38 +184,35 @@ def get_page_number(content):
 def finRadarUrl(event):
     url = ""
     print("Action finRadarUrl")
-    # Chrome
-    options = Options()
-    options.binary_location = '/app/.apt/usr/bin/google-chrome'
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(chrome_options=options)
+    # # Chrome
+    # options = Options()
+    # options.binary_location = '/app/.apt/usr/bin/google-chrome'
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')
+    # options.add_argument('--no-sandbox')
+    # driver = webdriver.Chrome(chrome_options=options)
 
-    slfindList = "/V7/observe/radar/Data/HD_Radar"
-    driver.get('http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js', verify=False)
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\,'+slfindList+'\s*\.png\s*', re.I)
-
-    # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
-    # re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
+    tag = r'/V7/observe/radar/Data/HD_Radar/CV1_1000_\d{12}.png'
+    quote_page = 'https://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js'
+    res = requests.get(quote_page)
+    soup = BeautifulSoup(res.text, "lxml")
 
     match = []
-    for article in soup:
-        title = article.string
+    for drink in soup.select('{}'.format(tag)):
+        print(">>>>>>drink.get_text()="+drink.get_text())        
+        title = drink.get_text()
         print(">>>>>>title="+title)
-
-        if re_gs_title.match(title) != None:
-            link = 'https://www.cwb.gov.tw' + title
-            match.append({'title':title, 'link':link })
+       
+        link = 'https://www.cwb.gov.tw' + title
+        match.append({'title':title, 'link':link })
 
     if len(match) > 0:            
         for article in match:
             print(">>>>>>New Article: {} {}".format(article['title'], article['link']))
-            url +="{}\n".format(article['link'])
+            url ="{}".format(article['link'])
 
 
-    print("Action finRadarUrl_END")
+    print("Action finRadarUrl_END:"+url)
 
     return url
 

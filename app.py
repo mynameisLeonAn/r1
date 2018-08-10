@@ -127,15 +127,13 @@ def confirmMessage(event):
             )
             line_bot_api.reply_message(event.reply_token, buttons_template)
         else:
-            sReturn = "查無結果"
-        
+            sReturn = "查無結果"   
     elif  sConfirmText.find("ptt_beauty") >= 0 :
         sReturn = ptt_beauty()
         if len(sReturn) > 0:
             pass
         else:
             sReturn = "查無結果"
-
     elif  sConfirmText.find("ptt_gossiping") >= 0 :
         sReturn = ptt_gossiping()
         if len(sReturn) > 0:
@@ -147,9 +145,7 @@ def confirmMessage(event):
         if len(sReturn) > 0:
             pass
         else:
-            sReturn = "查無結果"
-
-            
+            sReturn = "查無結果"           
     elif  sConfirmText.find("help") >= 0:
         print("help")
         helpMessage(event)
