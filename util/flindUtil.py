@@ -196,6 +196,7 @@ def finRadarUrl(event):
     quote_page = 'http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js'
     res = requests.get(quote_page)
     soup = BeautifulSoup(res.text, 'html.parser')
+    print(">>>>soup.get_text()="+soup.get_text())
 
     match = []
     for drink in soup.find_all(tag):
