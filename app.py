@@ -164,7 +164,7 @@ def helpMessage(event):
     print("Buttons Template")       
 
     button_template_message =ButtonsTemplate(
-        thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+        thumbnail_image_url='https://78.media.tumblr.com/db842ec7c5045aabd3e916b4a8ca62f3/tumblr_p3wi0oWzTv1qg53joo1_500.gif',
         title='Menu', 
         text="LIN_BOT功能",
         image_size="cover",
@@ -209,7 +209,7 @@ def helpMessage_H(event):
     button_template_message =ButtonsTemplate(
         thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
         title='Menu', 
-        text="LIN_BOT功能",
+        text="LIN_BOT功能(裏)",
         image_size="cover",
         actions=[
             PostbackTemplateAction(
