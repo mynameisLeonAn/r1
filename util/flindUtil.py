@@ -184,35 +184,15 @@ def get_page_number(content):
 def finRadarUrl(event):
     url = ""
     print("Action finRadarUrl")
-    # # Chrome
-    # options = Options()
-    # options.binary_location = '/app/.apt/usr/bin/google-chrome'
-    # options.add_argument('--headless')
-    # options.add_argument('--disable-gpu')
-    # options.add_argument('--no-sandbox')
-    # driver = webdriver.Chrome(chrome_options=options)
 
-    tag = re.compile(r'/V7/observe/radar/Data/HD_Radar/CV1_1000_\d{12}.png')
     quote_page = 'http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js'
     res = requests.get(quote_page)
     soup = BeautifulSoup(res.text, 'html.parser')
-    print(">>>>soup.get_text()="+soup.get_text())
 
-    match = []
-    for drink in soup.select('{}'.format(tag)):
-        print(">>>>>>drink.get_text()="+drink.get_text())        
-        title = drink.get_text()
-        print(">>>>>>title="+title)
-       
-        link = 'https://www.cwb.gov.tw' + title
-        match.append({'title':title, 'link':link })
+    slfindList = soup.get_text().replace(";","").replace(":","").replace("\"","").replace("(","").replace(")","").split(",")
 
-    print(">>>>match="+match)
-    if len(match) > 0:            
-        for article in match:
-            print(">>>>>>New Article: {} {}".format(article['title'], article['link']))
-            url ="{}".format(article['link'])
-
+    title =  slfindList[len(slfindList)]
+    url = 'https://www.cwb.gov.tw' + title
 
     print("Action finRadarUrl_END:"+url)
 
