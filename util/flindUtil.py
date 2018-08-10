@@ -191,8 +191,11 @@ def finRadarUrl(event):
 
     slfindList = soup.get_text().replace(";","").replace(":","").replace("\"","").replace("(","").replace(")","").split(",")
 
-    title =  slfindList[len(slfindList)]
-    url = 'https://www.cwb.gov.tw' + title
+    # title =  slfindList[len(slfindList)]
+    # url = 'https://www.cwb.gov.tw' + title
+
+    for i in range(0,len(slfindList),1):
+        url = 'https://www.cwb.gov.tw' +slfindList[i]
 
     print("Action finRadarUrl_END:"+url)
 
