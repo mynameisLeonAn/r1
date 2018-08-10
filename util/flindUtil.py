@@ -198,7 +198,7 @@ def finRadarUrl(event):
     soup = BeautifulSoup(res.text, 'html.parser')
 
     match = []
-    for drink in soup.select('{}'.format(tag)):
+    for drink in soup.find_all(tag):
         print(">>>>>>drink.get_text()="+drink.get_text())        
         title = drink.get_text()
         print(">>>>>>title="+title)
