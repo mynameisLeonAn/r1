@@ -145,7 +145,10 @@ def confirmMessage(event):
         if len(sReturn) > 0:
             pass
         else:
-            sReturn = "查無結果"           
+            sReturn = "查無結果"
+    elif  sConfirmText.find("H_help") >= 0:
+        print("H_help")
+        helpMessage_H(event)
     elif  sConfirmText.find("help") >= 0:
         print("help")
         helpMessage(event)
@@ -200,7 +203,40 @@ def helpMessage(event):
         )
     )
 
-    
+def helpMessage_H(event):    
+    print("Buttons Template")       
+
+    button_template_message =ButtonsTemplate(
+        thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+        title='Menu', 
+        text="LIN_BOT功能",
+        image_size="cover",
+        actions=[
+            PostbackTemplateAction(
+                label='ptt_beauty', 
+                text='ptt_beauty',
+                data='action=buy&itemid=1'
+            ),
+            PostbackTemplateAction(
+                label='ptt_gossiping', 
+                text='ptt_gossiping',
+                data='action=buy&itemid=1'
+            ),
+            PostbackTemplateAction(
+                label='ptt_AC_In', 
+                text='ptt_AC_In',
+                data='action=buy&itemid=1'
+            ),
+        ]
+    )
+                        
+    line_bot_api.reply_message(
+        event.reply_token,
+        TemplateSendMessage(
+            alt_text="Template Example",
+            template=button_template_message
+        )
+    )    
 
 def switch():
     iRandom = random.sample(list4, 1)[0]
