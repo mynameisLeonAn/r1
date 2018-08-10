@@ -192,14 +192,14 @@ def finRadarUrl(event):
     # options.add_argument('--no-sandbox')
     # driver = webdriver.Chrome(chrome_options=options)
 
-    tag = r'/V7/observe/radar/Data/HD_Radar/CV1_1000_\d{12}.png'
+    tag = re.compile(r'/V7/observe/radar/Data/HD_Radar/CV1_1000_\d{12}.png')
     quote_page = 'http://www.cwb.gov.tw/V7/js/HDRadar_1000_n_val.js'
     res = requests.get(quote_page)
     soup = BeautifulSoup(res.text, 'html.parser')
     print(">>>>soup.get_text()="+soup.get_text())
 
     match = []
-    for drink in soup.find_all(tag):
+    for drink in soup.select('{}'.format(tag)):
         print(">>>>>>drink.get_text()="+drink.get_text())        
         title = drink.get_text()
         print(">>>>>>title="+title)
@@ -207,6 +207,7 @@ def finRadarUrl(event):
         link = 'https://www.cwb.gov.tw' + title
         match.append({'title':title, 'link':link })
 
+    print(">>>>match="+match)
     if len(match) > 0:            
         for article in match:
             print(">>>>>>New Article: {} {}".format(article['title'], article['link']))
