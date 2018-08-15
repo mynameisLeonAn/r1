@@ -27,7 +27,7 @@ import datetime
 # import lineUtil
 from util.flindUtil import (movie,findPTT)
 from util.flindUtil import finRadarUrl
-from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In
+from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find
 # ================================
 
 import random
@@ -265,67 +265,28 @@ def notification(title, link):
     return True
 
 
+import os
+from apscheduler.schedulers.blocking import BlockingScheduler
+sched = BlockingScheduler()
+@sched.scheduled_job('interval', minutes=30) #定期執行，每60分鐘執行一次
+def cr():
+    print('do crawler') #運行時打印出此行訊息
+    sReturn = ptt_AC_In()
+    if len(sReturn) > 0:
+        pass
+    else:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
+        sReturn = "{}--查無結果".format(now)
 
-def scheduled_job():
-    print("Action scheduled_job")
-    # Chrome
-    options = Options()
-    options.binary_location = '/app/.apt/usr/bin/google-chrome'
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(chrome_options=options)
 
-    # driver.get('https://www.ptt.cc/bbs/Gamesale/index.html')
-    # re_gs_title = re.compile(r'\[PS4\s*\]\s*售.*pro.*', re.I)
-    # re_gs_id = re.compile(r'.*\/Gamesale\/M\.(\S+)\.html')
-
-    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format("TypeMoon"))
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    re_gs_title = re.compile(r'\[日GO\s*\]\s*', re.I)
-    re_gs_id = re.compile(r'.*\/TypeMoon\/M\.(\S+)\.html')
-
-    match = []
-    for article in soup.select('.r-list-container .r-ent .title a'):
-        title = article.string
-        if re_gs_title.match(title) != None:
-            link = 'https://www.ptt.cc' + article.get('href')
-            article_id = re_gs_id.match(link).group(1)
-            match.append({'title':title, 'link':link, 'id':article_id})
-
-    if len(match) > 0:
-        with open('data/history/gamesale.json', 'r+') as file:
-            print (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'open')
-
-            history = json.load(file)
-            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
-            new_flag = False
-            for article in match:
-                if article['id'] in history:
-                    continue
-                new_flag = True
-                history.append(article['id'])
-
-                print("{}: New Article: {} {}".format(now, article['title'], article['link']))
-                notification(article['title'], article['link'])
-                
-            if new_flag == True:
-                file.seek(0)
-                file.truncate()
-                file.write(json.dumps(history))
-            else:
-                print("{}: Nothing".format(now))
-
-    print("Action scheduled_job_END")
-
-    return True
+    #push message to one user
+    line_bot_api.push_message(
+        to_myuserid,
+        TextSendMessage(text=sReturn))
+ 
+sched.start()
 
 import os
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
 
-
-# Job
-sched = BlockingScheduler()
-sched.add_job(func=scheduled_job, trigger='cron', second='*/3000')
-sched.start()
