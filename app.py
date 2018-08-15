@@ -268,10 +268,10 @@ def notification(title, link):
 import os
 from apscheduler.schedulers.blocking import BlockingScheduler
 sched = BlockingScheduler()
-@sched.scheduled_job('interval', minutes=30) #定期執行，每60分鐘執行一次
+@sched.scheduled_job('interval', minutes=60) #定期執行，每60分鐘執行一次
 def cr():
     print('do crawler') #運行時打印出此行訊息
-    sReturn = ptt_AC_In()
+    sReturn = ptt_find("FGO")
     if len(sReturn) > 0:
         pass
     else:
@@ -284,9 +284,10 @@ def cr():
         to_myuserid,
         TextSendMessage(text=sReturn))
  
-sched.start()
 
-import os
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
 
+sched.start()
