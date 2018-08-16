@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import time
 import urllib3
 
+
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -72,13 +73,7 @@ def findPTT(event):
                 index = index_list.pop(0)
                 driver.get(index, verify=False)
                 soup2 = BeautifulSoup(driver.page_source, "html.parser")
-                
-                # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
-                if driver.status_code != 200:
-                    time.sleep(1)
-                else:
-                    time.sleep(0.05)
-                
+                                
                 for article in soup2.select('.r-list-container .r-ent .title a'):
                     title = article.string
                     if re_gs_title.match(title) != None:
@@ -376,20 +371,44 @@ def ptt_find(sfind):
         # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
         if res.status_code != 200:
             index_list.append(index)
-            # print u'error_URL:',index
-            # time.sleep(1)
+
         else:
             article_gossiping = crawl_page_gossiping(res)
-            # print u'OK_URL:', index
-            # time.sleep(0.05)
-    content = ''
-    for index, article in enumerate(article_gossiping, 0):
-        if index == 15:
-            return content
-        data = '{}\n{}\n'.format(article.get('title', None), article.get('url_link', None))
-        content += data
-    return content
 
+    content = ''
+
+    if len(article_gossiping) > 0:
+        with open('data/history/gamesale.json', 'r+') as file:
+            history = json.load(file)
+
+            now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
+            new_flag = False
+            for index, article in enumerate(article_gossiping, 0):
+                key = "{}".format(article['url_link'])
+                if key in history:
+                    continue
+
+                if index == 15:
+                    return content
+
+                new_flag = True
+                history.append(key)
+
+                data = '{}\n{}\n'.format(article.get('title', None), article.get('url_link', None))
+                content += data
+                print("{}: New Article: {} {}".format(now, article['title'], article['url_link']))
+
+                print("{}: New_flag:{} ".format(now,new_flag))
+                if new_flag == True:
+                    file.seek(0)
+                    file.truncate()
+                    file.write(json.dumps(history))
+                    
+                else:
+                    print("{}: Nothing".format(now))
+
+
+    return content
 
 def crawl_page_gossiping(res):
     soup = BeautifulSoup(res.text, 'html.parser')

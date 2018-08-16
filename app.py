@@ -249,42 +249,44 @@ def switch():
         4 :">>>>今天吃八方",
     }.get(iRandom,">>>>今天吃XXX")
 
-def notification(title, link):
-    # with open('data/notify_list.json', 'r') as file:
-    #     notify_list = json.load(file)
-    # if len(notify_list) == 0:
-    #     return False
-    
-    content = "{}\n{}".format(title, link)
-    #push message to one user
-    line_bot_api.push_message(
-        to_myuserid,
-        TextSendMessage(text=content))
-
-    # line_bot_api.multicast(to_myuserid, TextSendMessage(text=content))
-    return True
-
 
 import os
 from apscheduler.schedulers.blocking import BlockingScheduler
 sched = BlockingScheduler()
-@sched.scheduled_job('interval', minutes=60) #定期執行，每60分鐘執行一次
-def cr():
-    print('do crawler') #運行時打印出此行訊息
-    sReturn = ptt_find("FGO")
+@sched.scheduled_job('interval', minutes=20) #定期執行，每X分鐘執行一次
+def job_GBF():
+    print('Start job_GBF') #運行時打印出此行訊息
+    sReturn = ptt_find("GBF")
+    if len(sReturn) > 0:
+        pass
+    else:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
+        sReturn = "{}--查無結果".format(now)
+    
+    #push message to one user
+    line_bot_api.push_message(
+        to_myuserid,
+        TextSendMessage(text=sReturn))
+
+
+    print('END job_GBF:')#運行時打印出此行訊息
+
+@sched.scheduled_job('interval', minutes=10) #定期執行，每X分鐘執行一次
+def job_TypeMoon():
+    print('Start job_TypeMoon') #運行時打印出此行訊息
+    sReturn = ptt_find("TypeMoon")
     if len(sReturn) > 0:
         pass
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
         sReturn = "{}--查無結果".format(now)
 
+    print('END job_TypeMoon:')#運行時打印出此行訊息
 
     #push message to one user
     line_bot_api.push_message(
         to_myuserid,
         TextSendMessage(text=sReturn))
- 
-
 
 
 if __name__ == "__main__":
