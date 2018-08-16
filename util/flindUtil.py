@@ -378,7 +378,7 @@ def ptt_find(sfind):
     content = ''
 
     if len(article_gossiping) > 0:
-        with open('data/history/gamesale.json', 'r+') as file:
+        with open('data/history/jobUniqueHistory.json', 'r+') as file:
             history = json.load(file)
 
             now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       

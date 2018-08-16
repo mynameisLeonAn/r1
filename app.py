@@ -48,7 +48,8 @@ line_bot_api = LineBotApi('kKnqWh2H18SIBXfwovAY5ScSfsH9fOOTxVAHkV/IRBkHi+kg+j5lJ
 handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 
 #User ID
-to_myuserid='Ud0d8235b4696d1cab3da6b1e46f39598'
+to_myuserid = 'Ud0d8235b4696d1cab3da6b1e46f39598'
+
 
 
 
@@ -250,7 +251,6 @@ def switch():
     }.get(iRandom,">>>>今天吃XXX")
 
 
-import os
 from apscheduler.schedulers.blocking import BlockingScheduler
 sched = BlockingScheduler()
 @sched.scheduled_job('interval', minutes=20) #定期執行，每X分鐘執行一次
@@ -283,6 +283,9 @@ def job_TypeMoon():
 
     print('END job_TypeMoon:')#運行時打印出此行訊息
 
+    
+    # Channel access token
+    line_bot_api = LineBotApi("mTwL/HAGwWalJsXrpKZpbCFNWJBDOm6pt1ib7v/rXqdT/8dfw3J9fgqOffmVax7QAxHfOlpdEIRAj2ePUtD9X4S2FG0bapg1jWvFRQ9GzFzFkrs0sU3yhX/+rhTgnAypsze6TKJgumTLM25AHRByjAdB04t89/1O/w1cDnyilFU=")
     #push message to one user
     line_bot_api.push_message(
         to_myuserid,
