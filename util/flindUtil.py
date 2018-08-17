@@ -53,7 +53,7 @@ def findPTT(event):
         print("slfindList[0]="+slfindList[0])
         print("slfindList[1]="+slfindList[1])
         try:
-            driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]), verify=False)
+            driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
             # soup = BeautifulSoup(driver.page_source, "html.parser")
             soup = over18(slfindList[0])
             re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
@@ -113,7 +113,7 @@ def findPTT2Page(driver,slfindList,sfind):
 
     # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
     re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
-    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]), verify=False)
+    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
     soup = over18(slfindList[0])
 
     page_term = 2  # crawler count
