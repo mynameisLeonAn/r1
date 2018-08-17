@@ -29,18 +29,5 @@ def job_TypeMoon():
         sReturn = "{}--查無結果".format(now)
 
     print('END job_TypeMoon:')#運行時打印出此行訊息
-
-
-@sched.scheduled_job('interval', minutes=0.2) #定期執行，每X分鐘執行一次
-def job_findPTT():
-    print('Start job_TypeMoon') #運行時打印出此行訊息
-    sReturn = findPTT("TypeMoon")
-    if len(sReturn) > 0:
-        pass
-    else:
-        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
-        sReturn = "{}--查無結果".format(now)
-
-    print('END job_TypeMoon:')#運行時打印出此行訊息
  
 sched.start()
