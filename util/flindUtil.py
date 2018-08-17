@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 import time
 import urllib3
 
-
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -27,7 +26,6 @@ def movie(event):
         link = "http://www.atmovies.com.tw" + data['href']
         content += '{}\n{}\n'.format(title, link)
     return content
-
 
 def findPTT(event):
     print("Action findPTT")
@@ -164,8 +162,6 @@ def get_page_number(content):
     end_index = content.find('.html')
     page_number = content[start_index + 5: end_index]
     return int(page_number) + 1
-
-
 
 def finRadarUrl(event):
     url = ""
