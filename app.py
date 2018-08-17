@@ -112,7 +112,8 @@ def confirmMessage(event):
         sReturn = switch()
     elif  sConfirmText.find("找PTT") >= 0 and sConfirmText.find("不找PTT") == -1:
         print("找PTT")
-        sReturn = findPTT(event)
+        sfind = event.message.text
+        sReturn = findPTT(sfind)
     elif  sConfirmText.find("找推圖") >= 0 and sConfirmText.find("不找推圖") == -1:
         buttons_template = VideoSendMessage(
             original_content_url="https://r2---sn-ipoxu-un5z.googlevideo.com/videoplayback?id=o-AOytmnkLGEmQgZIK9dVXD2xXwK7eNo33O8df0fU7Td6y&ei=7dosW7T9GpjdNonOjIAF&pl=21&ipbits=0&ip=107.178.194.15&ratebypass=yes&dur=258.670&c=WEB&lmt=1528903208423955&source=youtube&clen=9673166&expire=1529687885&key=cms1&mime=video%2Fmp4&gir=yes&requiressl=yes&fexp=23709359&sparams=clen,dur,ei,expire,gir,id,ip,ipbits,itag,lmt,mime,mip,mm,mn,ms,mv,pcm2cms,pl,ratebypass,requiressl,source&signature=20E47DEDD0606C2CA4B36E5DC1A3E572589DDACF.2EA5096770EDBF7FFE337DF8070B383520A01DEF&itag=18&utmg=ytap1&title=(Tubidy.io)%E3%80%90Fate-Grand+Order%E3%80%91%E3%80%8E%E3%81%90%E3%81%A0%E3%81%90%E3%81%A0%E5%B8%9D%E9%83%BD%E8%81%96%E6%9D%AF%E5%A5%87%E8%AD%9A%E3%80%8F%E3%83%86%E3%83%BC%E3%83%9E%E6%9B%B2%E3%80%8C%E4%BA%8C%E8%80%85%E7%A9%BF%E4%B8%80%E3%80%8D+by+%E5%85%AD%E8%8A%B1&cms_redirect=yes&mip=60.250.154.133&mm=31&mn=sn-ipoxu-un5z&ms=au&mt=1529666370&mv=m&pcm2cms=yes"

@@ -27,7 +27,7 @@ def movie(event):
         content += '{}\n{}\n'.format(title, link)
     return content
 
-def findPTT(event):
+def findPTT(sfind):
     print("Action findPTT")
     # Chrome
     options = Options()
@@ -50,73 +50,17 @@ def findPTT(event):
     else:
         print("slfindList[0]="+slfindList[0])
         print("slfindList[1]="+slfindList[1])
-        try:
-            driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
-            soup = BeautifulSoup(driver.page_source, "html.parser")
-            re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
-            re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
-
-            match = []
-
-            page_term = 2  # crawler count
-            all_page_url = soup.select('.btn.wide')[1]['href']
-            start_page = get_page_number(all_page_url)
-            index_list = []
-            for page in range(start_page, start_page - page_term, -1):
-                page_url = 'https://www.ptt.cc/bbs/{}/index{}.html'.format(slfindList[0], page)
-                index_list.append(page_url)
-
-            while index_list:
-                index = index_list.pop(0)
-                driver.get(index)
-                soup2 = BeautifulSoup(driver.page_source, "html.parser")
-
-            for article in soup2.select('.r-list-container .r-ent .title a'):
-                title = article.string
-                if re_gs_title.match(title) != None:
-                    link = 'https://www.ptt.cc' + article.get('href')
-                    article_id = re_gs_id.match(link).group(1)
-                    match.append({'title':title, 'link':link, 'id':article_id})
-
-            if len(match) > 0:
-                now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
-                    
-                for article in match:
-                    ilen = len(sNotificationMulticast)+len(article['title'])*3+len(article['link'])
-                    # Line only 0~2000
-                    if ilen < 2000:
-                        print(">>>>>>{}: New Article: {} {}".format(ilen, article['title'], article['link']))
-                        sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
-
-                sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-            else:
-                sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-            if len(match) > 0:
-                sMessgge = sNotificationMulticast                
-        except :
-            sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-    print("Action findPTT_END")
-
-    return sMessgge
-
-def findPTT2Page(driver,slfindList,sfind):
-    print("Action findPTT2Page")
-    print("slfindList[0]="+slfindList[0])
-    sNotificationMulticast = ""
-    match = []
-
-    try:
-        # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
-        re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
+        # try:
         driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
         soup = BeautifulSoup(driver.page_source, "html.parser")
+        re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
+        re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
 
+        match = []
+
+        page_term = 2  # crawler count
         all_page_url = soup.select('.btn.wide')[1]['href']
         start_page = get_page_number(all_page_url)
-        page_term = 2  # crawler count
-        
         index_list = []
         for page in range(start_page, start_page - page_term, -1):
             page_url = 'https://www.ptt.cc/bbs/{}/index{}.html'.format(slfindList[0], page)
@@ -127,9 +71,9 @@ def findPTT2Page(driver,slfindList,sfind):
             driver.get(index)
             soup2 = BeautifulSoup(driver.page_source, "html.parser")
 
-            for article in soup2.select('.r-list-container .r-ent .title a'):
-                title = article.string
-                # if re_gs_title.match(title) != None:
+        for article in soup2.select('.r-list-container .r-ent .title a'):
+            title = article.string
+            if re_gs_title.match(title) != None:
                 link = 'https://www.ptt.cc' + article.get('href')
                 article_id = re_gs_id.match(link).group(1)
                 match.append({'title':title, 'link':link, 'id':article_id})
@@ -144,14 +88,70 @@ def findPTT2Page(driver,slfindList,sfind):
                     print(">>>>>>{}: New Article: {} {}".format(ilen, article['title'], article['link']))
                     sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
 
-                sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-            else:
-                sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        else:
+            sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
         if len(match) > 0:
             sMessgge = sNotificationMulticast
-    except :
-        sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        # except :
+        #     sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    print("Action findPTT_END")
+
+    return sMessgge
+
+def findPTT2Page(driver,slfindList,sfind):
+    print("Action findPTT2Page")
+    print("slfindList[0]="+slfindList[0])
+    sNotificationMulticast = ""
+    match = []
+
+    # try:
+    # re_gs_title = re.compile(r'\['+slfindList[1]+'\s*\]\s*', re.I)
+    re_gs_id = re.compile(r'.*\/'+slfindList[0]+'\/M\.(\S+)\.html')
+    driver.get('https://www.ptt.cc/bbs/{}/index.html'.format(slfindList[0]))
+    soup = BeautifulSoup(driver.page_source, "html.parser")
+
+    all_page_url = soup.select('.btn.wide')[1]['href']
+    start_page = get_page_number(all_page_url)
+    page_term = 2  # crawler count
+    
+    index_list = []
+    for page in range(start_page, start_page - page_term, -1):
+        page_url = 'https://www.ptt.cc/bbs/{}/index{}.html'.format(slfindList[0], page)
+        index_list.append(page_url)
+
+    while index_list:
+        index = index_list.pop(0)
+        driver.get(index)
+        soup2 = BeautifulSoup(driver.page_source, "html.parser")
+
+        for article in soup2.select('.r-list-container .r-ent .title a'):
+            title = article.string
+            # if re_gs_title.match(title) != None:
+            link = 'https://www.ptt.cc' + article.get('href')
+            article_id = re_gs_id.match(link).group(1)
+            match.append({'title':title, 'link':link, 'id':article_id})
+
+    if len(match) > 0:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')       
+            
+        for article in match:
+            ilen = len(sNotificationMulticast)+len(article['title'])*3+len(article['link'])
+            # Line only 0~2000
+            if ilen < 2000:
+                print(">>>>>>{}: New Article: {} {}".format(ilen, article['title'], article['link']))
+                sNotificationMulticast +="{}\n{}\n".format(article['title'], article['link'])
+
+            sMessgge = "{},查成功:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        else:
+            sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    if len(match) > 0:
+        sMessgge = sNotificationMulticast
+    # except :
+    #     sMessgge = "{},查無結果:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     print("Action findPTT2Page_END")
 
