@@ -288,10 +288,11 @@ def job_TypeMoon():
 
     print('END job_TypeMoon:'+sReturn)#運行時打印出此行訊息
 
-sched.start()#JOB_Start
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
+    sched.start()#JOB_Start
 
 
 
