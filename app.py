@@ -44,15 +44,15 @@ app = Flask(__name__)
 # 填入你的 message api 資訊
 # Channel access token
 line_bot_api = LineBotApi('kKnqWh2H18SIBXfwovAY5ScSfsH9fOOTxVAHkV/IRBkHi+kg+j5lJUKmnbMrcHQKdqnESugkPYahGCUXFOOC9cUWW0uUZgGSifYDeygynCdaZE7ABXgLfJ2kRKLyJeGujLVag6Df61W5pHQsPLYKxwdB04t89/1O/w1cDnyilFU=')
-line_bot_api_DaDa = LineBotApi("mTwL/HAGwWalJsXrpKZpbCFNWJBDOm6pt1ib7v/rXqdT/8dfw3J9fgqOffmVax7QAxHfOlpdEIRAj2ePUtD9X4S2FG0bapg1jWvFRQ9GzFzFkrs0sU3yhX/+rhTgnAypsze6TKJgumTLM25AHRByjAdB04t89/1O/w1cDnyilFU=")
+line_bot_api_DaDa = LineBotApi("v1YYwUstufLWX5Je5OZnWT8TzcZzQ2Z39mgYH1gzimok4sBeyZc4wwT0lzy/q2gErYI/FF6oZGTzuea2gUEat+CQPHbfZCm5R4xBSsbccQY4zpi/PALPAkb8Jq3uCwpupdyNqCV/2b27LT8yaUsRggdB04t89/1O/w1cDnyilFU=")
 
 # Channel secret
 handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
-handler_DaDa = WebhookHandler('393db2f764c38a5f9d4634af4f671c48')
+handler_DaDa = WebhookHandler('d3e36c72e58b378c175f3a0eccb8d9d8')
 
 #User ID
 to_myuserid = 'Ud0d8235b4696d1cab3da6b1e46f39598'
-
+to_myuserid_DaDa = 'Ud0d8235b4696d1cab3da6b1e46f39598'
 
 
 
@@ -99,7 +99,7 @@ def handle_message(event):
     print("push_message="+contentrd)
     #push message to one user
     line_bot_api_DaDa.push_message(
-        to_myuserid,
+        to_myuserid_DaDa,
         TextSendMessage(text=contentrd))
 
 def confirmMessage(event):
@@ -267,8 +267,8 @@ def job_GBF():
         sReturn = "{}--查無結果".format(now)
     
     #push message to one user
-    line_bot_api.push_message(
-        to_myuserid,
+    line_bot_api_DaDa.push_message(
+        to_myuserid_DaDa,
         TextSendMessage(text=sReturn))
 
 
@@ -289,7 +289,7 @@ def job_TypeMoon():
     
     #push message to one user
     line_bot_api_DaDa.push_message(
-        to_myuserid,
+        to_myuserid_DaDa,
         TextSendMessage(text=sReturn))
 
 
