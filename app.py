@@ -100,7 +100,7 @@ def handle_message(event):
     #push message to one user
     line_bot_api_DaDa.push_message(
         to_myuserid_DaDa,
-        TextSendMessage(text=contentrd))
+        TextSendMessage(text=contentrd[:2000]))
 
 def confirmMessage(event):
     sReturn = ""
