@@ -27,7 +27,7 @@ def movie(event):
         content += '{}\n{}\n'.format(title, link)
     return content
 
-def findPTT(sfind):
+def findPTT(event):
     print("Action findPTT")
     # Chrome
     options = Options()
