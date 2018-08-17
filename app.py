@@ -11,7 +11,7 @@ from linebot.models import (
     TemplateSendMessage,ButtonsTemplate,MessageTemplateAction,ImageSendMessage,
     PostbackTemplateAction
 )
-from linebot.models import *
+
 import os
 import re
 import json
@@ -261,39 +261,34 @@ def job_GBF():
     print('Start job_GBF') #運行時打印出此行訊息
     sReturn = ptt_find("GBF")
     if len(sReturn) > 0:
-        pass
+        #push message to one user
+        line_bot_api_DaDa.push_message(
+            to_myuserid_DaDa,
+            TextSendMessage(text=sReturn))
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
         sReturn = "{}--查無結果".format(now)
-    
-    #push message to one user
-    line_bot_api_DaDa.push_message(
-        to_myuserid_DaDa,
-        TextSendMessage(text=sReturn))
+
 
 
     print('END job_GBF:')#運行時打印出此行訊息
 
-@sched.scheduled_job('interval', minutes=10) #定期執行，每X分鐘執行一次
+@sched.scheduled_job('interval', minutes=15) #定期執行，每X分鐘執行一次
 def job_TypeMoon():
     print('Start job_TypeMoon') #運行時打印出此行訊息
     sReturn = ptt_find("TypeMoon")
     if len(sReturn) > 0:
-        pass
+        #push message to one user
+        line_bot_api_DaDa.push_message(
+            to_myuserid_DaDa,
+            TextSendMessage(text=sReturn))
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
         sReturn = "{}--查無結果".format(now)
 
-    print('END job_TypeMoon:')#運行時打印出此行訊息
+    print('END job_TypeMoon:'+sReturn)#運行時打印出此行訊息
 
-    
-    #push message to one user
-    line_bot_api_DaDa.push_message(
-        to_myuserid_DaDa,
-        TextSendMessage(text=sReturn))
-
-
-sched.start()
+sched.start()#JOB_Start
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
