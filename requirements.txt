@@ -3,3 +3,4 @@ flask
 beautifulsoup4
 selenium==3.8.0
 schedule==0.4.2
+apscheduler
