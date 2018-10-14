@@ -45,14 +45,18 @@ app = Flask(__name__)
 # Channel access token
 line_bot_api = LineBotApi('kKnqWh2H18SIBXfwovAY5ScSfsH9fOOTxVAHkV/IRBkHi+kg+j5lJUKmnbMrcHQKdqnESugkPYahGCUXFOOC9cUWW0uUZgGSifYDeygynCdaZE7ABXgLfJ2kRKLyJeGujLVag6Df61W5pHQsPLYKxwdB04t89/1O/w1cDnyilFU=')
 line_bot_api_DaDa = LineBotApi("v1YYwUstufLWX5Je5OZnWT8TzcZzQ2Z39mgYH1gzimok4sBeyZc4wwT0lzy/q2gErYI/FF6oZGTzuea2gUEat+CQPHbfZCm5R4xBSsbccQY4zpi/PALPAkb8Jq3uCwpupdyNqCV/2b27LT8yaUsRggdB04t89/1O/w1cDnyilFU=")
+line_bot_api_GoldCorridor = LineBotApi('QDCn1yqLXfHJeSHIv4g10XXRg8ygioKwROgP/Gv+thgHGMpMj3P0H8Y+uiJGFuP8RvOjtNb564z5N0zvW1JKK7hdKxtrFQvYfy77TcbNsA0Qyx+/l/iNu6yjgXo0Qh9o1G11mlln+SM2pK/D6/usngdB04t89/1O/w1cDnyilFU=')
+
 
 # Channel secret
 handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
 handler_DaDa = WebhookHandler('d3e36c72e58b378c175f3a0eccb8d9d8')
+handler_GoldCorridor = WebhookHandler('1b99633d9368a3455ab76d33ac443b7f')
 
 #User ID
 to_myuserid = 'Ud0d8235b4696d1cab3da6b1e46f39598'
 to_myuserid_DaDa = 'Ud0d8235b4696d1cab3da6b1e46f39598'
+
 
 
 

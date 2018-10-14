@@ -419,3 +419,38 @@ def crawl_page_gossiping(res):
             # print('本文已被刪除')
             print('delete', e)
     return article_gossiping_seq
+
+
+def getGoldCorridor():
+# 盤後交易限於網路銀行買賣黃金存摺。
+# 本表資料僅供參考，網路銀行實際交易價格以交易確認時顯示之價格為準。
+# 盤後交易時間為營業日(不含週六補上班日)下午4時至夜間8時。
+# 當國際黃金價格、外匯走勢或全球金融市場劇烈波動時，本行將隨之機動調整黃金牌價買賣價差。
+# 坊間以本行名義流傳招攬之黃金買賣交易，均與本行無涉，敬請民眾注意，切勿受騙。
+    content = ''
+
+    # 盤後交易黃金牌價
+    r = requests.get('https://rate.bot.com.tw/gold?Lang=zh-TW')
+
+    # 確認是否下載成功
+    if r.status_code == requests.codes.ok:
+    # 以 BeautifulSoup 解析 HTML 程式碼
+    soup = BeautifulSoup(r.text, 'html.parser')
+
+    # 以 CSS 的 class 抓出掛牌時間
+    stories = soup.find_all('div', class_='pull-left trailer text-info')
+    for s in stories:
+        # 掛牌時間
+        print(s.text)
+        content='{}\n'.format(s.text)
+               
+
+
+    stories = soup.find_all('div', class_='footable-row-detail-value')
+    for s in stories:
+        # 本行賣出1克/本行賣進1克
+        print(s.text)
+        content='{}\n'.format('本行賣出1克/本行賣進1克'+s.text)
+        
+return content
+       
