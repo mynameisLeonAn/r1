@@ -10,7 +10,7 @@ import urllib3
 from apscheduler.schedulers.blocking import BlockingScheduler
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from stringUtil import formatNum
+from util.stringUtil import formatNum
 
 def movie(event):
     target_url = 'http://www.atmovies.com.tw/movie/next/0/'
