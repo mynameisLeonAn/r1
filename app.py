@@ -299,19 +299,7 @@ def job_TypeMoon():
 
     print('END job_TypeMoon:'+sReturn)#運行時打印出此行訊息
 
-@sched.add_job('interval', 'cron', month='0',day='0, tue', hour='9,12,18')
-def job_GoldCorridor():
-    print('Start scheduled_job') #運行時打印出此行訊息
-    sReturn = getGoldCorridor()
-    if len(sReturn) > 0:
-        line_bot_api_GoldCorridor.push_message(
-            to_myuserid,
-            TextSendMessage(text=sReturn))
-    else:
-        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
-        sReturn = "{}--查無結果".format(now)
 
-    print('END scheduled_job:'+sReturn)#運行時打印出此行訊息
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
