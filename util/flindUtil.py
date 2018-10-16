@@ -423,11 +423,11 @@ def crawl_page_gossiping(res):
 
 
 def getGoldCorridor():
-# 盤後交易限於網路銀行買賣黃金存摺。
-# 本表資料僅供參考，網路銀行實際交易價格以交易確認時顯示之價格為準。
-# 盤後交易時間為營業日(不含週六補上班日)下午4時至夜間8時。
-# 當國際黃金價格、外匯走勢或全球金融市場劇烈波動時，本行將隨之機動調整黃金牌價買賣價差。
-# 坊間以本行名義流傳招攬之黃金買賣交易，均與本行無涉，敬請民眾注意，切勿受騙。
+    # 盤後交易限於網路銀行買賣黃金存摺。
+    # 本表資料僅供參考，網路銀行實際交易價格以交易確認時顯示之價格為準。
+    # 盤後交易時間為營業日(不含週六補上班日)下午4時至夜間8時。
+    # 當國際黃金價格、外匯走勢或全球金融市場劇烈波動時，本行將隨之機動調整黃金牌價買賣價差。
+    # 坊間以本行名義流傳招攬之黃金買賣交易，均與本行無涉，敬請民眾注意，切勿受騙。
     content = ""
 
     # 以 BeautifulSoup 解析 HTML 程式碼
@@ -440,10 +440,7 @@ def getGoldCorridor():
     for s in stories:
         # 掛牌時間
         print(s.text)
-        content='臺灣銀行Gold{}\n'.format(s.text)
-        content = content.lstrip()
-               
-
+        content='臺灣銀行Gold{}\n'.format(s.text.lstrip().rstrip())
 
     stories = soup.find_all('td', class_='text-right')
     i=0
@@ -452,9 +449,9 @@ def getGoldCorridor():
         print('({}) :{}'.format(i,s.text))
 
         if(i==0):
-            content += '{}\n'.format('賣出1克:'+formatNum(s.text))
+            content += '{}\n'.format('黃金存摺:賣出1克:'+formatNum(s.text))
         elif(i==1):
-            content += '{}\n'.format('賣進1克:'+formatNum(s.text))
+            content += '{}\n'.format('黃金存摺:賣進1克:'+formatNum(s.text))
         else:
             pass
 
