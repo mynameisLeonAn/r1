@@ -37,7 +37,7 @@ def job_TypeMoon():
 
     print('END job_TypeMoon:'+sReturn)#運行時打印出此行訊息
 
-@sched.scheduled_job('interval', minutes=0.1) #定期執行，每X分鐘執行一次
+@sched.scheduled_job('cron', hour='10,14,18')
 def job_GoldCorridor():
     print('Start scheduled_job') #運行時打印出此行訊息
     sReturn = getGoldCorridor()

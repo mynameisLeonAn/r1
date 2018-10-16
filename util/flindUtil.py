@@ -446,7 +446,7 @@ def getGoldCorridor():
     i=0
     for s in stories:
         # 本行賣出1克/本行賣進1克
-        print('({}) :{}'.format(i,s.text))
+        # print('({}) :{}'.format(i,s.text))
 
         if(i==0):
             content += '{}\n'.format('黃金存摺:賣出1克:'+formatNum(s.text))

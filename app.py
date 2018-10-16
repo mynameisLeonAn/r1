@@ -28,7 +28,6 @@ import datetime
 from util.flindUtil import movie,findPTT
 from util.flindUtil import finRadarUrl
 from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find,getGoldCorridor
-from util.stringUtil import formatNum
 # ================================
 
 import random
@@ -301,8 +300,53 @@ def job_TypeMoon():
 
 
 
+@sched.scheduled_job('cron', hour='10,14')
+def job_GoldCorridor():
+    print('Start scheduled_job') #運行時打印出此行訊息
+    sReturn = getGoldCorridor()
+    if len(sReturn) > 0:
+        line_bot_api_GoldCorridor.push_message(
+            to_myuserid,
+            TextSendMessage(text=sReturn))
+    else:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
+        sReturn = "{}--查無結果".format(now)
+
+    print('END scheduled_job:'+sReturn)#運行時打印出此行訊息
+
+@sched.scheduled_job('cron', hour='13,19' )
+def job_eat():
+    print('Start job_eat') #運行時打印出此行訊息
+    sReturn = '吃益生菌'
+    if len(sReturn) > 0:
+        line_bot_api_GoldCorridor.push_message(
+            to_myuserid,
+            TextSendMessage(text=sReturn))
+    else:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
+        sReturn = "{}--查無結果".format(now)
+
+    print('END job_eat:'+sReturn)#運行時打印出此行訊息
+
+@sched.scheduled_job('cron', hour='20' )
+def job_sport():
+    print('Start job_sport') #運行時打印出此行訊息
+    sReturn = '運動啦'
+    if len(sReturn) > 0:
+        line_bot_api_GoldCorridor.push_message(
+            to_myuserid,
+            TextSendMessage(text=sReturn))
+    else:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
+        sReturn = "{}--查無結果".format(now)
+
+    print('END job_sport:'+sReturn)#運行時打印出此行訊息
+
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
+    # app.run(host='localhost',port='8086')
     sched.start()#JOB_Start
 
 
