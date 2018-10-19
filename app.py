@@ -44,18 +44,16 @@ app = Flask(__name__)
 # 填入你的 message api 資訊
 # Channel access token
 line_bot_api = LineBotApi('kKnqWh2H18SIBXfwovAY5ScSfsH9fOOTxVAHkV/IRBkHi+kg+j5lJUKmnbMrcHQKdqnESugkPYahGCUXFOOC9cUWW0uUZgGSifYDeygynCdaZE7ABXgLfJ2kRKLyJeGujLVag6Df61W5pHQsPLYKxwdB04t89/1O/w1cDnyilFU=')
-line_bot_api_DaDa = LineBotApi("v1YYwUstufLWX5Je5OZnWT8TzcZzQ2Z39mgYH1gzimok4sBeyZc4wwT0lzy/q2gErYI/FF6oZGTzuea2gUEat+CQPHbfZCm5R4xBSsbccQY4zpi/PALPAkb8Jq3uCwpupdyNqCV/2b27LT8yaUsRggdB04t89/1O/w1cDnyilFU=")
-line_bot_api_GoldCorridor = LineBotApi('QDCn1yqLXfHJeSHIv4g10XXRg8ygioKwROgP/Gv+thgHGMpMj3P0H8Y+uiJGFuP8RvOjtNb564z5N0zvW1JKK7hdKxtrFQvYfy77TcbNsA0Qyx+/l/iNu6yjgXo0Qh9o1G11mlln+SM2pK/D6/usngdB04t89/1O/w1cDnyilFU=')
+line_bot_api_admin = LineBotApi("v1YYwUstufLWX5Je5OZnWT8TzcZzQ2Z39mgYH1gzimok4sBeyZc4wwT0lzy/q2gErYI/FF6oZGTzuea2gUEat+CQPHbfZCm5R4xBSsbccQY4zpi/PALPAkb8Jq3uCwpupdyNqCV/2b27LT8yaUsRggdB04t89/1O/w1cDnyilFU=")
 
 
 # Channel secret
 handler = WebhookHandler('fedfc3d7af2d1fd102ddf854fefd7141')
-handler_DaDa = WebhookHandler('d3e36c72e58b378c175f3a0eccb8d9d8')
-handler_GoldCorridor = WebhookHandler('1b99633d9368a3455ab76d33ac443b7f')
+handler_admin = WebhookHandler('d3e36c72e58b378c175f3a0eccb8d9d8')
 
 #User ID
 to_myuserid = 'Ud0d8235b4696d1cab3da6b1e46f39598'
-to_myuserid_DaDa = 'Ud0d8235b4696d1cab3da6b1e46f39598'
+to_myuserid_Jiyao = 'Uefce20814aa30bf4755923d5bc47b5b7'
 
 
 
@@ -96,15 +94,21 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
-   
-    userId = event.source.user_id
-    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.message.text,content)
 
+        #reply_token message to Admin
+        userId = event.source.user_id
+        contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.message.text,content)
+
+        pushToAdminContent(contentrd)
+
+def pushToAdminContent(contentrd):
     print("push_message="+contentrd)
     #push message to one user
-    line_bot_api_DaDa.push_message(
-        to_myuserid_DaDa,
+    line_bot_api_admin.push_message(
+        to_myuserid,
         TextSendMessage(text=contentrd[:2000]))
+        
+
 
 def confirmMessage(event):
     sReturn = ""
@@ -266,14 +270,14 @@ def switch():
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 sched = BlockingScheduler()
-@sched.scheduled_job('interval', minutes=20) #定期執行，每X分鐘執行一次
+@sched.scheduled_job('interval',minutes=55) #定期執行，每X分鐘執行一次
 def job_GBF():
     print('Start job_GBF') #運行時打印出此行訊息
     sReturn = ptt_find("GBF")
     if len(sReturn) > 0:
         #push message to one user
-        line_bot_api_DaDa.push_message(
-            to_myuserid_DaDa,
+        line_bot_api_admin.push_message(
+            to_myuserid,
             TextSendMessage(text=sReturn))
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
@@ -283,14 +287,14 @@ def job_GBF():
 
     print('END job_GBF:')#運行時打印出此行訊息
 
-@sched.scheduled_job('interval', minutes=15) #定期執行，每X分鐘執行一次
+@sched.scheduled_job('interval', minutes=50) #定期執行，每X分鐘執行一次
 def job_TypeMoon():
     print('Start job_TypeMoon') #運行時打印出此行訊息
     sReturn = ptt_find("TypeMoon")
     if len(sReturn) > 0:
         #push message to one user
-        line_bot_api_DaDa.push_message(
-            to_myuserid_DaDa,
+        line_bot_api_admin.push_message(
+            to_myuserid,
             TextSendMessage(text=sReturn))
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
@@ -300,54 +304,61 @@ def job_TypeMoon():
 
 
 
-@sched.scheduled_job('cron', hour='10,14')
+@sched.scheduled_job('cron',year='*',month ='*',day ='*',hour='10,14')
 def job_GoldCorridor():
     print('Start scheduled_job') #運行時打印出此行訊息
     sReturn = getGoldCorridor()
     if len(sReturn) > 0:
-        line_bot_api_GoldCorridor.push_message(
-            to_myuserid,
+        line_bot_api.push_message(
+            to_myuserid_Jiyao,
             TextSendMessage(text=sReturn))
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
         sReturn = "{}--查無結果".format(now)
 
+    contentrd = "LINE Bot傳給ID: {} ，\n訊息:{}".format(to_myuserid_Jiyao, sReturn)
+    pushToAdminContent(contentrd)#push to Admin
     print('END scheduled_job:'+sReturn)#運行時打印出此行訊息
 
-@sched.scheduled_job('cron', hour='13,19' )
+@sched.scheduled_job('cron',year='*',month ='*',day ='*', hour='13,19' )
 def job_eat():
     print('Start job_eat') #運行時打印出此行訊息
-    sReturn = '吃益生菌'
+    sReturn = '該吃益生菌喽~'
     if len(sReturn) > 0:
-        line_bot_api_GoldCorridor.push_message(
-            to_myuserid,
+        line_bot_api.push_message(
+            to_myuserid_Jiyao,
             TextSendMessage(text=sReturn))
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
         sReturn = "{}--查無結果".format(now)
 
+    contentrd = "LINE Bot傳給ID: {} ，\n訊息:{}".format(to_myuserid_Jiyao, sReturn)
+    pushToAdminContent(contentrd)#push to Admin
     print('END job_eat:'+sReturn)#運行時打印出此行訊息
 
-@sched.scheduled_job('cron', hour='20' )
+@sched.scheduled_job('cron',year='*',month ='*',day ='*', hour='20' )
 def job_sport():
     print('Start job_sport') #運行時打印出此行訊息
-    sReturn = '運動啦'
+    sReturn = '起來運動啦~!!'
     if len(sReturn) > 0:
-        line_bot_api_GoldCorridor.push_message(
-            to_myuserid,
+        line_bot_api.push_message(
+            to_myuserid_Jiyao,
             TextSendMessage(text=sReturn))
     else:
         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
         sReturn = "{}--查無結果".format(now)
 
+    contentrd = "LINE Bot傳給ID: {} ，\n訊息:{}".format(to_myuserid_Jiyao, sReturn)
+    pushToAdminContent(contentrd)#push to Admin
     print('END job_sport:'+sReturn)#運行時打印出此行訊息
 
 
 
 if __name__ == "__main__":
+    sched.start()#JOB_Start
     app.run(host='0.0.0.0',port=os.environ['PORT'])
     # app.run(host='localhost',port='8086')
-    sched.start()#JOB_Start
+    
 
 
 
