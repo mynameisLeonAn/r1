@@ -355,8 +355,9 @@ def job_sport():
 
 
 if __name__ == "__main__":
-    sched.start()#JOB_Start
+    
     app.run(host='0.0.0.0',port=os.environ['PORT'])
+    sched.start()#JOB_Start
     # app.run(host='localhost',port='8086')
     
 
