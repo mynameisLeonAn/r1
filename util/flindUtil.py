@@ -458,4 +458,56 @@ def getGoldCorridor():
         i=i+1
 
     return content
+
+
+def getRateCorridor():
+    content = ""
+    # 以 BeautifulSoup 解析 HTML 程式碼
+    rs = requests.session()
+    res = rs.get('https://rate.bot.com.tw/xrt?Lang=zh-TW', verify=False)
+    soup = BeautifulSoup(res.text, 'html.parser')
+
+    # 以 CSS 的 class 抓出掛牌時間
+    stories = soup.find_all('span', class_='time')
+    for s in stories:
+        # 掛牌時間
+        print(s.text)
+        content='匯率最新掛牌時間:{}\n'.format(s.text.lstrip().rstrip())
+
+    stories = soup.findChildren('tr')
+    i=0
+    for s in stories:
+        # 即期匯率 elif  sConfirmText.find("找推圖") >= 0
+        if(i==2):
+            inum=0
+            for slist in s.findChildren('td'):
+                if(inum==1):
+                    content += '{}'.format('美金-現金匯率\n 買入/賣出:'+formatNum(slist.text))
+                elif(inum==2):
+                    content += '{}\n'.format('/'+formatNum(slist.text))
+                elif(inum==3):
+                    content += '{}'.format('美金-即期匯率\n 買入/賣出:'+formatNum(slist.text))
+                elif(inum==4):
+                    content += '{}\n'.format('/'+formatNum(slist.text))
+                
+                inum=inum+1
+        elif(i==9):
+            inum=0
+            for slist in s.findChildren('td'):
+                if(inum==1):
+                    content += '{}'.format('日圓-現金匯率\n 買入/賣出:'+slist.text)
+                elif(inum==2):
+                    content += '{}\n'.format('/'+slist.text)
+                elif(inum==3):
+                    content += '{}'.format('日圓-即期匯率\n 買入/賣出:'+slist.text)
+                elif(inum==4):
+                    content += '{}\n'.format('/'+slist.text)
+                
+                inum=inum+1
+        else:
+            pass
+
+        i=i+1
+
+    return content
        
