@@ -460,54 +460,95 @@ def getGoldCorridor():
     return content
 
 
-def getRateCorridor():
+def getRateSwitch(sRateList,bChange):
+
+    if bChange :
+        sRateList=sRateList.replace('USD','美金')
+        sRateList=sRateList.replace('HKD','港幣')
+        sRateList=sRateList.replace('GBP','英鎊')
+        sRateList=sRateList.replace('AUD','澳幣')
+        sRateList=sRateList.replace('CAD','加拿大幣')
+        sRateList=sRateList.replace('SGD','新加坡幣')
+        sRateList=sRateList.replace('CHF','瑞士法郎')
+        sRateList=sRateList.replace('JPY','日圓')
+        sRateList=sRateList.replace('ZAR','南非幣')
+        sRateList=sRateList.replace('SEK','瑞典幣')
+        sRateList=sRateList.replace('NZD','紐元')
+        sRateList=sRateList.replace('THB','泰幣')
+        sRateList=sRateList.replace('PHP','菲國比索')
+        sRateList=sRateList.replace('IDR','印尼幣')
+        sRateList=sRateList.replace('EUR','歐元')
+        sRateList=sRateList.replace('KRW','韓元')
+        sRateList=sRateList.replace('VND','越南盾')
+        sRateList=sRateList.replace('MYR','馬來幣')
+        sRateList=sRateList.replace('CNY','人民幣')
+    else :
+        sRateList=sRateList.replace('美金','USD')
+        sRateList=sRateList.replace('港幣','HKD')
+        sRateList=sRateList.replace('英鎊','GBP')
+        sRateList=sRateList.replace('澳幣','AUD')
+        sRateList=sRateList.replace('加拿大幣','CAD')
+        sRateList=sRateList.replace('新加坡幣','SGD')
+        sRateList=sRateList.replace('瑞士法郎','CHF')
+        sRateList=sRateList.replace('日圓','JPY')
+        sRateList=sRateList.replace('南非幣','ZAR')
+        sRateList=sRateList.replace('瑞典幣','SEK')
+        sRateList=sRateList.replace('紐元','NZD')
+        sRateList=sRateList.replace('泰幣','THB')
+        sRateList=sRateList.replace('菲國比索','PHP')
+        sRateList=sRateList.replace('印尼幣','IDR')
+        sRateList=sRateList.replace('歐元','EUR')
+        sRateList=sRateList.replace('韓元','KRW')
+        sRateList=sRateList.replace('越南盾','VND')
+        sRateList=sRateList.replace('馬來幣','MYR')
+        sRateList=sRateList.replace('人民幣','CNY')
+
+    return sRateList
+
+def getRateCorridor(sfind):
     content = ""
-    # 以 BeautifulSoup 解析 HTML 程式碼
-    rs = requests.session()
-    res = rs.get('https://rate.bot.com.tw/xrt?Lang=zh-TW', verify=False)
-    soup = BeautifulSoup(res.text, 'html.parser')
+    sfind = getRateSwitch(sfind.lstrip().rstrip().replace(' ','').replace('getRateCorridor:',''),False)
+    slfindList = sfind.split("#@#")
 
-    # 以 CSS 的 class 抓出掛牌時間
-    stories = soup.find_all('span', class_='time')
-    for s in stories:
-        # 掛牌時間
-        print(s.text)
-        content='匯率最新掛牌時間:{}\n'.format(s.text.lstrip().rstrip())
+    if len(slfindList) < 1 :
+        content = "{},查詢格式有誤，請參閱Rich_help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    else:
+        # 以 BeautifulSoup 解析 HTML 程式碼
+        rs = requests.session()
+        res = rs.get('https://rate.bot.com.tw/xrt?Lang=zh-TW', verify=False)
+        soup = BeautifulSoup(res.text, 'html.parser')
 
-    stories = soup.findChildren('tr')
-    i=0
-    for s in stories:
-        # 即期匯率 elif  sConfirmText.find("找推圖") >= 0
-        if(i==2):
-            inum=0
-            for slist in s.findChildren('td'):
-                if(inum==1):
-                    content += '{}'.format('美金-現金匯率\n 買入/賣出:'+formatNum(slist.text))
-                elif(inum==2):
-                    content += '{}\n'.format('/'+formatNum(slist.text))
-                elif(inum==3):
-                    content += '{}'.format('美金-即期匯率\n 買入/賣出:'+formatNum(slist.text))
-                elif(inum==4):
-                    content += '{}\n'.format('/'+formatNum(slist.text))
-                
-                inum=inum+1
-        elif(i==9):
-            inum=0
-            for slist in s.findChildren('td'):
-                if(inum==1):
-                    content += '{}'.format('日圓-現金匯率\n 買入/賣出:'+slist.text)
-                elif(inum==2):
-                    content += '{}\n'.format('/'+slist.text)
-                elif(inum==3):
-                    content += '{}'.format('日圓-即期匯率\n 買入/賣出:'+slist.text)
-                elif(inum==4):
-                    content += '{}\n'.format('/'+slist.text)
-                
-                inum=inum+1
-        else:
-            pass
+        # 以 CSS 的 class 抓出掛牌時間
+        stories = soup.find_all('span', class_='time')
+        for s in stories:
+            # 掛牌時間
+            print(s.text)
+            content='匯率最新掛牌時間:{}\n'.format(s.text.lstrip().rstrip())
 
-        i=i+1
+        stories = soup.findChildren('tr')
+        i=0
+        for s in stories:
+            # 即期匯率 elif  sConfirmText.find("找推圖") >= 0
+            sRateText = s.text.lstrip().rstrip().replace(" ","")
 
-    return content
+            for sRateFind in slfindList:
+                if sRateText.find(sRateFind) >= 0 :
+                    inum=0
+                    for slist in s.findChildren('td'):
+                        if(inum==1):
+                            content += '{}{}'.format(sRateFind,'-現金匯率\n 買入/賣出:'+formatNum(slist.text))
+                        elif(inum==2):
+                            content += '{}\n'.format('/'+formatNum(slist.text))
+                        elif(inum==3):
+                            content += '{}{}'.format(sRateFind,'-即期匯率\n 買入/賣出:'+formatNum(slist.text))
+                        elif(inum==4):
+                            content += '{}\n'.format('/'+formatNum(slist.text))
+                        
+                        inum=inum+1
+                else:
+                    pass
+
+                i=i+1
+
+    return getRateSwitch(content,True)
        

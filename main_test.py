@@ -53,7 +53,7 @@ def job_GoldCorridor():
 @sched.scheduled_job('interval', minutes=0.1)
 def job_RateCorridor():
     print('Start job_RateCorridor') #運行時打印出此行訊息
-    sReturn = getRateCorridor()
+    sReturn = getRateCorridor('USD#@#JPY')
     if len(sReturn) > 0:
         pass
     else:

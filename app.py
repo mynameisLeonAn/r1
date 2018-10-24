@@ -27,7 +27,7 @@ import datetime
 # import lineUtil
 from util.flindUtil import movie,findPTT
 from util.flindUtil import finRadarUrl
-from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find,getGoldCorridor
+from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find,getGoldCorridor,getRateCorridor
 # ================================
 
 import random
@@ -164,6 +164,15 @@ def confirmMessage(event):
             pass
         else:
             sReturn = "查無結果"
+    elif  sConfirmText.find("getRateCorridor") >= 0 :
+        sReturn = getRateCorridor(event.message.text)
+        if len(sReturn) > 0:
+            pass
+        else:
+            sReturn = "查無結果"
+    elif  sConfirmText.find("Rich_help") >= 0:
+        print("helpRich")
+        helpRich(event)
     elif  sConfirmText.find("H_help") >= 0:
         print("H_help")
         helpMessage_H(event)
@@ -256,6 +265,39 @@ def helpMessage_H(event):
         )
     )    
 
+def helpRich(event):    
+    button_template_message =ButtonsTemplate(
+        thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+        title='Menu', 
+        text="Rich功能",
+        image_size="cover",
+        actions=[
+            PostbackTemplateAction(
+                label='臺銀黃金牌價', 
+                text='getGoldCorridor',
+                data='action=buy&itemid=1'
+            ),
+            PostbackTemplateAction(
+                label='臺銀美金匯率', 
+                text='getRateCorridor:美金',
+                data='action=buy&itemid=1'
+            ),
+            PostbackTemplateAction(
+                label='臺銀日圓匯率', 
+                text='getRateCorridor:日圓',
+                data='action=buy&itemid=1'
+            ),
+        ]
+    )
+                        
+    line_bot_api.reply_message(
+        event.reply_token,
+        TemplateSendMessage(
+            alt_text="Template Example",
+            template=button_template_message
+        )
+    )    
+
 def switch():
     iRandom = random.sample(list4, 1)[0]
     print("x={}".format(iRandom))
@@ -307,7 +349,8 @@ def job_TypeMoon():
 @sched.scheduled_job('cron',year='*',month ='*',day ='*',hour='10,14')
 def job_GoldCorridor():
     print('Start scheduled_job') #運行時打印出此行訊息
-    sReturn = getGoldCorridor()
+    sReturn = getGoldCorridor()+'\n'+getRateCorridor('USD#@#JPY')
+
     if len(sReturn) > 0:
         line_bot_api.push_message(
             to_myuserid_Jiyao,
