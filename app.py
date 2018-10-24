@@ -267,7 +267,7 @@ def helpMessage_H(event):
 
 def helpRich(event):    
     button_template_message =ButtonsTemplate(
-        thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+        thumbnail_image_url='https://media1.tenor.com/images/d076ed43f9ce9e26d71dcb74a7bd898f/tenor.gif?itemid=5071053',
         title='Menu', 
         text="Rich功能",
         image_size="cover",
