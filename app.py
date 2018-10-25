@@ -171,8 +171,11 @@ def confirmMessage(event):
         else:
             sReturn = "查無結果"
     elif  sConfirmText.find("Rich_help") >= 0:
-        print("helpRich")
+        print("Rich_help")
         helpRich(event)
+    elif  sConfirmText.find("Geek_help") >= 0:
+        print("Geek_help")
+        helpGeek(event)
     elif  sConfirmText.find("H_help") >= 0:
         print("H_help")
         helpMessage_H(event)
@@ -206,13 +209,13 @@ def helpMessage(event):
                 data='action=buy&itemid=1'
             ),
             PostbackTemplateAction(
-                label='找PTT TypeMoon 日GO', 
-                text='找PTT :TypeMoon>日GO',
+                label='找PTT 八卦版', 
+                text='ptt_gossiping',
                 data='action=buy&itemid=1'
             ),
             PostbackTemplateAction(
-                label='找PTT TypeMoon 兩頁', 
-                text='找PTT :TypeMoon',
+                label='找PTT Lifeismoney', 
+                text='找PTT :Lifeismoney',
                 data='action=buy&itemid=1'
             ),
             MessageTemplateAction(
@@ -264,6 +267,38 @@ def helpMessage_H(event):
             template=button_template_message
         )
     )    
+
+def helpGeek(event):    
+    button_template_message =ButtonsTemplate(
+        thumbnail_image_url='https://78.media.tumblr.com/82890f75107edef4fb5b4a4af6c2cd40/tumblr_oxq1209UsI1uzwbyjo1_540.gif',
+        title='Menu', 
+        text="Geek(專精宅)功能",
+        image_size="cover",
+        actions=[
+            PostbackTemplateAction(
+                label='ptt_西恰', 
+                text='找PTT :C_Chat',
+                data='action=buy&itemid=1'
+            ),
+            PostbackTemplateAction(
+                label='ptt_月型', 
+                text='找PTT :TypeMoon',
+                data='action=buy&itemid=1'
+            ),
+            PostbackTemplateAction(
+                label='ptt_GBF', 
+                text='找PTT :GBF',
+                data='action=buy&itemid=1'
+            ),
+        ]
+    )
+    line_bot_api.reply_message(
+        event.reply_token,
+        TemplateSendMessage(
+            alt_text="Template Example",
+            template=button_template_message
+        )
+    )   
 
 def helpRich(event):    
     button_template_message =ButtonsTemplate(
