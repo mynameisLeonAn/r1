@@ -27,7 +27,7 @@ import datetime
 # import lineUtil
 from util.flindUtil import movie,findPTT
 from util.flindUtil import finRadarUrl
-from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find,getGoldCorridor,getRateCorridor
+from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find,getGoldCorridor,getRateCorridor,getRateArrivalNotice
 # ================================
 
 import random
@@ -430,12 +430,27 @@ def job_sport():
     pushToAdminContent(contentrd)#push to Admin
     print('END job_sport:'+sReturn)#運行時打印出此行訊息
 
+@sched.scheduled_job('cron',year='*',month ='*',day ='*', hour='9,12,18' )
+def job_RateArrivalNotice():
+    print('Start RateArrivalNotice') #運行時打印出此行訊息
+    sReturn = getRateArrivalNotice('USD#@#JPY',"30.31#@#0.28","即期#@#現金")
+    if len(sReturn) > 0:
+        pass
+    else:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
+        sReturn = "{}--查無結果".format(now)
+
+    contentrd = "LINE Bot傳給ID: {} ，\n訊息:{}".format(to_myuserid_Jiyao, sReturn)
+    pushToAdminContent(contentrd)#push to Admin
+    print('END RateArrivalNotice:'+sReturn)#運行時打印出此行訊息
+    
+
 
 
 if __name__ == "__main__":
     
     app.run(host='0.0.0.0',port=os.environ['PORT'])
-    sched.start()#JOB_Start
+    sched.start()#JOB_Start 
     # app.run(host='localhost',port='8086')
     
 

@@ -2,7 +2,7 @@ import os
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find,findPTT,getGoldCorridor,getRateCorridor
+from util.flindUtil import ptt_beauty,ptt_gossiping,ptt_AC_In,ptt_find,findPTT,getGoldCorridor,getRateCorridor,getRateArrivalNotice
 from flask import Flask, request, abort
 
 
@@ -50,7 +50,7 @@ def job_GoldCorridor():
     print('END job_GoldCorridor:'+sReturn)#運行時打印出此行訊息
 
 
-@sched.scheduled_job('interval', minutes=0.1)
+@sched.scheduled_job('interval', minutes=30)
 def job_RateCorridor():
     print('Start job_RateCorridor') #運行時打印出此行訊息
     sReturn = getRateCorridor('USD#@#JPY')
@@ -62,6 +62,17 @@ def job_RateCorridor():
 
     print('END job_RateCorridor:'+sReturn)#運行時打印出此行訊息
 
+@sched.scheduled_job('interval', minutes=0.1)
+def job_RateArrivalNotice():
+    print('Start job_RateArrivalNotice') #運行時打印出此行訊息
+    sReturn = getRateArrivalNotice('USD#@#JPY',"30.31#@#0.28","即期#@#現金")
+    if len(sReturn) > 0:
+        pass
+    else:
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  
+        sReturn = "{}--查無結果".format(now)
+
+    print('END job_RateArrivalNotice:'+sReturn)#運行時打印出此行訊息
 
 sched.start()
 

@@ -523,7 +523,8 @@ def getRateCorridor(sfind):
         for s in stories:
             # 掛牌時間
             print(s.text)
-            content='匯率最新掛牌時間:{}\n'.format(s.text.lstrip().rstrip())
+            content = '匯率最新掛牌時間:{}\n'.format(s.text.lstrip().rstrip())
+            content += '============\n'
 
         stories = soup.findChildren('tr')
         i=0
@@ -536,19 +537,96 @@ def getRateCorridor(sfind):
                     inum=0
                     for slist in s.findChildren('td'):
                         if(inum==1):
-                            content += '{}{}'.format(sRateFind,'-現金匯率\n 買入/賣出:'+formatNum(slist.text))
+                            content += '{}{}'.format(sRateFind,'-現金匯率\n  買入/賣出:'+formatNum(slist.text))
                         elif(inum==2):
                             content += '{}\n'.format('/'+formatNum(slist.text))
                         elif(inum==3):
-                            content += '{}{}'.format(sRateFind,'-即期匯率\n 買入/賣出:'+formatNum(slist.text))
+                            content += '{}{}'.format(sRateFind,'-即期匯率\n  買入/賣出:'+formatNum(slist.text))
                         elif(inum==4):
                             content += '{}\n'.format('/'+formatNum(slist.text))
                         
                         inum=inum+1
+
+                    content += '============\n'
+
                 else:
                     pass
 
+                
                 i=i+1
+
+    return getRateSwitch(content,True)
+
+
+def getRateArrivalNotice(sfind,sfindRate,sSwitch):
+    content = ""
+    sfind = getRateSwitch(sfind.lstrip().rstrip().replace(' ','').replace('getRateCorridor:',''),False)
+    slfindList = sfind.split("#@#")
+    slfindRate = sfindRate.split("#@#")
+    slSwitch = sSwitch.split("#@#")
+
+    if len(slfindList) < 1 or len(slfindRate) < 1 or len(slSwitch)< 1:
+        content = "{},查詢格式有誤，請參閱Rich_help:{}".format(sfind,datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    else:
+        # 以 BeautifulSoup 解析 HTML 程式碼
+        rs = requests.session()
+        res = rs.get('https://rate.bot.com.tw/xrt?Lang=zh-TW', verify=False)
+        soup = BeautifulSoup(res.text, 'html.parser')
+
+        # 以 CSS 的 class 抓出掛牌時間
+        stories = soup.find_all('span', class_='time')
+        for s in stories:
+            # 掛牌時間
+            print(s.text)
+            content='匯率最新掛牌時間:{}\n'.format(s.text.lstrip().rstrip())
+            content += '============\n'
+
+        ifindRate=0
+        stories = soup.findChildren('tr')
+        for s in stories:
+            # 即期匯率 elif  sConfirmText.find("XX") >= 0
+            sRateText = s.text.lstrip().rstrip().replace(" ","")
+            
+            for sRateFind in slfindList:
+                iBuy=0
+                iSend=0
+                if sRateText.find(sRateFind) >= 0 :
+                    inum=0
+                    print(str(ifindRate))
+                    for slist in s.findChildren('td'):
+                        #紀錄 比較價格
+                        iRate=float(slfindRate[ifindRate])
+                        if slSwitch[ifindRate] == '現金':
+                            if(inum==1):
+                                content += '{}{}'.format(sRateFind,'-現金匯率\n  買入/賣出:'+formatNum(slist.text))
+                                #紀錄 比較價格-現在價格
+                                iBuy = float(slist.text)-float(slfindRate[ifindRate])
+                            elif(inum==2):
+                                content += '{}\n'.format('/'+formatNum(slist.text))
+                                iSend = float(slist.text)-float(slfindRate[ifindRate]) 
+                                ifindRate +=1    
+                                break
+                                                      
+                        
+                        elif slSwitch[ifindRate] == '即期':
+                            if(inum==3):
+                                content += '{}{}'.format(sRateFind,'-即期匯率\n  買入/賣出:'+formatNum(slist.text))
+                                iBuy = float(slist.text)-float(slfindRate[ifindRate])
+                            elif(inum==4):
+                                content += '{}\n'.format('/'+formatNum(slist.text))
+                                iSend = float(slist.text)-float(slfindRate[ifindRate])
+                                ifindRate +=1  
+                                break
+                                
+                        
+                        inum=inum+1
+                    content += '{}，價差買入:{} /賣出:{}\n'.format(str(iRate),formatNum(str(iBuy)[:6]),formatNum(str(iSend))[:6] )
+                    content += '============\n'
+                    
+                else:
+                    pass
+
+                
 
     return getRateSwitch(content,True)
        
