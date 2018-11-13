@@ -65,7 +65,7 @@ def job_RateCorridor():
 @sched.scheduled_job('interval', minutes=0.1)
 def job_RateArrivalNotice():
     print('Start job_RateArrivalNotice') #運行時打印出此行訊息
-    sReturn = getRateArrivalNotice('USD#@#JPY',"30.31#@#0.28","即期#@#現金")
+    sReturn = getRateArrivalNotice('USD#@#USD#@#JPY',"30.31#@#30.31#@#0.28","即期#@#現金#@#現金")
     if len(sReturn) > 0:
         pass
     else:

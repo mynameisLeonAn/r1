@@ -583,11 +583,11 @@ def getRateArrivalNotice(sfind,sfindRate,sSwitch):
 
         ifindRate=0
         stories = soup.findChildren('tr')
-        for s in stories:
-            # 即期匯率 elif  sConfirmText.find("XX") >= 0
-            sRateText = s.text.lstrip().rstrip().replace(" ","")
-            
-            for sRateFind in slfindList:
+        for sRateFind in slfindList:
+            for s in stories:
+                # 即期匯率 elif  sConfirmText.find("XX") >= 0
+                sRateText = s.text.lstrip().rstrip().replace(" ","")
+                #暫存買入iBuy 賣出iSend
                 iBuy=0
                 iSend=0
                 if sRateText.find(sRateFind) >= 0 :
