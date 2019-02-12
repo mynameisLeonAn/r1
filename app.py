@@ -93,13 +93,16 @@ def handle_message(event):
         #reply_token message to one user
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=content))
+            TextSendMessage(text=content))          
 
-        #reply_token message to Admin
-        userId = event.source.user_id
-        contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.message.text,content)
+        
 
-        pushToAdminContent(contentrd)
+    #reply_token message to Admin
+    userId = event.source.user_id
+    message_content = line_bot_api.get_message_content(event.message_id)
+    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}\n{}".format(userId, event.message.text,content,message_content)
+    
+    pushToAdminContent(contentrd)
 
 def pushToAdminContent(contentrd):
     print("push_message="+contentrd)
@@ -381,7 +384,7 @@ def job_TypeMoon():
 
 
 
-@sched.scheduled_job('cron',year='*',month ='*',day ='*',hour='10,14')
+@sched.scheduled_job('cron',year='*',month ='*',day ='*',hour='10,14' )
 def job_GoldCorridor():
     print('Start scheduled_job') #運行時打印出此行訊息
     sReturn = getGoldCorridor()+'\n'+getRateCorridor('USD#@#JPY')
@@ -430,10 +433,10 @@ def job_sport():
     pushToAdminContent(contentrd)#push to Admin
     print('END job_sport:'+sReturn)#運行時打印出此行訊息
 
-@sched.scheduled_job('cron',year='*',month ='*',day ='*', hour='9,12,18' )
+@sched.scheduled_job('cron',year='*',month ='*',day ='*', hour='18', minute='30' )
 def job_RateArrivalNotice():
     print('Start RateArrivalNotice') #運行時打印出此行訊息
-    sReturn = getRateArrivalNotice('USD#@#JPY',"30.31#@#0.28","即期#@#現金")
+    sReturn = getRateArrivalNotice('USD#@#EUR#@#JPY',"30.31#@#35.85#@#0.28","即期#@#現金#@#現金")
     if len(sReturn) > 0:
         pass
     else:
@@ -450,7 +453,7 @@ def job_RateArrivalNotice():
 if __name__ == "__main__":
     
     app.run(host='0.0.0.0',port=os.environ['PORT'])
-    sched.start()#JOB_Start 
+    sched.start()#JOB_Start
     # app.run(host='localhost',port='8086')
     
 
