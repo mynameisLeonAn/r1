@@ -86,12 +86,12 @@ def callback():
 def handle_ImageMessage(event):
     message_content = line_bot_api.get_message_content(event.message.id)
 
-    print("Handle: reply_token(ImageMessage): " + event.reply_token + ", message_id: " + event.message.id+">>>>>>"+message_content)
+    print("Handle: reply_token(ImageMessage): " + event.reply_token + ", message_id: " + str(event.message.id)+">>>>>>"+str(message_content))
 
     #reply_token message to Admin
     userId = event.source.user_id
     # message_content = line_bot_api.get_message_content(event.message_id)
-    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.text, message_content)
+    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.text, str(message_content))
     pushToAdminContent(contentrd)
 
 @handler.add(MessageEvent, message=TextMessage)
