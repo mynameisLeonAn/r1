@@ -84,9 +84,9 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_ImageMessage(event):
-    message_content = line_bot_api.get_message_content(event.message_id)
+    message_content = line_bot_api.get_message_content(event.message.id)
 
-    print("Handle: reply_token(ImageMessage): " + event.reply_token + ", message_id: " + event.message_id+">>>>>>"+message_content)
+    print("Handle: reply_token(ImageMessage): " + event.reply_token + ", message_id: " + event.message.id+">>>>>>"+message_content)
 
     #reply_token message to Admin
     userId = event.source.user_id
