@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, VideoSendMessage,
+    MessageEvent, TextMessage, ImageMessage, TextSendMessage, VideoSendMessage,
     TemplateSendMessage,ButtonsTemplate,MessageTemplateAction,ImageSendMessage,
     PostbackTemplateAction
 )
@@ -82,6 +82,18 @@ def callback():
     return 'OK'
 
 
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_ImageMessage(event):
+    message_content = line_bot_api.get_message_content(event.message_id)
+
+    print("Handle: reply_token(ImageMessage): " + event.reply_token + ", message_id: " + event.message_id+">>>>>>"+message_content)
+
+    #reply_token message to Admin
+    userId = event.source.user_id
+    # message_content = line_bot_api.get_message_content(event.message_id)
+    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.text, message_content)
+    pushToAdminContent(contentrd)
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
@@ -97,12 +109,11 @@ def handle_message(event):
 
         
 
-    #reply_token message to Admin
-    userId = event.source.user_id
-    message_content = line_bot_api.get_message_content(event.message_id)
-    contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}\n{}".format(userId, event.message.text,content,message_content)
-    
-    pushToAdminContent(contentrd)
+        #reply_token message to Admin
+        userId = event.source.user_id
+        # message_content = line_bot_api.get_message_content(event.message_id)
+        contentrd = "ID: {}傳給LINE Bot: {} ，系統回傳:\n{}".format(userId, event.message.text,content)
+        pushToAdminContent(contentrd)
 
 def pushToAdminContent(contentrd):
     print("push_message="+contentrd)
