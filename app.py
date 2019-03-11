@@ -54,6 +54,7 @@ handler_admin = WebhookHandler('d3e36c72e58b378c175f3a0eccb8d9d8')
 #User ID
 to_myuserid = 'Ud0d8235b4696d1cab3da6b1e46f39598'
 to_myuserid_Jiyao = 'Uefce20814aa30bf4755923d5bc47b5b7'
+to_myuserid_Leon ='U3e2b752063496be3f094c24acd81e19b'
 
 
 
@@ -90,7 +91,13 @@ def handle_ImageMessage(event):
 
     #reply_token message to Admin
     userId = event.source.user_id
+
+    # https://github.com/line/line-bot-sdk-python
     # message_content = line_bot_api.get_message_content(event.message_id)
+    # with open(file_path, 'wb') as fd:
+    # for chunk in message_content.iter_content():
+    #     fd.write(chunk)
+
     contentrd = "ID: {}傳給LINE Bot系統回傳:\n{}".format(userId, str(message_content))
     pushToAdminContent(contentrd)
 
@@ -378,7 +385,7 @@ def job_GBF():
 
     print('END job_GBF:')#運行時打印出此行訊息
 
-@sched.scheduled_job('interval', minutes=50) #定期執行，每X分鐘執行一次
+@sched.scheduled_job('interval', minutes=1) #定期執行，每X分鐘執行一次
 def job_TypeMoon():
     print('Start job_TypeMoon') #運行時打印出此行訊息
     sReturn = ptt_find("TypeMoon")
