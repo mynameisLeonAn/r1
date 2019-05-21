@@ -6,21 +6,21 @@ Created on Sat May 18 06:53:16 2019
 
 Subject : OKEX Crypto Currency Analysis Tool  
 
-Version : V1.0
-
-
-/***/
-    Author's murmur : 
-    #define isNot !=          
-    #define Is    ==            --> Why Python can't use 'define' marco PreCompiler ?! 
-    #define Add(a,b)  (a+b)    
-    #const Var                  --> Even have no 'const' keyword ? 
-/***/
+Version : V1.1
 
 """
 
+#/* Includes */
 import requests          as Req
+import time              as Time
 
+#/* Variables */
+
+#/* Define */
+
+#/* Parameters */
+
+#/* Class */
 class OKEX(object):        
     
     def __init__(self):        
@@ -33,98 +33,65 @@ class OKEX(object):
         # 貨幣ID
         BTC_ID = 'BTC-USDT'
         ETH_ID = 'ETH-USDT'
-        LTC_ID = 'LTC-USDT'    
-    
-    def Ticker(self , 貨幣):
-        #define
-        賣方最高價   = 'best_ask'
-        買方最高價   = 'best_bid'
-        最新成交價   = 'last'
-        一天內最高   = 'high_24h'
-        一天內最低   = 'low_24h'
-        此次開盤價   = 'open_24h'
-        一天內基礎量 = 'base_volume_24h'   
-        
-        #轉成字串
-        貨幣名稱 = str(貨幣)
-        
-        Ticker_Api = self.__Basic_URL + 貨幣名稱 + '/ticker'
-           
-        抓到的原始資料 = self.__Session.get(Ticker_Api , headers = self.__Header)
-        要分析的資料   = 抓到的原始資料.json()
-            
-        
-        print('一天內基礎量'  , 要分析的資料[一天內基礎量])
-        print('此次開盤價'    , 要分析的資料[此次開盤價])
-        print('一天內最低'    , 要分析的資料[一天內最低])
-        print('一天內最高 : ' , 要分析的資料[一天內最高])
-        print('賣方最高價'    , 要分析的資料[賣方最高價])
-        print('買方最高價'    , 要分析的資料[買方最高價])
-        print('最新成交價'    , 要分析的資料[最新成交價])        
-    
-    
-    
-    def 成交價分析(self , 貨幣 , 幾筆資料 = 100 ,巨量設定值 = 120, 巨量監控模式 = True ,顯示 = False , 成交量有效值 = 5 ):        
-        
-        抓幾筆 = str(幾筆資料)
-        成交Api  = self.__Basic_URL + 貨幣 + '/trades?limit=' + 抓幾筆
-                
-        成交資料 = self.__Session.get(成交Api, headers = self.__Header)
-        成交資料 = 成交資料.json()    
+        LTC_ID = 'LTC-USDT'        
 
-        
-        成交均價 = float(0)    
-        
-        
-        一般成交價格 = []
-        一般成交數量 = []
-        巨量成交價格 = []
-        巨量成交數量 = []
-        
-        Counter = int(0)
-        if(顯示):
-            print('----------- 成交價分析 --------------')
-            print('有效值為 : 5 個以上',貨幣,'交易量')
-            if(巨量監控模式):
-                print('開啟巨量監控模式，超過',巨量設定值,'個',貨幣,'才會顯示')
-                
-        for 索引 in range(0,len(成交資料)):
-            if(巨量監控模式): 
-                if(float(成交資料[索引]['size']) > 巨量設定值):
-                    巨量成交價格.append(成交資料[索引]['price']) 
-                    巨量成交數量.append(成交資料[索引]['size']) 
-                    if (顯示):
-                        print('巨量成交價格:' ,成交資料[索引]['price'] , '巨量成交數量:' ,成交資料[索引]['size'])                                             
-            else:
-                if(float(成交資料[索引]['size']) > 成交量有效值):
-                    # /* 把資料存起來 */
-                    一般成交價格.append(成交資料[索引]['price']) 
-                    一般成交數量.append(成交資料[索引]['size'])
-                    
-                    # /* 計算平均價格 */
-                    成交均價 += 成交資料[索引]['price'] 
-                    Counter = Counter +1 
-                    
-                    if(索引 == (len(成交資料) - 1)):
-                        成交均價 = 成交均價 / Counter                    
-                    
-                    #/* 如果顯示有打開的話 */
-                    if (顯示):
-                        print('成交價格:' , 成交資料[索引]['price'] , '成交數量:' ,成交資料[索引]['size'])    
-
-            巨量資料 = {'巨量資料':{'價格':成交資料[索引]['price'] , '數量':成交資料[索引]['size']}}
-            
-            
-            if(巨量監控模式):
-                return
-            
     def 漲跌幅度偵測(self,巨量漲跌 = False , 幾分鐘內 = 10):
         #/* Variables */
-        #漲跌門檻幾%
-        
+        #漲跌門檻幾%        
         pass
     
+    """
+    @  Describe   - Analyze the data within 24 hours to find out the current price placement                  
+    @  Parameters - Currency         : Please refer to OKEX --> Parameters --> Currency_ID                            
+    @  Output     - dict 
+                    --> 24H_High     : Get highest prices within 24 hours
+                    --> 24H_Low      : Get Lowest  prices within 24 hours
+                    --> Spread       : Highest and lowest price Spread within 24 hours
+                    --> H_Percentage : Last price Percentage from 24 Hours high
+                    --> L_Percentage : Last price Percentage from 24 Hours low
+                    --> Located      : Percentage of current region
+    """
 
+    #/* Price Analysis within 24 hours */
+    def Price_Analysis_24h(self , Currency = 'ETH-USDT' , Console = False):
+
+        # Type Convert
+        Currency_ID = str(Currency)
+
+        #/* OKEX Get Method */
+        API        = self.__Basic_URL + Currency_ID + '/ticker'
+        Raw_Data   = self.OKEX_Get(API)
+
+        # /* Get Highest Price and Lowest Price 24h */
+        High_Price = Raw_Data['high_24h']
+        High_Price = float(High_Price)
+        Low_Price  = Raw_Data['low_24h']
+        Low_Price  = float(Low_Price)
+        Last_Price = Raw_Data['last']
+        Last_Price = float(Last_Price)
+
+        # /* Calculate Effective value */        
+        Spread       = round ((High_Price - Low_Price) , 2)
+        H_Percentage = round ((((High_Price   - Last_Price) / High_Price) * 100) , 2)
+        L_Percentage = round (((abs(Low_Price - Last_Price) / High_Price) * 100) , 2)
+        Located      = round (((abs(Last_Price - Low_Price) / Spread)     * 100) , 2) 
+        
+        # /* Console */
+        if (Console):
+            print('---------- Basic Information ----------')
+            print('24h High Price                    :'  , High_Price)
+            print('24h Low  Price                    :'  , Low_Price )
+            print('24h Spread                        :'  , Spread)
+            print('----------- Analyze Data --------------')
+            print('Last Price located at (MAX :100%) :' , Located       ,'%')
+            print('Fell Percentage from 24h high     :' , H_Percentage  ,'%')
+            print('Rise Percentage from 24h Low      :' , L_Percentage  ,'%') 
+            print()
+
+        # /* Return Data */
+        Return_Data = {'24H_High':High_Price , '24H_Low':Low_Price,'Last':Last_Price,'Spread':Spread,\
+                       'H_Percentage':H_Percentage,'L_Percentage':L_Percentage,'Located':Located}
+        return (Return_Data)           
     """
     @  Describe   - Analyze Trade information and detect the range between high price and low price 
                   - The order quantity must reach a certain value to be considered as a valid value. 
@@ -137,7 +104,7 @@ class OKEX(object):
     @  Output     - filtered price and volume     
     """
 
-    def Trade_Scanner(self , Currency , HowManyData = 100 , Huge_Vol = 120 , Huge = False , Console = False):
+    def Trade_Scanner(self , Currency = 'ETH-USDT' , HowManyData = 100 , Huge_Vol = 120 , Huge = False , Console = False):
          # /* Define Index */ 
         Price    = 0
         Volume   = 1        
@@ -222,7 +189,8 @@ class OKEX(object):
                 print('\r\n============買方超級支撐==========\r\n')
                 for i in range(0,len(Huge_Buy_Price)):
                     print('買方超級支撐:',round(Huge_Buy_Price[i],2), '數量:' , round(Huge_Buy_Price[i],2))
-                
+        
+        print()
         #/* Return Data */
         if(Huge):
             Return_Data = {'Buyer' :{'Price':Buyer_Price , 'Volume' : Buyer_Price ,'Huge_Support_Price' :Huge_Buy_Price  ,'Huge_Support_Volume' :Huge_Buy_Volume } ,  \
@@ -273,8 +241,10 @@ class OKEX(object):
 
         # /* Console */
         if(Console):      
+            print('-------------- Average Price --------------')
             print('買方平均價 : ' , Buyer_Averages)
             print('賣方平均價 : ' , Seller_Averages)
+            print()
 
         # /* Return */    
         Return_Data = {'Buyer_Avg':Buyer_Averages,'Seller_Avg':Seller_Averages}        
@@ -309,6 +279,7 @@ class OKEX(object):
             print('------------ OKEX Lately Price ------------')
             print('OKEX ',Currency,'(TWD)：' , TWD_Price)
             print('OKEX ',Currency,'(USD)：' , USD_Price)
+            print()
 
         # /* Return */
         Return_Data = {'TWD_Price':TWD_Price , 'USD_Price':USD_Price}
@@ -388,6 +359,28 @@ class OKEX(object):
         # /* Return dictionary (JSON format)*/
         return Raw_Data    
 
+    """  
+    @  Describe  - Quickly Get Time method
+    @  Parameter - Date    : Show Year , Month , Week
+                   Console : Display on Screen   
+    @  Output    - Float Time value
+      
+    """ 
+
+    def Get_Time(self , Console = False , Date = False):
+        #/* Get Time from Time module */
+        TimeStamp = Time.localtime(Time.time())
+        if(Date):
+            Time_Str  = Time.strftime('%Y-%m-%d %H:%M:%S' , TimeStamp)
+        else:
+            Time_Str  = Time.strftime("%H:%M:%S" , TimeStamp)
+
+        if (Console):
+            print(Time_Str)      
+
+        # /* Return Time (Float)*/      
+        return Time.time()
+
     # /* Show you how to use */
     def Tutorial(self):       
         # OKEX = OKEX()
@@ -395,8 +388,10 @@ class OKEX(object):
         self.Lately_Price (OKEX.Param.ETH_ID , Console = True)
         self.Get_Average  (OKEX.Param.ETH_ID , Console = True)
         self.Trade_Scanner(OKEX.Param.ETH_ID , Huge    = True , Console = True)
+        self.Price_Analysis_24h(Console = True)
 
 if __name__ == '__main__':
     OKEX = OKEX()
     OKEX.Tutorial()
+      
     
